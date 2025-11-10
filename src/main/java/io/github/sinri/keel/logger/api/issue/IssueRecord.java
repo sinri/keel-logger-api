@@ -6,6 +6,10 @@ import io.github.sinri.keel.logger.api.event.EventRecord;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+/**
+ * @param <T> the type of implementation
+ * @since 5.0.0
+ */
 public abstract class IssueRecord<T extends IssueRecord<T>> extends EventRecord {
     @SuppressWarnings("unchecked")
     public T getImplementation() {

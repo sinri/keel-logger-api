@@ -1,5 +1,8 @@
 package io.github.sinri.keel.logger.api.record;
 
+import io.github.sinri.keel.logger.api.writer.LogWriter;
+import io.github.sinri.keel.logger.api.writer.StdoutStringWriter;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -25,9 +28,15 @@ class EmbeddedLogRecorder implements LogRecorder<String> {
         return topic;
     }
 
+    @Nonnull
+    @Override
+    public LogWriter<String> writer() {
+        return StdoutStringWriter.getInstance();
+    }
+
     @Override
     public void recordLog(@Nonnull LogRecord record) {
         var s = render().render(topic(), record);
-        System.out.println(s);
+        writer().write(s);
     }
 }

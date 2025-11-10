@@ -6,6 +6,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
+/**
+ * @since 5.0.0
+ */
 class EmbeddedEventRender implements EventRender<String> {
     private static final EmbeddedEventRender instance = new EmbeddedEventRender();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");

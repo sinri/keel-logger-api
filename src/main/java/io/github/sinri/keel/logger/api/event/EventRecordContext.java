@@ -4,6 +4,9 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * @since 5.0.0
+ */
 public final class EventRecordContext {
     private final Map<String, Object> contentMap;
 

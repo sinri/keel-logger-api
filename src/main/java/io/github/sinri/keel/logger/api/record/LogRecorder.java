@@ -1,5 +1,7 @@
 package io.github.sinri.keel.logger.api.record;
 
+import io.github.sinri.keel.logger.api.writer.LogWriter;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -18,6 +20,9 @@ public interface LogRecorder<R> {
 
     @Nonnull
     String topic();
+
+    @Nonnull
+    LogWriter<R> writer();
 
     /**
      * Record a log record, to the target such as STDOUT, any other kind of output stream, and so on.

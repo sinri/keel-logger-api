@@ -2,6 +2,7 @@ package io.github.sinri.keel.logger.api.issue;
 
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.event.EventRecordContext;
+import io.github.sinri.keel.logger.api.writer.LogWriter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -9,6 +10,11 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * @param <T> the type of the mapped implementation of {@link IssueRecord}
+ * @param <R> the type of rendered entity
+ * @since 5.0.0
+ */
 public interface IssueRecorder<T extends IssueRecord<T>, R> {
     @Nonnull
     Supplier<T> issueRecordSupplier();
@@ -171,4 +177,5 @@ public interface IssueRecorder<T extends IssueRecord<T>, R> {
         this.exception(throwable, null, message, contextConsumer);
     }
 
+    LogWriter<R> writer();
 }
