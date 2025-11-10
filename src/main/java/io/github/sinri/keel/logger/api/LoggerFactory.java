@@ -8,6 +8,10 @@ import io.github.sinri.keel.logger.api.record.LogRecorder;
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
+/**
+ * @param <R> the type of rendered entity
+ * @since 5.0.0
+ */
 public interface LoggerFactory<R> {
     LogRecorder<R> createLogRecorder(@Nonnull String topic);
 

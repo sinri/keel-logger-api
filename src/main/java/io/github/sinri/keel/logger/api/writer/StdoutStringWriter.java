@@ -2,6 +2,9 @@ package io.github.sinri.keel.logger.api.writer;
 
 import javax.annotation.Nonnull;
 
+/**
+ * @since 5.0.0
+ */
 public final class StdoutStringWriter implements LogWriter<String> {
     private final static StdoutStringWriter instance = new StdoutStringWriter();
 
