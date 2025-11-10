@@ -1,8 +1,7 @@
-package io.github.sinri.keel.logger.api;
+package io.github.sinri.keel.logger.api.event;
 
+import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.Adapter;
-import io.github.sinri.keel.logger.api.event.EventRecord;
-import io.github.sinri.keel.logger.api.event.EventRecorder;
 
 import javax.annotation.Nonnull;
 
@@ -13,11 +12,14 @@ public class Logger implements EventRecorder<String> {
     private final String topic;
     @Nonnull
     private LogLevel visibleLevel;
-
     public Logger(@Nonnull String topic, @Nonnull LogLevel visibleLevel, @Nonnull Adapter<EventRecord, String> adapter) {
         this.topic = topic;
         this.visibleLevel = visibleLevel;
         this.adapter = adapter;
+    }
+
+    public static Logger embedded(@Nonnull String topic) {
+        return new EmbeddedLogger(topic);
     }
 
     @Nonnull
