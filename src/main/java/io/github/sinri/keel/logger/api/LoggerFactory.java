@@ -9,9 +9,9 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public interface LoggerFactory<R> {
-    LogRecorder<R> createLogRecorder();
+    LogRecorder<R> createLogRecorder(@Nonnull String topic);
 
-    EventRecorder<R> createEventLogRecorder();
+    EventRecorder<R> createEventLogRecorder(@Nonnull String topic);
 
-    <L extends IssueRecord<L>> IssueRecorder<L, R> createIssueRecorder(@Nonnull Supplier<L> issueRecordSupplier);
+    <L extends IssueRecord<L>> IssueRecorder<L, R> createIssueRecorder(@Nonnull String topic, @Nonnull Supplier<L> issueRecordSupplier);
 }
