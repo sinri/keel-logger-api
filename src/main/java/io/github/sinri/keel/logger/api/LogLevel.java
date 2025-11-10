@@ -2,6 +2,9 @@ package io.github.sinri.keel.logger.api;
 
 import javax.annotation.Nonnull;
 
+/**
+ * @since 5.0.0
+ */
 public enum LogLevel {
     TRACE, DEBUG, INFO, NOTICE, WARNING, ERROR, FATAL, SILENT;
 

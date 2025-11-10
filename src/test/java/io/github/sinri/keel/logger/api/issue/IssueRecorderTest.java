@@ -1,5 +1,6 @@
 package io.github.sinri.keel.logger.api.issue;
 
+import io.github.sinri.keel.logger.api.LogLevel;
 import org.junit.jupiter.api.Test;
 
 import javax.annotation.Nonnull;
@@ -35,7 +36,7 @@ class IssueRecorderTest {
 
         @Nonnull
         @Override
-        public String render(@Nonnull TestIssueRecord loggingEntity) {
+        public String render(@Nonnull String topic, @Nonnull TestIssueRecord loggingEntity) {
             return loggingEntity.raw;
         }
     }
@@ -51,19 +52,31 @@ class IssueRecorderTest {
 
         @Nonnull
         @Override
-        public Supplier<TestIssueRecord> getIssueRecordSupplier() {
+        public Supplier<TestIssueRecord> issueRecordSupplier() {
             return this.supplier;
         }
 
         @Nonnull
         @Override
-        public IssueRecordRender<TestIssueRecord, String> getIssueRecordRender() {
+        public IssueRecordRender<TestIssueRecord, String> render() {
             return render;
+        }
+
+        @Nonnull
+        @Override
+        public LogLevel visibleLevel() {
+            return LogLevel.INFO;
+        }
+
+        @Nonnull
+        @Override
+        public String topic() {
+            return "TEST";
         }
 
         @Override
         public void recordIssue(@Nonnull TestIssueRecord issueRecord) {
-            System.out.println(render.render(issueRecord));
+            System.out.println(render.render(topic(), issueRecord));
         }
     }
 }

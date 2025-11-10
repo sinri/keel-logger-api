@@ -2,5 +2,9 @@ package io.github.sinri.keel.logger.api.record;
 
 import io.github.sinri.keel.logger.api.render.Render;
 
+/**
+ * @param <R> the type of rendered entity
+ * @since 5.0.0
+ */
 public interface LogRecordRender<R> extends Render<LogRecord, R> {
 }

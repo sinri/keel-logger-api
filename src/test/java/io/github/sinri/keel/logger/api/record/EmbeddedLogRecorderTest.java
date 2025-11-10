@@ -6,13 +6,13 @@ class EmbeddedLogRecorderTest {
     LogRecorder<String> logRecorder;
 
     public EmbeddedLogRecorderTest() {
-        logRecorder = EmbeddedLogRecorder.getInstance();
+        logRecorder = LogRecorder.embedded(getClass().getSimpleName());
     }
 
     @Test
     public void test() {
         LogRecord record = new LogRecord();
-        record.addContent("a", "b");
+        record.content("a", "b");
         logRecorder.recordLog(record);
     }
 }

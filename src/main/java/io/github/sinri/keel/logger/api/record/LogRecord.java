@@ -5,7 +5,13 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents a log record with timestamp and contents.
+ *
+ * @since 5.0.0
+ */
 public class LogRecord {
+    @Nonnull
     private final List<LogRecordContent> logRecordContents;
     private long timestamp;
 
@@ -25,13 +31,13 @@ public class LogRecord {
     }
 
     @Nonnull
-    public LogRecord addContent(@Nonnull String key, @Nonnull String value) {
+    public LogRecord content(@Nonnull String key, @Nonnull String value) {
         this.logRecordContents.add(new LogRecordContent(key, value));
         return this;
     }
 
     @Nullable
-    protected final Object getContent(String key) {
+    protected final Object content(String key) {
         for (var content : this.logRecordContents) {
             if (content.key().equals(key)) return content.value();
         }
@@ -39,7 +45,7 @@ public class LogRecord {
     }
 
     @Nonnull
-    public List<LogRecordContent> getContents() {
+    public List<LogRecordContent> contents() {
         return logRecordContents;
     }
 

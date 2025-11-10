@@ -2,12 +2,22 @@ package io.github.sinri.keel.logger.api.record;
 
 import javax.annotation.Nonnull;
 
+/**
+ * This interface defines the contract for recording log records.
+ *
+ * @param <R> the type of rendered entity
+ * @since 5.0.0
+ */
 public interface LogRecorder<R> {
-    static LogRecorder<String> embedded() {
-        return EmbeddedLogRecorder.getInstance();
+    @Nonnull
+    static LogRecorder<String> embedded(@Nonnull String topic) {
+        return new EmbeddedLogRecorder(topic);
     }
 
-    LogRecordRender<R> getLogRecordRender();
+    LogRecordRender<R> render();
+
+    @Nonnull
+    String topic();
 
     /**
      * Record a log record, to the target such as STDOUT, any other kind of output stream, and so on.
@@ -15,8 +25,4 @@ public interface LogRecorder<R> {
      * @param record the log record to record
      */
     void recordLog(@Nonnull LogRecord record);
-
-    default void recordLog(@Nonnull LogRecordCompatible recordCompatible) {
-        recordLog(recordCompatible.toLogRecord());
-    }
 }

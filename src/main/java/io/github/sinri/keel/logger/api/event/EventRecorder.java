@@ -9,9 +9,16 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public interface EventRecorder<T> {
-    static EventRecorder<String> embedded() {
-        return EmbeddedEventRecorder.getInstance();
+    @Nonnull
+    static EventRecorder<String> embedded(@Nonnull String topic) {
+        return new EmbeddedEventRecorder(topic);
     }
+
+    @Nonnull
+    LogLevel visibleLevel();
+
+    @Nonnull
+    String topic();
 
     /**
      * Get the event render instance,
@@ -19,7 +26,7 @@ public interface EventRecorder<T> {
      *
      * @return the event render instance.
      */
-    EventRender<T> getEventRender();
+    EventRender<T> render();
 
     default void trace(@Nonnull String message) {
         this.recordEvent(LogLevel.TRACE, message, null);
@@ -92,31 +99,31 @@ public interface EventRecorder<T> {
     }
 
     default void trace(@Nonnull Consumer<EventRecord> building) {
-        this.recordEvent(LogLevel.TRACE, building);
+        this.recordEvent(LogLevel.TRACE, null, building);
     }
 
     default void debug(@Nonnull Consumer<EventRecord> building) {
-        this.recordEvent(LogLevel.DEBUG, building);
+        this.recordEvent(LogLevel.DEBUG, null, building);
     }
 
     default void info(@Nonnull Consumer<EventRecord> building) {
-        this.recordEvent(LogLevel.INFO, building);
+        this.recordEvent(LogLevel.INFO, null, building);
     }
 
     default void notice(@Nonnull Consumer<EventRecord> building) {
-        this.recordEvent(LogLevel.NOTICE, building);
+        this.recordEvent(LogLevel.NOTICE, null, building);
     }
 
     default void warning(@Nonnull Consumer<EventRecord> building) {
-        this.recordEvent(LogLevel.WARNING, building);
+        this.recordEvent(LogLevel.WARNING, null, building);
     }
 
     default void error(@Nonnull Consumer<EventRecord> building) {
-        this.recordEvent(LogLevel.ERROR, building);
+        this.recordEvent(LogLevel.ERROR, null, building);
     }
 
     default void fatal(@Nonnull Consumer<EventRecord> building) {
-        this.recordEvent(LogLevel.FATAL, building);
+        this.recordEvent(LogLevel.FATAL, null, building);
     }
 
     default void exception(@Nonnull Throwable throwable, @Nullable LogLevel level, @Nullable String message, @Nullable Consumer<EventRecordContext> contextConsumer) {
@@ -157,23 +164,18 @@ public interface EventRecorder<T> {
      */
     void recordEvent(@Nonnull EventRecord eventRecord);
 
-    private void recordEvent(@Nonnull LogLevel level, @Nullable Consumer<EventRecord> building) {
-        this.recordEvent(builder -> {
-            if (building != null) {
-                building.accept(builder);
-            }
-            builder.level(level);
-        });
-    }
-
-    private void recordEvent(@Nonnull LogLevel level, @Nonnull String message, @Nullable Consumer<EventRecord> building) {
-        this.recordEvent(builder -> {
-            if (building != null) {
-                building.accept(builder);
-            }
-            builder.level(level);
-            builder.message(message);
-        });
+    private void recordEvent(@Nonnull LogLevel level, @Nullable String message, @Nullable Consumer<EventRecord> building) {
+        if (level.isEnoughSeriousAs(visibleLevel())) {
+            this.recordEvent(builder -> {
+                if (building != null) {
+                    building.accept(builder);
+                }
+                builder.level(level);
+                if (message != null) {
+                    builder.message(message);
+                }
+            });
+        }
     }
 
 }

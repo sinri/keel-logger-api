@@ -1,15 +1,16 @@
 package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.record.LogRecord;
-import io.github.sinri.keel.logger.api.record.LogRecordCompatible;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-public class EventRecord implements LogRecordCompatible {
+/**
+ * The class represents a log mapped to an event with timestamp, level, message, context, exception.
+ *
+ * @since 5.0.0
+ */
+public class EventRecord {
     public final static String MapKeyContext = "context";
     public final static String MapKeyMessage = "message";
     //public final static String MapKeyClassification = "classification";
@@ -84,30 +85,29 @@ public class EventRecord implements LogRecordCompatible {
         return exception;
     }
 
-    @Override
-    public LogRecord toLogRecord() {
-        LogRecord logRecord = new LogRecord();
-        logRecord.timestamp(timestamp());
-        logRecord.addContent(EventRecord.MapKeyLevel, level().toString());
-
-        String message = message();
-        if (message != null) {
-            logRecord.addContent(EventRecord.MapKeyMessage, message);
-        }
-
-        Throwable exception = exception();
-        if (exception != null) {
-            logRecord.addContent(EventRecord.MapKeyException, exception.toString());
-        }
-
-        Map<String, Object> map = eventRecordContext.toMap();
-        if (!map.isEmpty()) {
-            var s = map.entrySet().stream()
-                       .map(entry -> entry.getKey() + "=" + entry.getValue())
-                       .collect(Collectors.joining(" "));
-            logRecord.addContent(EventRecord.MapKeyContext, s);
-        }
-
-        return logRecord;
-    }
+    //    public LogRecord toLogRecord() {
+    //        LogRecord logRecord = new LogRecord();
+    //        logRecord.timestamp(timestamp());
+    //        logRecord.addContent(EventRecord.MapKeyLevel, level().toString());
+    //
+    //        String message = message();
+    //        if (message != null) {
+    //            logRecord.addContent(EventRecord.MapKeyMessage, message);
+    //        }
+    //
+    //        Throwable exception = exception();
+    //        if (exception != null) {
+    //            logRecord.addContent(EventRecord.MapKeyException, exception.toString());
+    //        }
+    //
+    //        Map<String, Object> map = eventRecordContext.toMap();
+    //        if (!map.isEmpty()) {
+    //            var s = map.entrySet().stream()
+    //                       .map(entry -> entry.getKey() + "=" + entry.getValue())
+    //                       .collect(Collectors.joining(" "));
+    //            logRecord.addContent(EventRecord.MapKeyContext, s);
+    //        }
+    //
+    //        return logRecord;
+    //    }
 }

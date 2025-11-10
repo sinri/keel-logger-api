@@ -19,13 +19,14 @@ class EmbeddedEventRender implements EventRender<String> {
 
     @Nonnull
     @Override
-    public String render(@Nonnull EventRecord eventRecord) {
+    public String render(@Nonnull String topic, @Nonnull EventRecord eventRecord) {
         StringBuilder sb = new StringBuilder();
         var zonedDateTime = Instant.ofEpochMilli(eventRecord.timestamp()).atZone(ZoneId.systemDefault());
         sb.append("㏒ ")
           .append(zonedDateTime.format(formatter)).append(" ")
-          .append("[").append(eventRecord.level().name()).append("] ");
-        sb.append("<").append(eventRecord.threadInfo()).append(">");
+          .append("[").append(eventRecord.level().name()).append("] ")
+          .append(topic)
+          .append(" <").append(eventRecord.threadInfo()).append(">");
         String message = eventRecord.message();
         if (message != null && !message.isBlank()) {
             sb.append("\n").append(message);
