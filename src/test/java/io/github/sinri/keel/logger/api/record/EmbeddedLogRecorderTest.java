@@ -1,9 +1,9 @@
-package io.github.sinri.keel.logger.api.log;
+package io.github.sinri.keel.logger.api.record;
 
 import org.junit.jupiter.api.Test;
 
 class EmbeddedLogRecorderTest {
-    LogRecorder logRecorder;
+    LogRecorder<String> logRecorder;
 
     public EmbeddedLogRecorderTest() {
         logRecorder = EmbeddedLogRecorder.getInstance();

@@ -1,8 +1,8 @@
 package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.log.LogRecord;
-import io.github.sinri.keel.logger.api.log.LogRecordCompatible;
+import io.github.sinri.keel.logger.api.record.LogRecord;
+import io.github.sinri.keel.logger.api.record.LogRecordCompatible;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

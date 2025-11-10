@@ -1,4 +1,4 @@
-package io.github.sinri.keel.logger.api.log;
+package io.github.sinri.keel.logger.api.record;
 
 import javax.annotation.Nonnull;
 
