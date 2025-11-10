@@ -8,6 +8,12 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * The interface represents a recorder for recording {@link EventRecord}.
+ *
+ * @param <T> the type of rendered entity
+ * @since 5.0.0
+ */
 public interface EventRecorder<T> {
     @Nonnull
     static EventRecorder<String> embedded(@Nonnull String topic) {
@@ -16,6 +22,9 @@ public interface EventRecorder<T> {
 
     @Nonnull
     LogLevel visibleLevel();
+
+    @Nonnull
+    EventRecorder<T> visibleLevel(@Nonnull LogLevel level);
 
     @Nonnull
     String topic();

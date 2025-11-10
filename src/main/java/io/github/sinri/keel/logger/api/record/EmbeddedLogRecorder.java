@@ -7,7 +7,12 @@ import javax.annotation.Nonnull;
  *
  * @since 5.0.0
  */
-record EmbeddedLogRecorder(String topic) implements LogRecorder<String> {
+class EmbeddedLogRecorder implements LogRecorder<String> {
+    private final String topic;
+
+    public EmbeddedLogRecorder(@Nonnull String topic) {
+        this.topic = topic;
+    }
 
     @Override
     public LogRecordRender<String> render() {

@@ -20,6 +20,9 @@ public interface IssueRecorder<L extends IssueRecord<L>, R> {
     LogLevel visibleLevel();
 
     @Nonnull
+    IssueRecorder<L, R> visibleLevel(@Nonnull LogLevel level);
+
+    @Nonnull
     String topic();
 
     void recordIssue(@Nonnull L issueRecord);

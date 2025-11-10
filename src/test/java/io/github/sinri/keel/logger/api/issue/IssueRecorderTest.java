@@ -44,10 +44,12 @@ class IssueRecorderTest {
     private static class TestIssueRecorder implements IssueRecorder<TestIssueRecord, String> {
         private final Supplier<TestIssueRecord> supplier;
         private final IssueRecordRender<TestIssueRecord, String> render;
+        private LogLevel level;
 
         public TestIssueRecorder() {
             this.render = new TestIssueRender();
             this.supplier = TestIssueRecord::new;
+            this.level = LogLevel.INFO;
         }
 
         @Nonnull
@@ -65,7 +67,14 @@ class IssueRecorderTest {
         @Nonnull
         @Override
         public LogLevel visibleLevel() {
-            return LogLevel.INFO;
+            return level;
+        }
+
+        @Nonnull
+        @Override
+        public IssueRecorder<TestIssueRecord, String> visibleLevel(@Nonnull LogLevel level) {
+            this.level = level;
+            return this;
         }
 
         @Nonnull
