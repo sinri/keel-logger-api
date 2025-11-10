@@ -9,31 +9,31 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public interface IssueRecorder<L extends IssueRecord<L>, R> {
+public interface IssueRecorder<T extends IssueRecord<T>, R> {
     @Nonnull
-    Supplier<L> issueRecordSupplier();
+    Supplier<T> issueRecordSupplier();
 
     @Nonnull
-    IssueRecordRender<L, R> render();
+    IssueRecordRender<T, R> render();
 
     @Nonnull
     LogLevel visibleLevel();
 
     @Nonnull
-    IssueRecorder<L, R> visibleLevel(@Nonnull LogLevel level);
+    IssueRecorder<T, R> visibleLevel(@Nonnull LogLevel level);
 
     @Nonnull
     String topic();
 
-    void recordIssue(@Nonnull L issueRecord);
+    void recordIssue(@Nonnull T issueRecord);
 
-    default void recordIssue(@Nonnull Consumer<L> issueRecordConsumer) {
-        L l = issueRecordSupplier().get();
-        issueRecordConsumer.accept(l);
-        this.recordIssue(l);
+    default void recordIssue(@Nonnull Consumer<T> issueRecordConsumer) {
+        T t = issueRecordSupplier().get();
+        issueRecordConsumer.accept(t);
+        this.recordIssue(t);
     }
 
-    private void recordIssue(@Nonnull LogLevel level, @Nullable String message, @Nullable Consumer<L> building) {
+    private void recordIssue(@Nonnull LogLevel level, @Nullable String message, @Nullable Consumer<T> building) {
         if (level.isEnoughSeriousAs(visibleLevel())) {
             this.recordIssue(builder -> {
                 if (building != null) {
@@ -118,31 +118,31 @@ public interface IssueRecorder<L extends IssueRecord<L>, R> {
         });
     }
 
-    default void trace(@Nonnull Consumer<L> building) {
+    default void trace(@Nonnull Consumer<T> building) {
         this.recordIssue(LogLevel.TRACE, null, building);
     }
 
-    default void debug(@Nonnull Consumer<L> building) {
+    default void debug(@Nonnull Consumer<T> building) {
         this.recordIssue(LogLevel.DEBUG, null, building);
     }
 
-    default void info(@Nonnull Consumer<L> building) {
+    default void info(@Nonnull Consumer<T> building) {
         this.recordIssue(LogLevel.INFO, null, building);
     }
 
-    default void notice(@Nonnull Consumer<L> building) {
+    default void notice(@Nonnull Consumer<T> building) {
         this.recordIssue(LogLevel.NOTICE, null, building);
     }
 
-    default void warning(@Nonnull Consumer<L> building) {
+    default void warning(@Nonnull Consumer<T> building) {
         this.recordIssue(LogLevel.WARNING, null, building);
     }
 
-    default void error(@Nonnull Consumer<L> building) {
+    default void error(@Nonnull Consumer<T> building) {
         this.recordIssue(LogLevel.ERROR, null, building);
     }
 
-    default void fatal(@Nonnull Consumer<L> building) {
+    default void fatal(@Nonnull Consumer<T> building) {
         this.recordIssue(LogLevel.FATAL, null, building);
     }
 
