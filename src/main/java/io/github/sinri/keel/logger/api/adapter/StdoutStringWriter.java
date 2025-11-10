@@ -19,4 +19,9 @@ public final class StdoutStringWriter implements LogWriter<String> {
     public void write(@Nonnull String renderedEntity) {
         System.out.println(renderedEntity);
     }
+
+    @Override
+    public void close() {
+
+    }
 }
