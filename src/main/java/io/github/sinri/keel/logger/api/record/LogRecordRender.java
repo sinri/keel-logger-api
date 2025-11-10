@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.record;
 
-import io.github.sinri.keel.logger.api.render.Render;
+import io.github.sinri.keel.logger.api.adapter.Render;
 
 /**
  * @param <R> the type of rendered entity

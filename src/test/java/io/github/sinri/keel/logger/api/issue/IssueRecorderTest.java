@@ -1,8 +1,8 @@
 package io.github.sinri.keel.logger.api.issue;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.writer.LogWriter;
-import io.github.sinri.keel.logger.api.writer.StdoutStringWriter;
+import io.github.sinri.keel.logger.api.adapter.Adapter;
+import io.github.sinri.keel.logger.api.adapter.StdoutStringWriter;
 import org.junit.jupiter.api.Test;
 
 import javax.annotation.Nonnull;
@@ -62,9 +62,10 @@ class IssueRecorderTest {
 
         @Nonnull
         @Override
-        public IssueRecordRender<TestIssueRecord, String> render() {
-            return render;
+        public Adapter<TestIssueRecord, String> adapter() {
+            return Adapter.build(render, StdoutStringWriter.getInstance());
         }
+
 
         @Nonnull
         @Override
@@ -90,9 +91,5 @@ class IssueRecorderTest {
             System.out.println(render.render(topic(), issueRecord));
         }
 
-        @Override
-        public LogWriter<String> writer() {
-            return StdoutStringWriter.getInstance();
-        }
     }
 }

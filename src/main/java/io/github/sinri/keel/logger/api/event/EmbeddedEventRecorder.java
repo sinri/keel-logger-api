@@ -1,8 +1,8 @@
 package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.writer.LogWriter;
-import io.github.sinri.keel.logger.api.writer.StdoutStringWriter;
+import io.github.sinri.keel.logger.api.adapter.Adapter;
+import io.github.sinri.keel.logger.api.adapter.StdoutStringWriter;
 
 import javax.annotation.Nonnull;
 
@@ -12,11 +12,13 @@ import javax.annotation.Nonnull;
 class EmbeddedEventRecorder implements EventRecorder<String> {
     @Nonnull
     private final String topic;
+    private final Adapter<EventRecord, String> adapter;
     private LogLevel level;
 
     public EmbeddedEventRecorder(@Nonnull String topic) {
         this.topic = topic;
-        level = LogLevel.INFO;
+        this.level = LogLevel.INFO;
+        this.adapter = Adapter.build(EmbeddedEventRender.getInstance(), StdoutStringWriter.getInstance());
     }
 
     @Nonnull
@@ -38,19 +40,10 @@ class EmbeddedEventRecorder implements EventRecorder<String> {
         return topic;
     }
 
+    @Nonnull
     @Override
-    public EventRender<String> render() {
-        return EmbeddedEventRender.getInstance();
+    public Adapter<EventRecord, String> adapter() {
+        return adapter;
     }
 
-    @Override
-    public void recordEvent(@Nonnull EventRecord eventRecord) {
-        var s = render().render(topic(), eventRecord);
-        writer().write(s);
-    }
-
-    @Override
-    public LogWriter<String> writer() {
-        return StdoutStringWriter.getInstance();
-    }
 }

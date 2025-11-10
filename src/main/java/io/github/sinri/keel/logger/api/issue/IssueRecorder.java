@@ -1,8 +1,8 @@
 package io.github.sinri.keel.logger.api.issue;
 
 import io.github.sinri.keel.logger.api.LogLevel;
+import io.github.sinri.keel.logger.api.adapter.Adapter;
 import io.github.sinri.keel.logger.api.event.EventRecordContext;
-import io.github.sinri.keel.logger.api.writer.LogWriter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,7 +20,7 @@ public interface IssueRecorder<T extends IssueRecord<T>, R> {
     Supplier<T> issueRecordSupplier();
 
     @Nonnull
-    IssueRecordRender<T, R> render();
+    Adapter<T, R> adapter();
 
     @Nonnull
     LogLevel visibleLevel();
@@ -32,7 +32,7 @@ public interface IssueRecorder<T extends IssueRecord<T>, R> {
     String topic();
 
     default void recordIssue(@Nonnull T issueRecord) {
-        writer().write(render().render(topic(), issueRecord));
+        adapter().renderAndWrite(topic(), issueRecord);
     }
 
     default void recordIssue(@Nonnull Consumer<T> issueRecordConsumer) {
@@ -179,5 +179,5 @@ public interface IssueRecorder<T extends IssueRecord<T>, R> {
         this.exception(throwable, null, message, contextConsumer);
     }
 
-    LogWriter<R> writer();
+
 }

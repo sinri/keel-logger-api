@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.record;
 
-import io.github.sinri.keel.logger.api.writer.LogWriter;
+import io.github.sinri.keel.logger.api.adapter.Adapter;
 
 import javax.annotation.Nonnull;
 
@@ -16,13 +16,11 @@ public interface LogRecorder<R> {
         return new EmbeddedLogRecorder(topic);
     }
 
-    LogRecordRender<R> render();
-
     @Nonnull
     String topic();
 
     @Nonnull
-    LogWriter<R> writer();
+    Adapter<LogRecord, R> adapter();
 
     /**
      * Record a log record, to the target such as STDOUT, any other kind of output stream, and so on.
@@ -30,7 +28,6 @@ public interface LogRecorder<R> {
      * @param record the log record to record
      */
     default void recordLog(@Nonnull LogRecord record) {
-        var s = render().render(topic(), record);
-        writer().write(s);
+        adapter().renderAndWrite(topic(), record);
     }
 }

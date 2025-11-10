@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.issue;
 
-import io.github.sinri.keel.logger.api.render.Render;
+import io.github.sinri.keel.logger.api.adapter.Render;
 
 /**
  * @param <T> the type of issue record

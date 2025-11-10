@@ -1,8 +1,7 @@
 package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.record.LogRecord;
-import io.github.sinri.keel.logger.api.writer.LogWriter;
+import io.github.sinri.keel.logger.api.adapter.Adapter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,13 +29,8 @@ public interface EventRecorder<R> {
     @Nonnull
     String topic();
 
-    /**
-     * Get the event render instance,
-     * which is used to render the event record to {@link String} and {@link LogRecord}.
-     *
-     * @return the event render instance.
-     */
-    EventRender<R> render();
+    @Nonnull
+    Adapter<EventRecord, R> adapter();
 
     default void trace(@Nonnull String message) {
         this.recordEvent(LogLevel.TRACE, message, null);
@@ -173,7 +167,7 @@ public interface EventRecorder<R> {
      * @param eventRecord the event record.
      */
     default void recordEvent(@Nonnull EventRecord eventRecord) {
-        writer().write(render().render(topic(), eventRecord));
+        adapter().renderAndWrite(topic(), eventRecord);
     }
 
     private void recordEvent(@Nonnull LogLevel level, @Nullable String message, @Nullable Consumer<EventRecord> building) {
@@ -190,5 +184,5 @@ public interface EventRecorder<R> {
         }
     }
 
-    LogWriter<R> writer();
+
 }

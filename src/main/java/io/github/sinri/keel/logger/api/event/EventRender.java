@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.event;
 
-import io.github.sinri.keel.logger.api.render.Render;
+import io.github.sinri.keel.logger.api.adapter.Render;
 
 /**
  * @since 5.0.0
