@@ -29,5 +29,8 @@ public interface LogRecorder<R> {
      *
      * @param record the log record to record
      */
-    void recordLog(@Nonnull LogRecord record);
+    default void recordLog(@Nonnull LogRecord record) {
+        var s = render().render(topic(), record);
+        writer().write(s);
+    }
 }

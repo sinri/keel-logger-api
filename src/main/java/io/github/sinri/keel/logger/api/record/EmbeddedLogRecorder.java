@@ -33,10 +33,4 @@ class EmbeddedLogRecorder implements LogRecorder<String> {
     public LogWriter<String> writer() {
         return StdoutStringWriter.getInstance();
     }
-
-    @Override
-    public void recordLog(@Nonnull LogRecord record) {
-        var s = render().render(topic(), record);
-        writer().write(s);
-    }
 }

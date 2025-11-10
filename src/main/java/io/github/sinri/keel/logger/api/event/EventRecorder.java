@@ -172,7 +172,9 @@ public interface EventRecorder<R> {
      *
      * @param eventRecord the event record.
      */
-    void recordEvent(@Nonnull EventRecord eventRecord);
+    default void recordEvent(@Nonnull EventRecord eventRecord) {
+        writer().write(render().render(topic(), eventRecord));
+    }
 
     private void recordEvent(@Nonnull LogLevel level, @Nullable String message, @Nullable Consumer<EventRecord> building) {
         if (level.isEnoughSeriousAs(visibleLevel())) {

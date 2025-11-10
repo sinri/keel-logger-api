@@ -31,7 +31,9 @@ public interface IssueRecorder<T extends IssueRecord<T>, R> {
     @Nonnull
     String topic();
 
-    void recordIssue(@Nonnull T issueRecord);
+    default void recordIssue(@Nonnull T issueRecord) {
+        writer().write(render().render(topic(), issueRecord));
+    }
 
     default void recordIssue(@Nonnull Consumer<T> issueRecordConsumer) {
         T t = issueRecordSupplier().get();
