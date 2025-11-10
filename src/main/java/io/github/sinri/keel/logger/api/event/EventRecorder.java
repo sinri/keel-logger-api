@@ -8,9 +8,9 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public interface EventLogRecorder<T> {
-    static EventLogRecorder<String> embedded() {
-        return EmbeddedEventLogRecorder.getInstance();
+public interface EventRecorder<T> {
+    static EventRecorder<String> embedded() {
+        return EmbeddedEventRecorder.getInstance();
     }
 
     /**
@@ -49,45 +49,45 @@ public interface EventLogRecorder<T> {
         this.recordEvent(LogLevel.FATAL, message, null);
     }
 
-    default void trace(@Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void trace(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.recordEvent(LogLevel.TRACE, message, eventRecordBuilder -> {
-            new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void debug(@Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void debug(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.recordEvent(LogLevel.DEBUG, message, eventRecordBuilder -> {
-            new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void info(@Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void info(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.recordEvent(LogLevel.INFO, message, eventRecordBuilder -> {
-            new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void notice(@Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void notice(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.recordEvent(LogLevel.NOTICE, message, eventRecordBuilder -> {
-            new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void warning(@Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void warning(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.recordEvent(LogLevel.WARNING, message, eventRecordBuilder -> {
-            new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void error(@Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void error(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.recordEvent(LogLevel.ERROR, message, eventRecordBuilder -> {
-            new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void fatal(@Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void fatal(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.recordEvent(LogLevel.FATAL, message, eventRecordBuilder -> {
-            new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
@@ -119,7 +119,7 @@ public interface EventLogRecorder<T> {
         this.recordEvent(LogLevel.FATAL, building);
     }
 
-    default void exception(@Nonnull Throwable throwable, @Nullable LogLevel level, @Nullable String message, @Nullable Consumer<Context> contextConsumer) {
+    default void exception(@Nonnull Throwable throwable, @Nullable LogLevel level, @Nullable String message, @Nullable Consumer<EventRecordContext> contextConsumer) {
         recordEvent(eventRecordBuilder -> {
             eventRecordBuilder.exception(throwable);
             eventRecordBuilder.level(Objects.requireNonNullElse(level, LogLevel.ERROR));
@@ -127,7 +127,7 @@ public interface EventLogRecorder<T> {
                 eventRecordBuilder.message(message);
             }
             if (contextConsumer != null) {
-                new Context(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+                new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
             }
         });
     }
@@ -140,7 +140,7 @@ public interface EventLogRecorder<T> {
         this.exception(throwable, null, message, null);
     }
 
-    default void exception(@Nonnull Throwable throwable, @Nonnull String message, @Nonnull Consumer<Context> contextConsumer) {
+    default void exception(@Nonnull Throwable throwable, @Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
         this.exception(throwable, null, message, contextConsumer);
     }
 

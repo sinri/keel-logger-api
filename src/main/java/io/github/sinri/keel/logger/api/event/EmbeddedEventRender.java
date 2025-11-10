@@ -22,12 +22,13 @@ class EmbeddedEventRender implements EventRender<String> {
     public String render(@Nonnull EventRecord eventRecord) {
         StringBuilder sb = new StringBuilder();
         var zonedDateTime = Instant.ofEpochMilli(eventRecord.timestamp()).atZone(ZoneId.systemDefault());
-        sb.append(zonedDateTime.format(formatter)).append(" ")
+        sb.append("㏒ ")
+          .append(zonedDateTime.format(formatter)).append(" ")
           .append("[").append(eventRecord.level().name()).append("] ");
-        sb.append("<").append(eventRecord.threadInfo()).append(">\n");
+        sb.append("<").append(eventRecord.threadInfo()).append(">");
         String message = eventRecord.message();
         if (message != null && !message.isBlank()) {
-            sb.append(message);
+            sb.append("\n").append(message);
         }
         Throwable exception = eventRecord.exception();
         if (exception != null) {

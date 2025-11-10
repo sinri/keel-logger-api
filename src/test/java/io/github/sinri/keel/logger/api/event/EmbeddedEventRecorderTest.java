@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-class EmbeddedEventLogRecorderTest {
-    private final EventLogRecorder<String> eventLogRecorder = EventLogRecorder.embedded();
+class EmbeddedEventRecorderTest {
+    private final EventRecorder<String> eventLogRecorder = EventRecorder.embedded();
 
     @Test
     public void test() {

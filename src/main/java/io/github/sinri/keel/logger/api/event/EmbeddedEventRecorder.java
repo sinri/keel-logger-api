@@ -2,13 +2,13 @@ package io.github.sinri.keel.logger.api.event;
 
 import javax.annotation.Nonnull;
 
-class EmbeddedEventLogRecorder implements EventLogRecorder<String> {
-    private final static EmbeddedEventLogRecorder instance = new EmbeddedEventLogRecorder();
+class EmbeddedEventRecorder implements EventRecorder<String> {
+    private final static EmbeddedEventRecorder instance = new EmbeddedEventRecorder();
 
-    private EmbeddedEventLogRecorder() {
+    private EmbeddedEventRecorder() {
     }
 
-    public static EmbeddedEventLogRecorder getInstance() {
+    public static EmbeddedEventRecorder getInstance() {
         return instance;
     }
 

@@ -2,7 +2,7 @@ package io.github.sinri.keel.logger.api.log;
 
 import javax.annotation.Nonnull;
 
-class EmbeddedLogRecorder implements LogRecorder {
+class EmbeddedLogRecorder implements LogRecorder<String> {
     private final static EmbeddedLogRecorder instance = new EmbeddedLogRecorder();
 
     private EmbeddedLogRecorder() {
@@ -13,7 +13,13 @@ class EmbeddedLogRecorder implements LogRecorder {
     }
 
     @Override
+    public LogRecordRender<String> getLogRecordRender() {
+        return EmbeddedLogRecordRender.getInstance();
+    }
+
+    @Override
     public void recordLog(@Nonnull LogRecord record) {
-        System.out.println(record);
+        var s = getLogRecordRender().render(record);
+        System.out.println(s);
     }
 }

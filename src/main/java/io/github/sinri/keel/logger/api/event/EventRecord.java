@@ -18,7 +18,7 @@ public class EventRecord implements LogRecordCompatible {
     @Nonnull
     private final String threadInfo;
     @Nonnull
-    private final Context context;
+    private final EventRecordContext eventRecordContext;
     private final long timestamp;
     @Nullable
     private String message;
@@ -31,10 +31,10 @@ public class EventRecord implements LogRecordCompatible {
         this.timestamp = System.currentTimeMillis();
         this.level = LogLevel.INFO;
         this.threadInfo = Thread.currentThread().toString();
-        this.context = new Context();
+        this.eventRecordContext = new EventRecordContext();
     }
 
-    public EventRecord level(LogLevel level) {
+    public EventRecord level(@Nonnull LogLevel level) {
         this.level = level;
         return this;
     }
@@ -50,7 +50,7 @@ public class EventRecord implements LogRecordCompatible {
     }
 
     public EventRecord context(@Nonnull String contextKey, @Nullable Object contextValue) {
-        this.context.put(contextKey, contextValue);
+        this.eventRecordContext.put(contextKey, contextValue);
         return this;
     }
 
@@ -65,8 +65,8 @@ public class EventRecord implements LogRecordCompatible {
     }
 
     @Nonnull
-    public Context context() {
-        return context;
+    public EventRecordContext context() {
+        return eventRecordContext;
     }
 
     @Nullable
@@ -100,7 +100,7 @@ public class EventRecord implements LogRecordCompatible {
             logRecord.addContent(EventRecord.MapKeyException, exception.toString());
         }
 
-        Map<String, Object> map = context.toMap();
+        Map<String, Object> map = eventRecordContext.toMap();
         if (!map.isEmpty()) {
             var s = map.entrySet().stream()
                        .map(entry -> entry.getKey() + "=" + entry.getValue())

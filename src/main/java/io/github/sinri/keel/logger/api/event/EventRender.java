@@ -1,18 +1,6 @@
 package io.github.sinri.keel.logger.api.event;
 
-import javax.annotation.Nonnull;
+import io.github.sinri.keel.logger.api.render.Render;
 
-public interface EventRender<T> {
-
-    //    @Nonnull
-    //    LogRecord asLogRecord(@Nonnull EventRecord eventRecord);
-    //
-    //    @Nonnull
-    //    String asString(@Nonnull EventRecord eventRecord);
-    //
-    //    @Nonnull
-    //    String asString(@Nonnull LogRecord logRecord);
-
-    @Nonnull
-    T render(@Nonnull EventRecord eventRecord);
+public interface EventRender<R> extends Render<EventRecord, R> {
 }

@@ -4,19 +4,19 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Context {
+public final class EventRecordContext {
     private final Map<String, Object> contentMap;
 
-    public Context() {
+    public EventRecordContext() {
         this.contentMap = new java.util.TreeMap<>();
     }
 
-    public Context(@Nonnull Consumer<Context> contextConsumer) {
+    public EventRecordContext(@Nonnull Consumer<EventRecordContext> contextConsumer) {
         this();
         contextConsumer.accept(this);
     }
 
-    public Context put(String key, Object value) {
+    public EventRecordContext put(String key, Object value) {
         this.contentMap.put(key, value);
         return this;
     }
