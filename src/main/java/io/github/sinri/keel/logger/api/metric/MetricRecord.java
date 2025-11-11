@@ -5,8 +5,11 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public interface MetricRecord<T extends MetricRecord<T>> {
+
     @Nonnull
     String metricName();
+
+    long timestamp();
 
     double value();
 
