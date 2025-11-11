@@ -8,6 +8,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
+ * Extend the {@link EventRecord} to provide convenience methods to write log content.
+ * All the extended can only write data in certain format inside context,
+ * or modify with provided methods in one method.
+ *
  * @param <T> the type of implementation
  * @since 5.0.0
  */
