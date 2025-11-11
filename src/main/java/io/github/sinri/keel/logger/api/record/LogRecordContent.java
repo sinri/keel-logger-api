@@ -7,5 +7,5 @@ import javax.annotation.Nonnull;
  * @param value the content value
  * @since 5.0.0
  */
-public record LogRecordContent(@Nonnull String key, @Nonnull Object value) {
+public record LogRecordContent(@Nonnull String key, @Nonnull String value) {
 }
