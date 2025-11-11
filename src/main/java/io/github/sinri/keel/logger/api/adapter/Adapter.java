@@ -1,21 +1,15 @@
 package io.github.sinri.keel.logger.api.adapter;
 
 import javax.annotation.Nonnull;
-import java.io.Closeable;
-import java.io.IOException;
 
 /**
  * @param <T> the type of log entity
  * @param <R> the type of rendered entity
  * @since 5.0.0
  */
-public interface Adapter<T, R> extends Closeable {
+public interface Adapter<T, R> {
     static <T, R> Adapter<T, R> build(@Nonnull Render<T, R> render, @Nonnull LogWriter<R> writer) {
         return new Adapter<>() {
-            @Override
-            public void close() throws IOException {
-                this.writer().close();
-            }
 
             @Nonnull
             @Override
