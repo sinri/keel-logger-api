@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * @param <R> the type of rendered entity
  * @since 5.0.0
  */
-public interface GenericLoggerFactory<R> {
+public interface RecorderFactory<R> {
     LogRecorder<R> createLogRecorder(@Nonnull String topic);
 
     EventRecorder<R> createEventLogRecorder(@Nonnull String topic);
