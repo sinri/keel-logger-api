@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +31,12 @@ class EmbeddedEventRender implements EventRender<String> {
           .append("[").append(eventRecord.level().name()).append("] ")
           .append(topic)
           .append(" <").append(eventRecord.threadInfo()).append(">");
+
+        List<String> classification = eventRecord.classification();
+        if (classification != null && !classification.isEmpty()) {
+            sb.append("\n").append(String.join(",", classification));
+        }
+
         String message = eventRecord.message();
         if (message != null && !message.isBlank()) {
             sb.append("\n").append(message);

@@ -4,6 +4,7 @@ import io.github.sinri.keel.logger.api.LogLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * The class represents a log mapped to an event with timestamp, level, message, context, exception.
@@ -13,7 +14,7 @@ import javax.annotation.Nullable;
 public class EventRecord {
     public final static String MapKeyContext = "context";
     public final static String MapKeyMessage = "message";
-    //public final static String MapKeyClassification = "classification";
+    public final static String MapKeyClassification = "classification";
     public final static String MapKeyLevel = "level";
     public final static String MapKeyException = "exception";
     @Nonnull
@@ -27,6 +28,8 @@ public class EventRecord {
     private LogLevel level;
     @Nullable
     private Throwable exception;
+    @Nullable
+    private List<String> classification;
 
     public EventRecord() {
         this.timestamp = System.currentTimeMillis();
@@ -83,6 +86,17 @@ public class EventRecord {
     @Nullable
     public Throwable exception() {
         return exception;
+    }
+
+    @Nullable
+    public List<String> classification() {
+        return classification;
+    }
+
+    @Nonnull
+    public EventRecord classification(@Nullable List<String> classification) {
+        this.classification = classification;
+        return this;
     }
 
     //    public LogRecord toLogRecord() {

@@ -5,6 +5,7 @@ import io.github.sinri.keel.logger.api.event.EventRecord;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * @param <T> the type of implementation
@@ -34,8 +35,16 @@ public abstract class IssueRecord<T extends IssueRecord<T>> extends EventRecord 
         return getImplementation();
     }
 
+    @Override
     public T exception(@Nonnull Throwable throwable) {
         super.exception(throwable);
+        return getImplementation();
+    }
+
+    @Nonnull
+    @Override
+    public T classification(@Nullable List<String> classification) {
+        super.classification(classification);
         return getImplementation();
     }
 }
