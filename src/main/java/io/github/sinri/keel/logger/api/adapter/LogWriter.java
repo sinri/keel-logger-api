@@ -9,9 +9,9 @@ import java.util.List;
  * @since 5.0.0
  */
 public interface LogWriter<R> extends Closeable {
-    void write(@Nonnull R renderedEntity);
+    void write(@Nonnull String topic, @Nonnull R renderedEntity);
 
-    default void writeBatch(@Nonnull List<R> renderedEntities) {
-        renderedEntities.forEach(this::write);
+    default void writeBatch(@Nonnull String topic, @Nonnull List<R> renderedEntities) {
+        renderedEntities.forEach(x -> this.write(topic, x));
     }
 }

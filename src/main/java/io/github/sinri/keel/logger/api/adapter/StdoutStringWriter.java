@@ -16,12 +16,12 @@ public final class StdoutStringWriter implements LogWriter<String> {
     }
 
     @Override
-    public void write(@Nonnull String renderedEntity) {
-        System.out.println(renderedEntity);
+    public void close() {
+
     }
 
     @Override
-    public void close() {
-
+    public void write(@Nonnull String topic, @Nonnull String renderedEntity) {
+        System.out.println(renderedEntity);
     }
 }

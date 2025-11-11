@@ -1,9 +1,7 @@
-package io.github.sinri.keel.logger.api;
+package io.github.sinri.keel.logger.api.event;
 
-import io.github.sinri.keel.logger.api.event.EventRecorder;
 import io.github.sinri.keel.logger.api.issue.IssueRecord;
 import io.github.sinri.keel.logger.api.issue.IssueRecorder;
-import io.github.sinri.keel.logger.api.record.LogRecorder;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -13,7 +11,7 @@ import java.util.function.Supplier;
  * @since 5.0.0
  */
 public interface RecorderFactory<R> {
-    LogRecorder<R> createLogRecorder(@Nonnull String topic);
+    // LogRecorder<R> createLogRecorder(@Nonnull String topic);
 
     EventRecorder<R> createEventLogRecorder(@Nonnull String topic);
 

@@ -42,6 +42,6 @@ public interface Adapter<T, R> extends Closeable {
     LogWriter<R> writer();
 
     default void renderAndWrite(@Nonnull String topic, @Nonnull T record) {
-        writer().write(render().render(topic, record));
+        writer().write(topic, render().render(topic, record));
     }
 }

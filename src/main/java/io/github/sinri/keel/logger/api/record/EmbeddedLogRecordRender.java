@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @since 5.0.0
  */
+@Deprecated
 class EmbeddedLogRecordRender implements LogRecordRender<String> {
     private final static EmbeddedLogRecordRender instance = new EmbeddedLogRecordRender();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
