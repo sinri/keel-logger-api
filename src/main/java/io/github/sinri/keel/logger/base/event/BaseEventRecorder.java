@@ -23,7 +23,7 @@ public class BaseEventRecorder implements EventRecorder {
     }
 
     public BaseEventRecorder(@Nonnull String topic) {
-        this(topic, new BaseTopicRecordConsumer());
+        this(topic, BaseTopicRecordConsumer.getInstance());
     }
 
     @Nonnull

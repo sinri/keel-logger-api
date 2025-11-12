@@ -15,7 +15,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
+    private static final BaseTopicRecordConsumer instance = new BaseTopicRecordConsumer();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
+
+    protected BaseTopicRecordConsumer() {
+
+    }
+
+    public static BaseTopicRecordConsumer getInstance() {
+        return instance;
+    }
 
     @Override
     public void accept(@Nonnull String topic, @Nonnull EventRecord loggingEntity) {

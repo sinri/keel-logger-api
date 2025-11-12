@@ -27,7 +27,7 @@ public class BaseIssueRecorder<T extends IssueRecord<T>> implements IssueRecorde
     }
 
     public BaseIssueRecorder(@Nonnull String topic, @Nonnull Supplier<T> issueRecordSupplier) {
-        this(topic, issueRecordSupplier, new BaseTopicRecordConsumer());
+        this(topic, issueRecordSupplier, BaseTopicRecordConsumer.getInstance());
     }
 
     @Nonnull

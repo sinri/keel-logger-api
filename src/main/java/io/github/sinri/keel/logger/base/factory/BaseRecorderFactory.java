@@ -13,7 +13,16 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class BaseRecorderFactory implements RecorderFactory {
-    private final TopicRecordConsumer sharedTopicRecordConsumer = new BaseTopicRecordConsumer();
+    private final static BaseRecorderFactory instance = new BaseRecorderFactory();
+    private final TopicRecordConsumer sharedTopicRecordConsumer;
+
+    protected BaseRecorderFactory() {
+        sharedTopicRecordConsumer = BaseTopicRecordConsumer.getInstance();
+    }
+
+    public static BaseRecorderFactory getInstance() {
+        return instance;
+    }
 
     @Override
     public TopicRecordConsumer sharedTopicRecordConsumer() {
