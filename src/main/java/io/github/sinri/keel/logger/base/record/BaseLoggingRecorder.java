@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @since 5.0.0
  */
+@Deprecated
 public class BaseLoggingRecorder implements LoggingRecorder {
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 

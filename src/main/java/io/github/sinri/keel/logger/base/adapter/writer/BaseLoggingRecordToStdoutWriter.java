@@ -5,6 +5,7 @@ import io.github.sinri.keel.logger.api.record.LoggingRecord;
 
 import javax.annotation.Nonnull;
 
+@Deprecated
 public class BaseLoggingRecordToStdoutWriter implements InstantLogWriter<LoggingRecord> {
     @Override
     public void write(@Nonnull String topic, @Nonnull LoggingRecord renderedEntity) {

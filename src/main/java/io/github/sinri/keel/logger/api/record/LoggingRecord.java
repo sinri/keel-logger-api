@@ -10,6 +10,7 @@ import java.util.List;
  *
  * @since 5.0.0
  */
+@Deprecated
 public class LoggingRecord {
     @Nonnull
     private final List<LoggingRecordContent> loggingRecordContents;

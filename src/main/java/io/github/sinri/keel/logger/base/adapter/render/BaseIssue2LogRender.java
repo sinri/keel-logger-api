@@ -6,6 +6,7 @@ import io.github.sinri.keel.logger.api.record.LoggingRecord;
 
 import javax.annotation.Nonnull;
 
+@Deprecated
 public class BaseIssue2LogRender<T extends IssueRecord<T>> implements Issue2LogRender<T> {
 
     private final BaseEvent2LogRender event2LogRender;

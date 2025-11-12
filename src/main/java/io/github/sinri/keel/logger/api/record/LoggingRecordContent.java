@@ -7,5 +7,6 @@ import javax.annotation.Nonnull;
  * @param value the content value
  * @since 5.0.0
  */
+@Deprecated
 public record LoggingRecordContent(@Nonnull String key, @Nonnull String value) {
 }

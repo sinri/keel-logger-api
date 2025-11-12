@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
  *
  * @since 5.0.0
  */
+@Deprecated
 public interface LoggingRecorder {
     //    @Nonnull
     //    static LoggingRecorder embedded(@Nonnull String topic) {

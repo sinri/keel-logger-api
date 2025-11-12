@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public interface Event2LogRender extends EventRender<LoggingRecord> {
     @Nonnull
     @Override

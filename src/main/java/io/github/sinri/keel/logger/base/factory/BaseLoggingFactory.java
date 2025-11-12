@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
+@Deprecated
 public class BaseLoggingFactory implements LoggingFactory {
     private final LogWriter<LoggingRecord> writer;
     private final Event2LogRender eventRecordRender;

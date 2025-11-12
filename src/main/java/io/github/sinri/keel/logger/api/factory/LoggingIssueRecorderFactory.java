@@ -7,6 +7,7 @@ import io.github.sinri.keel.logger.api.record.LoggingRecord;
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
+@Deprecated
 public interface LoggingIssueRecorderFactory extends IssueRecorderFactory<LoggingRecord> {
     <L extends IssueRecord<L>> LoggingIssueRecorder<L> createIssueRecorder(@Nonnull String topic, @Nonnull Supplier<L> issueRecordSupplier);
 }
