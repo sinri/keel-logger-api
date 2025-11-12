@@ -14,49 +14,43 @@ import io.github.sinri.keel.logger.api.issue.IssueRecorder;
 import io.github.sinri.keel.logger.api.issue.LoggingIssueRecorder;
 import io.github.sinri.keel.logger.api.record.LoggingRecord;
 import io.github.sinri.keel.logger.base.adapter.render.BaseEvent2LogRender;
-import io.github.sinri.keel.logger.base.adapter.render.BaseIssue2LogRender;
 import io.github.sinri.keel.logger.base.adapter.writer.LoggingRecordToStdoutWriter;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public class BaseLoggingFactory implements LoggingFactory {
+public class StdoutLoggingFactory implements LoggingFactory {
     private final LogWriter<LoggingRecord> writer;
     private final Event2LogRender eventRecordRender;
 
-    public BaseLoggingFactory() {
-        writer = initializeWriter();
-        eventRecordRender = initializeEventRecordRender();
+    public StdoutLoggingFactory() {
+        this(null, null);
+    }
+
+    public StdoutLoggingFactory(@Nullable Event2LogRender eventRecordRender, @Nullable LogWriter<LoggingRecord> writer) {
+        this.writer = Objects.requireNonNullElseGet(writer, this::initializeDefaultWriter);
+        this.eventRecordRender = Objects.requireNonNullElseGet(eventRecordRender, this::initializeDefaultEventRecordRender);
     }
 
     @Override
     public LoggingEventRecorder createEventRecorder(@Nonnull String topic) {
-        return new LoggingEventRecorderImpl(topic, eventRecordRender(), writer());
+        return new LoggingEventRecorderImpl(topic, eventRecordRender::render, writer);
     }
 
-    protected LogWriter<LoggingRecord> initializeWriter() {
+    private LogWriter<LoggingRecord> initializeDefaultWriter() {
         return new LoggingRecordToStdoutWriter();
     }
 
-    protected LogWriter<LoggingRecord> writer() {
-        return writer;
-    }
-
-    protected Event2LogRender initializeEventRecordRender() {
+    private Event2LogRender initializeDefaultEventRecordRender() {
         return new BaseEvent2LogRender();
-    }
-
-    protected Event2LogRender eventRecordRender() {
-        return eventRecordRender;
     }
 
     @Override
     public <L extends IssueRecord<L>> LoggingIssueRecorder<L> createIssueRecorder(@Nonnull String topic, @Nonnull Supplier<L> issueRecordSupplier) {
-        return new LoggingIssueRecorderImpl<L>(topic, issueRecordSupplier, issueRecordRender(), writer());
-    }
-
-    protected <L extends IssueRecord<L>> Render<L, LoggingRecord> issueRecordRender() {
-        return new BaseIssue2LogRender<>();
+        return new LoggingIssueRecorderImpl<L>(topic, issueRecordSupplier, eventRecordRender::render, writer);
     }
 
     static class LoggingEventRecorderImpl implements LoggingEventRecorder {
@@ -65,12 +59,18 @@ public class BaseLoggingFactory implements LoggingFactory {
         private LogLevel visibleLevel;
 
         public LoggingEventRecorderImpl(@Nonnull String topic,
-                                        @Nonnull Render<EventRecord, LoggingRecord> render,
+                                        @Nonnull BiFunction<String, EventRecord, LoggingRecord> renderFunc,
                                         @Nonnull LogWriter<LoggingRecord> writer
         ) {
             this.topic = topic;
             this.visibleLevel = LogLevel.INFO;
-            this.adapter = Adapter.build(render, writer);
+            this.adapter = Adapter.build(new Render<EventRecord, LoggingRecord>() {
+                @Nonnull
+                @Override
+                public LoggingRecord render(@Nonnull String topic, @Nonnull EventRecord loggingEntity) {
+                    return renderFunc.apply(topic, loggingEntity);
+                }
+            }, writer);
         }
 
         @Nonnull
@@ -107,13 +107,13 @@ public class BaseLoggingFactory implements LoggingFactory {
 
         public LoggingIssueRecorderImpl(String topic,
                                         Supplier<T> issueRecordSupplier,
-                                        Render<T, LoggingRecord> render,
+                                        BiFunction<String, T, LoggingRecord> renderFunc,
                                         LogWriter<LoggingRecord> writer
         ) {
             this.topic = topic;
             this.visibleLevel = LogLevel.INFO;
             this.issueRecordSupplier = issueRecordSupplier;
-            this.adapter = Adapter.build(render, writer);
+            this.adapter = Adapter.build(renderFunc::apply, writer);
         }
 
         @Nonnull
