@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
 /**
  * The class represents a log mapped to an event with timestamp, level, message, context, exception.
@@ -24,6 +25,8 @@ public class EventRecord {
     @Nonnull
     private final EventRecordContext eventRecordContext;
     private final long timestamp;
+    @Nonnull
+    private final Map<String, Object> extra = new TreeMap<>();
     @Nullable
     private String message;
     @Nonnull
@@ -32,9 +35,6 @@ public class EventRecord {
     private Throwable exception;
     @Nullable
     private List<String> classification;
-
-    @Nonnull
-    private final Map<String, Object> extra = new TreeMap<>();
 
     public EventRecord() {
         this.timestamp = System.currentTimeMillis();
@@ -60,6 +60,11 @@ public class EventRecord {
 
     public EventRecord context(@Nonnull String contextKey, @Nullable Object contextValue) {
         this.eventRecordContext.put(contextKey, contextValue);
+        return this;
+    }
+
+    public EventRecord context(@Nonnull Consumer<EventRecordContext> contextConsumer) {
+        contextConsumer.accept(this.eventRecordContext);
         return this;
     }
 
@@ -105,7 +110,7 @@ public class EventRecord {
     }
 
     @Nonnull
-    public EventRecord extra(@Nonnull String key, @Nullable Object value) {
+    protected EventRecord extra(@Nonnull String key, @Nullable Object value) {
         this.extra.put(key, value);
         return this;
     }

@@ -70,6 +70,13 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
             sb.append("\n")
               .append(renderContext(map));
         }
+
+        Map<String, Object> extra = eventRecord.extra();
+        if (!extra.isEmpty()) {
+            sb.append("\nExtra as following:\n")
+              .append(renderContext(extra));
+        }
+
         return sb.toString();
     }
 
