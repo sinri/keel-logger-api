@@ -8,10 +8,10 @@ import javax.annotation.Nonnull;
  * @since 5.0.0
  */
 public interface LoggingRecorder {
-    @Nonnull
-    static LoggingRecorder embedded(@Nonnull String topic) {
-        return new EmbeddedLoggingRecorder(topic);
-    }
+    //    @Nonnull
+    //    static LoggingRecorder embedded(@Nonnull String topic) {
+    //        return new BaseStdoutLoggingRecorder(topic);
+    //    }
 
     @Nonnull
     String topic();
