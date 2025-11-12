@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.record;
 
-import io.github.sinri.keel.logger.api.adapter.StdoutStringWriter;
+import io.github.sinri.keel.logger.api.adapter.StringToStdoutWriter;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;
@@ -32,7 +32,7 @@ class EmbeddedLoggingRecorder implements LoggingRecorder {
     @Override
     public void recordLog(@Nonnull LoggingRecord record) {
         var s = render(topic, record);
-        StdoutStringWriter.getInstance().write(topic, s);
+        StringToStdoutWriter.getInstance().write(topic, s);
     }
     //
     //    @Nonnull

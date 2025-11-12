@@ -49,4 +49,17 @@ public class LoggingRecord {
         return loggingRecordContents;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append("LoggingRecord on ").append(timestamp);
+        for (var content : loggingRecordContents) {
+            stringBuilder
+                    .append("\n\t")
+                    .append(content.key()).append(":\t")
+                    .append(content.value());
+        }
+        return stringBuilder.toString();
+    }
 }

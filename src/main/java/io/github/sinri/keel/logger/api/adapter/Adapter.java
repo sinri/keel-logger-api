@@ -26,7 +26,7 @@ public interface Adapter<T, R> {
     }
 
     static <T> Adapter<T, String> buildWithStdoutStringWriter(@Nonnull Render<T, String> render) {
-        return build(render, StdoutStringWriter.getInstance());
+        return build(render, StringToStdoutWriter.getInstance());
     }
 
     @Nonnull

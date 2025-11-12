@@ -5,13 +5,13 @@ import javax.annotation.Nonnull;
 /**
  * @since 5.0.0
  */
-public final class StdoutStringWriter implements LogWriter<String> {
-    private final static StdoutStringWriter instance = new StdoutStringWriter();
+public final class StringToStdoutWriter implements LogWriter<String> {
+    private final static StringToStdoutWriter instance = new StringToStdoutWriter();
 
-    private StdoutStringWriter() {
+    private StringToStdoutWriter() {
     }
 
-    public static StdoutStringWriter getInstance() {
+    public static StringToStdoutWriter getInstance() {
         return instance;
     }
 

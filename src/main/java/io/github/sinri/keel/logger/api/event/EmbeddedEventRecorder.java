@@ -2,7 +2,7 @@ package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.Adapter;
-import io.github.sinri.keel.logger.api.adapter.StdoutStringWriter;
+import io.github.sinri.keel.logger.api.adapter.StringToStdoutWriter;
 
 import javax.annotation.Nonnull;
 
@@ -18,7 +18,7 @@ class EmbeddedEventRecorder implements EventRecorder<String> {
     public EmbeddedEventRecorder(@Nonnull String topic) {
         this.topic = topic;
         this.level = LogLevel.INFO;
-        this.adapter = Adapter.build(EmbeddedEventRender.getInstance(), StdoutStringWriter.getInstance());
+        this.adapter = Adapter.build(EmbeddedEventRender.getInstance(), StringToStdoutWriter.getInstance());
     }
 
     @Nonnull
