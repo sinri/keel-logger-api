@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 /**
  * @since 5.0.0
  */
-public final class StringToStdoutWriter implements LogWriter<String> {
+public final class StringToStdoutWriter implements InstantLogWriter<String> {
     private final static StringToStdoutWriter instance = new StringToStdoutWriter();
 
     private StringToStdoutWriter() {
@@ -13,11 +13,6 @@ public final class StringToStdoutWriter implements LogWriter<String> {
 
     public static StringToStdoutWriter getInstance() {
         return instance;
-    }
-
-    @Override
-    public void close() {
-
     }
 
     @Override
