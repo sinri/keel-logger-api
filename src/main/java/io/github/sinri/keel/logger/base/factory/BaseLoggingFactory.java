@@ -8,8 +8,7 @@ import io.github.sinri.keel.logger.api.event.Event2LogRender;
 import io.github.sinri.keel.logger.api.event.EventRecord;
 import io.github.sinri.keel.logger.api.event.EventRecorder;
 import io.github.sinri.keel.logger.api.event.LoggingEventRecorder;
-import io.github.sinri.keel.logger.api.factory.LoggingEventRecorderFactory;
-import io.github.sinri.keel.logger.api.factory.LoggingIssueRecorderFactory;
+import io.github.sinri.keel.logger.api.factory.LoggingFactory;
 import io.github.sinri.keel.logger.api.issue.IssueRecord;
 import io.github.sinri.keel.logger.api.issue.IssueRecorder;
 import io.github.sinri.keel.logger.api.issue.LoggingIssueRecorder;
@@ -21,7 +20,7 @@ import io.github.sinri.keel.logger.base.adapter.writer.LoggingRecordToStdoutWrit
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public class BaseLoggingFactory implements LoggingEventRecorderFactory, LoggingIssueRecorderFactory {
+public class BaseLoggingFactory implements LoggingFactory {
     private final LogWriter<LoggingRecord> writer;
     private final Event2LogRender eventRecordRender;
 
