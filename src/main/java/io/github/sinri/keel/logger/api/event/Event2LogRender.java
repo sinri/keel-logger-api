@@ -1,16 +1,16 @@
 package io.github.sinri.keel.logger.api.event;
 
-import io.github.sinri.keel.logger.api.record.LogRecord;
+import io.github.sinri.keel.logger.api.record.LoggingRecord;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 
-public interface Event2LogRender extends EventRender<LogRecord> {
+public interface Event2LogRender extends EventRender<LoggingRecord> {
     @Nonnull
     @Override
-    default LogRecord render(@Nonnull String topic, @Nonnull EventRecord loggingEntity) {
-        var logRecord = new LogRecord();
+    default LoggingRecord render(@Nonnull String topic, @Nonnull EventRecord loggingEntity) {
+        var logRecord = new LoggingRecord();
         logRecord.timestamp(loggingEntity.timestamp());
         logRecord.content(EventRecord.MapKeyLevel, loggingEntity.level().toString());
         var message = loggingEntity.message();

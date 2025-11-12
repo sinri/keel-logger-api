@@ -7,10 +7,10 @@ import javax.annotation.Nonnull;
  *
  * @since 5.0.0
  */
-public interface LogRecorder {
+public interface LoggingRecorder {
     @Nonnull
-    static LogRecorder embedded(@Nonnull String topic) {
-        return new EmbeddedLogRecorder(topic);
+    static LoggingRecorder embedded(@Nonnull String topic) {
+        return new EmbeddedLoggingRecorder(topic);
     }
 
     @Nonnull
@@ -28,5 +28,5 @@ public interface LogRecorder {
     //        adapter().renderAndWrite(topic(), record);
     //    }
 
-    void recordLog(@Nonnull LogRecord record);
+    void recordLog(@Nonnull LoggingRecord record);
 }

@@ -10,18 +10,18 @@ import java.util.List;
  *
  * @since 5.0.0
  */
-public class LogRecord {
+public class LoggingRecord {
     @Nonnull
-    private final List<LogRecordContent> logRecordContents;
+    private final List<LoggingRecordContent> loggingRecordContents;
     private long timestamp;
 
-    public LogRecord() {
+    public LoggingRecord() {
         this.timestamp = System.currentTimeMillis();
-        this.logRecordContents = new ArrayList<>();
+        this.loggingRecordContents = new ArrayList<>();
     }
 
     @Nonnull
-    public LogRecord timestamp(long timestamp) {
+    public LoggingRecord timestamp(long timestamp) {
         this.timestamp = timestamp;
         return this;
     }
@@ -31,22 +31,22 @@ public class LogRecord {
     }
 
     @Nonnull
-    public LogRecord content(@Nonnull String key, @Nonnull String value) {
-        this.logRecordContents.add(new LogRecordContent(key, value));
+    public LoggingRecord content(@Nonnull String key, @Nonnull String value) {
+        this.loggingRecordContents.add(new LoggingRecordContent(key, value));
         return this;
     }
 
     @Nullable
     protected final Object content(String key) {
-        for (var content : this.logRecordContents) {
+        for (var content : this.loggingRecordContents) {
             if (content.key().equals(key)) return content.value();
         }
         return null;
     }
 
     @Nonnull
-    public List<LogRecordContent> contents() {
-        return logRecordContents;
+    public List<LoggingRecordContent> contents() {
+        return loggingRecordContents;
     }
 
 }

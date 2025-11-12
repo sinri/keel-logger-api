@@ -12,13 +12,13 @@ import java.time.format.DateTimeFormatter;
  *
  * @since 5.0.0
  */
-class EmbeddedLogRecorder implements LogRecorder {
+class EmbeddedLoggingRecorder implements LoggingRecorder {
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 
     private final String topic;
     //private final Adapter<LogRecord, String> adapter;
 
-    public EmbeddedLogRecorder(@Nonnull String topic) {
+    public EmbeddedLoggingRecorder(@Nonnull String topic) {
         this.topic = topic;
         // this.adapter = Adapter.build(EmbeddedLogRecordRender.getInstance(), StdoutStringWriter.getInstance());
     }
@@ -30,7 +30,7 @@ class EmbeddedLogRecorder implements LogRecorder {
     }
 
     @Override
-    public void recordLog(@Nonnull LogRecord record) {
+    public void recordLog(@Nonnull LoggingRecord record) {
         var s = render(topic, record);
         StdoutStringWriter.getInstance().write(topic, s);
     }
@@ -42,13 +42,13 @@ class EmbeddedLogRecorder implements LogRecorder {
     //    }
 
     @Nonnull
-    private String render(@Nonnull String topic, @Nonnull LogRecord logRecord) {
+    private String render(@Nonnull String topic, @Nonnull LoggingRecord loggingRecord) {
         StringBuilder sb = new StringBuilder();
-        var zonedDateTime = Instant.ofEpochMilli(logRecord.timestamp()).atZone(ZoneId.systemDefault());
+        var zonedDateTime = Instant.ofEpochMilli(loggingRecord.timestamp()).atZone(ZoneId.systemDefault());
         sb.append("㏒")
           .append(" ").append(zonedDateTime.format(formatter))
           .append(" <").append(topic).append(">");
-        logRecord.contents().forEach(content -> {
+        loggingRecord.contents().forEach(content -> {
             sb.append("\n").append(content.key()).append(": ").append(content.value());
         });
         return sb.toString();
