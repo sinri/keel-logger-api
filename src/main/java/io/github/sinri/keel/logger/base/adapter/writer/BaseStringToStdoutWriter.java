@@ -7,13 +7,13 @@ import javax.annotation.Nonnull;
 /**
  * @since 5.0.0
  */
-public final class StringToStdoutWriter implements InstantLogWriter<String> {
-    private final static StringToStdoutWriter instance = new StringToStdoutWriter();
+public class BaseStringToStdoutWriter implements InstantLogWriter<String> {
+    private final static BaseStringToStdoutWriter instance = new BaseStringToStdoutWriter();
 
-    private StringToStdoutWriter() {
+    private BaseStringToStdoutWriter() {
     }
 
-    public static StringToStdoutWriter getInstance() {
+    public static BaseStringToStdoutWriter getInstance() {
         return instance;
     }
 

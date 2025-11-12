@@ -1,13 +1,13 @@
 package io.github.sinri.keel.logger.api.record;
 
-import io.github.sinri.keel.logger.base.record.BaseStdoutLoggingRecorder;
+import io.github.sinri.keel.logger.base.record.BaseLoggingRecorder;
 import org.junit.jupiter.api.Test;
 
-class BaseStdoutLoggingRecorderTest {
+class BaseLoggingRecorderTest {
     LoggingRecorder loggingRecorder;
 
-    public BaseStdoutLoggingRecorderTest() {
-        loggingRecorder = new BaseStdoutLoggingRecorder(getClass().getSimpleName());
+    public BaseLoggingRecorderTest() {
+        loggingRecorder = new BaseLoggingRecorder(getClass().getSimpleName());
     }
 
     @Test

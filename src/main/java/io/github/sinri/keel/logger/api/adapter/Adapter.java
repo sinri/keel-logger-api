@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.adapter;
 
-import io.github.sinri.keel.logger.base.adapter.writer.StringToStdoutWriter;
+import io.github.sinri.keel.logger.base.adapter.writer.BaseStringToStdoutWriter;
 
 import javax.annotation.Nonnull;
 
@@ -28,7 +28,7 @@ public interface Adapter<T, R> {
     }
 
     static <T> Adapter<T, String> buildWithStdoutStringWriter(@Nonnull Render<T, String> render) {
-        return build(render, StringToStdoutWriter.getInstance());
+        return build(render, BaseStringToStdoutWriter.getInstance());
     }
 
     @Nonnull

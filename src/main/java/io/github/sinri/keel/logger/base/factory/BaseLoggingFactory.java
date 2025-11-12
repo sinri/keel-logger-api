@@ -14,7 +14,7 @@ import io.github.sinri.keel.logger.api.issue.IssueRecorder;
 import io.github.sinri.keel.logger.api.issue.LoggingIssueRecorder;
 import io.github.sinri.keel.logger.api.record.LoggingRecord;
 import io.github.sinri.keel.logger.base.adapter.render.BaseEvent2LogRender;
-import io.github.sinri.keel.logger.base.adapter.writer.LoggingRecordToStdoutWriter;
+import io.github.sinri.keel.logger.base.adapter.writer.BaseLoggingRecordToStdoutWriter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,15 +22,15 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
-public class StdoutLoggingFactory implements LoggingFactory {
+public class BaseLoggingFactory implements LoggingFactory {
     private final LogWriter<LoggingRecord> writer;
     private final Event2LogRender eventRecordRender;
 
-    public StdoutLoggingFactory() {
+    public BaseLoggingFactory() {
         this(null, null);
     }
 
-    public StdoutLoggingFactory(@Nullable Event2LogRender eventRecordRender, @Nullable LogWriter<LoggingRecord> writer) {
+    public BaseLoggingFactory(@Nullable Event2LogRender eventRecordRender, @Nullable LogWriter<LoggingRecord> writer) {
         this.writer = Objects.requireNonNullElseGet(writer, this::initializeDefaultWriter);
         this.eventRecordRender = Objects.requireNonNullElseGet(eventRecordRender, this::initializeDefaultEventRecordRender);
     }
@@ -41,7 +41,7 @@ public class StdoutLoggingFactory implements LoggingFactory {
     }
 
     private LogWriter<LoggingRecord> initializeDefaultWriter() {
-        return new LoggingRecordToStdoutWriter();
+        return new BaseLoggingRecordToStdoutWriter();
     }
 
     private Event2LogRender initializeDefaultEventRecordRender() {

@@ -2,7 +2,7 @@ package io.github.sinri.keel.logger.base.record;
 
 import io.github.sinri.keel.logger.api.record.LoggingRecord;
 import io.github.sinri.keel.logger.api.record.LoggingRecorder;
-import io.github.sinri.keel.logger.base.adapter.writer.StringToStdoutWriter;
+import io.github.sinri.keel.logger.base.adapter.writer.BaseStringToStdoutWriter;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;
@@ -14,13 +14,13 @@ import java.time.format.DateTimeFormatter;
  *
  * @since 5.0.0
  */
-public class BaseStdoutLoggingRecorder implements LoggingRecorder {
+public class BaseLoggingRecorder implements LoggingRecorder {
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 
     private final String topic;
     //private final Adapter<LogRecord, String> adapter;
 
-    public BaseStdoutLoggingRecorder(@Nonnull String topic) {
+    public BaseLoggingRecorder(@Nonnull String topic) {
         this.topic = topic;
         // this.adapter = Adapter.build(EmbeddedLogRecordRender.getInstance(), StdoutStringWriter.getInstance());
     }
@@ -34,7 +34,7 @@ public class BaseStdoutLoggingRecorder implements LoggingRecorder {
     @Override
     public void recordLog(@Nonnull LoggingRecord record) {
         var s = render(topic, record);
-        StringToStdoutWriter.getInstance().write(topic, s);
+        BaseStringToStdoutWriter.getInstance().write(topic, s);
     }
     //
     //    @Nonnull
