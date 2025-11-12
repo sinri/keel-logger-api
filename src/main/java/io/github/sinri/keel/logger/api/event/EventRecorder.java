@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public interface EventRecorder<R> {
     @Nonnull
     static EventRecorder<String> embedded(@Nonnull String topic) {
-        return new EmbeddedEventRecorder(topic);
+        return new EmbeddedStringToStdoutEventRecorder(topic);
     }
 
     @Nonnull

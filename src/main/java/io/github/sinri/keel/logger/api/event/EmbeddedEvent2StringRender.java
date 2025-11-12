@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 /**
  * @since 5.0.0
  */
-class EmbeddedEventRender implements EventRender<String> {
-    private static final EmbeddedEventRender instance = new EmbeddedEventRender();
+class EmbeddedEvent2StringRender implements EventRender<String> {
+    private static final EmbeddedEvent2StringRender instance = new EmbeddedEvent2StringRender();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 
-    private EmbeddedEventRender() {
+    private EmbeddedEvent2StringRender() {
     }
 
-    public static EmbeddedEventRender getInstance() {
+    public static EmbeddedEvent2StringRender getInstance() {
         return instance;
     }
 

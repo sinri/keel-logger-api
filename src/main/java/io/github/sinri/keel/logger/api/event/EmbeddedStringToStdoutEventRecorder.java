@@ -9,16 +9,16 @@ import javax.annotation.Nonnull;
 /**
  * @since 5.0.0
  */
-class EmbeddedEventRecorder implements EventRecorder<String> {
+class EmbeddedStringToStdoutEventRecorder implements EventRecorder<String> {
     @Nonnull
     private final String topic;
     private final Adapter<EventRecord, String> adapter;
     private LogLevel level;
 
-    public EmbeddedEventRecorder(@Nonnull String topic) {
+    public EmbeddedStringToStdoutEventRecorder(@Nonnull String topic) {
         this.topic = topic;
         this.level = LogLevel.INFO;
-        this.adapter = Adapter.build(EmbeddedEventRender.getInstance(), StringToStdoutWriter.getInstance());
+        this.adapter = Adapter.build(EmbeddedEvent2StringRender.getInstance(), StringToStdoutWriter.getInstance());
     }
 
     @Nonnull
