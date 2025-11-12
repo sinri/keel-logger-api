@@ -51,4 +51,9 @@ public abstract class IssueRecord<T extends IssueRecord<T>> extends EventRecord 
         super.classification(classification);
         return getImplementation();
     }
+
+    @Nonnull
+    public EventRecord toEventRecord() {
+        return this;
+    }
 }

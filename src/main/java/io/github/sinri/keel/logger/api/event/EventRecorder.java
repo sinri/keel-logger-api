@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.adapter.Adapter;
+import io.github.sinri.keel.logger.api.adapter.TopicRecordConsumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -11,26 +11,21 @@ import java.util.function.Consumer;
 /**
  * The interface represents a recorder for recording {@link EventRecord}.
  *
- * @param <R> the type of rendered entity
  * @since 5.0.0
  */
-public interface EventRecorder<R> {
-    //    @Nonnull
-    //    static EventRecorder<String> embedded(@Nonnull String topic) {
-    //        return new BaseStringToStdoutEventRecorder(topic);
-    //    }
+public interface EventRecorder {
 
     @Nonnull
     LogLevel visibleLevel();
 
     @Nonnull
-    EventRecorder<R> visibleLevel(@Nonnull LogLevel level);
+    EventRecorder visibleLevel(@Nonnull LogLevel level);
 
     @Nonnull
     String topic();
 
     @Nonnull
-    Adapter<EventRecord, R> adapter();
+    TopicRecordConsumer consumer();
 
     default void trace(@Nonnull String message) {
         this.recordEvent(LogLevel.TRACE, message, null);
@@ -167,7 +162,7 @@ public interface EventRecorder<R> {
      * @param eventRecord the event record.
      */
     default void recordEvent(@Nonnull EventRecord eventRecord) {
-        adapter().renderAndWrite(topic(), eventRecord);
+        consumer().accept(topic(), eventRecord);
     }
 
     private void recordEvent(@Nonnull LogLevel level, @Nullable String message, @Nullable Consumer<EventRecord> building) {

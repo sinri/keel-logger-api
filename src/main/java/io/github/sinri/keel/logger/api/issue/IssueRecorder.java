@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.issue;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.adapter.Adapter;
+import io.github.sinri.keel.logger.api.adapter.TopicRecordConsumer;
 import io.github.sinri.keel.logger.api.event.EventRecordContext;
 
 import javax.annotation.Nonnull;
@@ -12,27 +12,26 @@ import java.util.function.Supplier;
 
 /**
  * @param <T> the type of the mapped implementation of {@link IssueRecord}
- * @param <R> the type of rendered entity
  * @since 5.0.0
  */
-public interface IssueRecorder<T extends IssueRecord<T>, R> {
+public interface IssueRecorder<T extends IssueRecord<T>> {
     @Nonnull
     Supplier<T> issueRecordSupplier();
 
     @Nonnull
-    Adapter<T, R> adapter();
+    TopicRecordConsumer consumer();
 
     @Nonnull
     LogLevel visibleLevel();
 
     @Nonnull
-    IssueRecorder<T, R> visibleLevel(@Nonnull LogLevel level);
+    IssueRecorder<T> visibleLevel(@Nonnull LogLevel level);
 
     @Nonnull
     String topic();
 
     default void recordIssue(@Nonnull T issueRecord) {
-        adapter().renderAndWrite(topic(), issueRecord);
+        consumer().accept(topic(), issueRecord.toEventRecord());
     }
 
     default void recordIssue(@Nonnull Consumer<T> issueRecordConsumer) {

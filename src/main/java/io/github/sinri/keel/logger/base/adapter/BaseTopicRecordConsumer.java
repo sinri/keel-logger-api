@@ -1,7 +1,7 @@
-package io.github.sinri.keel.logger.base.adapter.render;
+package io.github.sinri.keel.logger.base.adapter;
 
+import io.github.sinri.keel.logger.api.adapter.InstantTopicRecordConsumer;
 import io.github.sinri.keel.logger.api.event.EventRecord;
-import io.github.sinri.keel.logger.api.event.EventRender;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;
@@ -10,23 +10,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @since 5.0.0
- */
-public class BaseEvent2StringRender implements EventRender<String> {
-    private static final BaseEvent2StringRender instance = new BaseEvent2StringRender();
+public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 
-    private BaseEvent2StringRender() {
-    }
-
-    public static BaseEvent2StringRender getInstance() {
-        return instance;
-    }
-
-    @Nonnull
     @Override
-    public String render(@Nonnull String topic, @Nonnull EventRecord eventRecord) {
+    public void accept(@Nonnull String topic, @Nonnull EventRecord loggingEntity) {
+        write(render(topic, loggingEntity));
+    }
+
+    protected String render(@Nonnull String topic, @Nonnull EventRecord eventRecord) {
         StringBuilder sb = new StringBuilder();
         var zonedDateTime = Instant.ofEpochMilli(eventRecord.timestamp()).atZone(ZoneId.systemDefault());
         sb.append("㏒ ")
@@ -58,5 +50,9 @@ public class BaseEvent2StringRender implements EventRender<String> {
               .append(s);
         }
         return sb.toString();
+    }
+
+    protected void write(@Nonnull String renderedEntity) {
+        System.out.println(renderedEntity);
     }
 }

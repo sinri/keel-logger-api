@@ -5,6 +5,8 @@ import io.github.sinri.keel.logger.api.LogLevel;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The class represents a log mapped to an event with timestamp, level, message, context, exception.
@@ -30,6 +32,9 @@ public class EventRecord {
     private Throwable exception;
     @Nullable
     private List<String> classification;
+
+    @Nonnull
+    private final Map<String, Object> extra = new TreeMap<>();
 
     public EventRecord() {
         this.timestamp = System.currentTimeMillis();
@@ -99,29 +104,14 @@ public class EventRecord {
         return this;
     }
 
-    //    public LogRecord toLogRecord() {
-    //        LogRecord logRecord = new LogRecord();
-    //        logRecord.timestamp(timestamp());
-    //        logRecord.addContent(EventRecord.MapKeyLevel, level().toString());
-    //
-    //        String message = message();
-    //        if (message != null) {
-    //            logRecord.addContent(EventRecord.MapKeyMessage, message);
-    //        }
-    //
-    //        Throwable exception = exception();
-    //        if (exception != null) {
-    //            logRecord.addContent(EventRecord.MapKeyException, exception.toString());
-    //        }
-    //
-    //        Map<String, Object> map = eventRecordContext.toMap();
-    //        if (!map.isEmpty()) {
-    //            var s = map.entrySet().stream()
-    //                       .map(entry -> entry.getKey() + "=" + entry.getValue())
-    //                       .collect(Collectors.joining(" "));
-    //            logRecord.addContent(EventRecord.MapKeyContext, s);
-    //        }
-    //
-    //        return logRecord;
-    //    }
+    @Nonnull
+    public EventRecord extra(@Nonnull String key, @Nullable Object value) {
+        this.extra.put(key, value);
+        return this;
+    }
+
+    @Nonnull
+    public Map<String, Object> extra() {
+        return extra;
+    }
 }
