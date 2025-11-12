@@ -4,10 +4,14 @@ import io.github.sinri.keel.logger.api.adapter.InstantTopicRecordConsumer;
 import io.github.sinri.keel.logger.api.event.EventRecord;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
@@ -16,6 +20,26 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
     @Override
     public void accept(@Nonnull String topic, @Nonnull EventRecord loggingEntity) {
         write(render(topic, loggingEntity));
+    }
+
+    protected String renderClassification(@Nonnull List<String> classification) {
+        return String.join(",", classification);
+    }
+
+    protected String renderThrowable(@Nonnull Throwable throwable) {
+        try (StringWriter sw = new StringWriter(); PrintWriter printWriter = new PrintWriter(sw)) {
+            sw.append(throwable.toString()).append("\n");
+            throwable.printStackTrace(printWriter);
+            return sw.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected String renderContext(@Nonnull Map<String, Object> context) {
+        return context.entrySet().stream()
+                      .map(entry -> "\t" + entry.getKey() + ":\t" + entry.getValue())
+                      .collect(Collectors.joining("\n"));
     }
 
     protected String render(@Nonnull String topic, @Nonnull EventRecord eventRecord) {
@@ -29,7 +53,7 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
 
         List<String> classification = eventRecord.classification();
         if (classification != null && !classification.isEmpty()) {
-            sb.append("\n").append(String.join(",", classification));
+            sb.append("\n").append(renderClassification(classification));
         }
 
         String message = eventRecord.message();
@@ -39,15 +63,12 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
         Throwable exception = eventRecord.exception();
         if (exception != null) {
             sb.append("\n")
-              .append(exception);
+              .append(renderThrowable(exception));
         }
-        var map = eventRecord.context().toMap();
+        Map<String, Object> map = eventRecord.context().toMap();
         if (!map.isEmpty()) {
-            var s = map.entrySet().stream()
-                       .map(entry -> entry.getKey() + "=" + entry.getValue())
-                       .collect(Collectors.joining(" "));
             sb.append("\n")
-              .append(s);
+              .append(renderContext(map));
         }
         return sb.toString();
     }

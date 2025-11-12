@@ -16,10 +16,14 @@ public class BaseEventRecorder implements EventRecorder {
     private final TopicRecordConsumer topicRecordConsumer;
     private LogLevel level;
 
-    public BaseEventRecorder(@Nonnull String topic) {
+    public BaseEventRecorder(@Nonnull String topic, @Nonnull TopicRecordConsumer topicRecordConsumer) {
         this.topic = topic;
         this.level = LogLevel.INFO;
-        this.topicRecordConsumer = new BaseTopicRecordConsumer();
+        this.topicRecordConsumer = topicRecordConsumer;
+    }
+
+    public BaseEventRecorder(@Nonnull String topic) {
+        this(topic, new BaseTopicRecordConsumer());
     }
 
     @Nonnull

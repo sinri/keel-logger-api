@@ -10,19 +10,23 @@ import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class BaseIssueRecorder<T extends IssueRecord<T>> implements IssueRecorder<T> {
+    @Nonnull
     private final String topic;
+    @Nonnull
     private final Supplier<T> issueRecordSupplier;
+    @Nonnull
     private final TopicRecordConsumer consumer;
+    @Nonnull
     private LogLevel visibleLevel;
 
-    public BaseIssueRecorder(String topic, Supplier<T> issueRecordSupplier, TopicRecordConsumer consumer) {
+    public BaseIssueRecorder(@Nonnull String topic, @Nonnull Supplier<T> issueRecordSupplier, @Nonnull TopicRecordConsumer consumer) {
         this.topic = topic;
         this.visibleLevel = LogLevel.INFO;
         this.consumer = consumer;
         this.issueRecordSupplier = issueRecordSupplier;
     }
 
-    public BaseIssueRecorder(String topic, Supplier<T> issueRecordSupplier) {
+    public BaseIssueRecorder(@Nonnull String topic, @Nonnull Supplier<T> issueRecordSupplier) {
         this(topic, issueRecordSupplier, new BaseTopicRecordConsumer());
     }
 
