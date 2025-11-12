@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.issue;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.adapter.TopicRecordConsumer;
+import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
 import io.github.sinri.keel.logger.api.event.EventRecordContext;
 
 import javax.annotation.Nonnull;

@@ -1,9 +1,9 @@
 package io.github.sinri.keel.logger.base.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.adapter.TopicRecordConsumer;
+import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
 import io.github.sinri.keel.logger.api.event.EventRecorder;
-import io.github.sinri.keel.logger.base.adapter.BaseTopicRecordConsumer;
+import io.github.sinri.keel.logger.base.consumer.BaseTopicRecordConsumer;
 
 import javax.annotation.Nonnull;
 

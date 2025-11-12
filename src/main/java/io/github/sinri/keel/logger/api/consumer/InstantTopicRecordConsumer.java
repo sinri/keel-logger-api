@@ -1,4 +1,4 @@
-package io.github.sinri.keel.logger.api.adapter;
+package io.github.sinri.keel.logger.api.consumer;
 
 public non-sealed interface InstantTopicRecordConsumer extends TopicRecordConsumer {
 }
