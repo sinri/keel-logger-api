@@ -5,7 +5,7 @@ import io.github.sinri.keel.logger.api.adapter.Adapter;
 
 import javax.annotation.Nonnull;
 
-public class Logger implements EventRecorder<String> {
+public abstract class Logger implements EventRecorder<String> {
     @Nonnull
     private final Adapter<EventRecord, String> adapter;
     @Nonnull
