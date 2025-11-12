@@ -1,5 +1,6 @@
-package io.github.sinri.keel.logger.api.adapter;
+package io.github.sinri.keel.logger.base.adapter.writer;
 
+import io.github.sinri.keel.logger.api.adapter.InstantLogWriter;
 import io.github.sinri.keel.logger.api.record.LoggingRecord;
 
 import javax.annotation.Nonnull;

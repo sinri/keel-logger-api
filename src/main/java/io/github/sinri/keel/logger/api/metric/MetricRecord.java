@@ -19,6 +19,4 @@ public interface MetricRecord {
 
     @Nonnull
     Map<String, String> labels();
-
-    // MetricRecord label(String name, String value);
 }

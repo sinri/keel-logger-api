@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.record;
 
-import io.github.sinri.keel.logger.api.adapter.StringToStdoutWriter;
+import io.github.sinri.keel.logger.base.adapter.writer.StringToStdoutWriter;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;

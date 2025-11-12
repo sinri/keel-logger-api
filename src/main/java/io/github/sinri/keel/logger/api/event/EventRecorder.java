@@ -2,6 +2,7 @@ package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.Adapter;
+import io.github.sinri.keel.logger.base.event.BaseStringToStdoutEventRecorder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,7 +18,7 @@ import java.util.function.Consumer;
 public interface EventRecorder<R> {
     @Nonnull
     static EventRecorder<String> embedded(@Nonnull String topic) {
-        return new EmbeddedStringToStdoutEventRecorder(topic);
+        return new BaseStringToStdoutEventRecorder(topic);
     }
 
     @Nonnull

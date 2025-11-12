@@ -1,4 +1,7 @@
-package io.github.sinri.keel.logger.api.event;
+package io.github.sinri.keel.logger.base.adapter.render;
+
+import io.github.sinri.keel.logger.api.event.EventRecord;
+import io.github.sinri.keel.logger.api.event.EventRender;
 
 import javax.annotation.Nonnull;
 import java.time.Instant;
@@ -10,14 +13,14 @@ import java.util.stream.Collectors;
 /**
  * @since 5.0.0
  */
-class EmbeddedEvent2StringRender implements EventRender<String> {
-    private static final EmbeddedEvent2StringRender instance = new EmbeddedEvent2StringRender();
+public class BaseEvent2StringRender implements EventRender<String> {
+    private static final BaseEvent2StringRender instance = new BaseEvent2StringRender();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 
-    private EmbeddedEvent2StringRender() {
+    private BaseEvent2StringRender() {
     }
 
-    public static EmbeddedEvent2StringRender getInstance() {
+    public static BaseEvent2StringRender getInstance() {
         return instance;
     }
 

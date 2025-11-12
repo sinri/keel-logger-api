@@ -1,5 +1,7 @@
 package io.github.sinri.keel.logger.api.adapter;
 
+import io.github.sinri.keel.logger.base.adapter.writer.StringToStdoutWriter;
+
 import javax.annotation.Nonnull;
 
 /**
