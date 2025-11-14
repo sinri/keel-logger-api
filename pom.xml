@@ -49,21 +49,6 @@
         <jacksonVersion>2.18.2</jacksonVersion>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-junit5</artifactId>
-            <version>${vertxVersion}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>26.0.2</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <resources>
             <resource>
@@ -111,6 +96,10 @@
                     <show>protected</show> <!-- 显示公共成员 -->
                     <doctitle>${project.name} ${project.version} Document</doctitle> <!-- 文档标题 -->
                     <windowtitle>${project.name} ${project.version} Document</windowtitle> <!-- 窗口标题 -->
+                    <!-- 可选：解决 JDK 11+ 的 doclint 严格检查 -->
+                    <!--                            <doclint>none</doclint>-->
+                    <!-- 若使用 JPMS，确保模块图等正确生成 -->
+                    <detectOfflineLinks>false</detectOfflineLinks>
                 </configuration>
                 <executions>
                     <execution>
@@ -129,38 +118,6 @@
                     <includes>
                         <include>io/github/sinri/keel/test/unittest/**/*Test.java</include>
                     </includes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>${mavenSourcePluginVersion}</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${mavenJavadocPluginVersion}</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- 可选：解决 JDK 11+ 的 doclint 严格检查 -->
-                    <!--                            <doclint>none</doclint>-->
-                    <!-- 若使用 JPMS，确保模块图等正确生成 -->
-                    <detectOfflineLinks>false</detectOfflineLinks>
                 </configuration>
             </plugin>
             <plugin>
@@ -224,4 +181,20 @@
             </distributionManagement>
         </profile>
     </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-junit5</artifactId>
+            <version>${vertxVersion}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.2</version>
+        </dependency>
+    </dependencies>
+
 </project>
