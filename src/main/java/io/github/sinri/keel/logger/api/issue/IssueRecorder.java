@@ -43,16 +43,18 @@ public interface IssueRecorder<T extends IssueRecord<T>> {
     }
 
     private void recordIssue(@NotNull LogLevel level, @Nullable String message, @Nullable Consumer<T> building) {
-        if (level.isEnoughSeriousAs(visibleLevel())) {
-            this.recordIssue(builder -> {
-                if (building != null) {
-                    building.accept(builder);
-                }
-                builder.level(level);
-                if (message != null) {
-                    builder.message(message);
-                }
-            });
+        if (visibleLevel() != LogLevel.SILENT) {
+            if (level.isEnoughSeriousAs(visibleLevel())) {
+                this.recordIssue(builder -> {
+                    if (building != null) {
+                        building.accept(builder);
+                    }
+                    builder.level(level);
+                    if (message != null) {
+                        builder.message(message);
+                    }
+                });
+            }
         }
     }
 

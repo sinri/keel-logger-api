@@ -6,12 +6,13 @@ import org.jetbrains.annotations.NotNull;
 /**
  * 日志严重性等级。
  * <p>
- * 自 TRACE 到 FATAL，分为七个级别，严重性（seriousness）逐渐递增。
+ * 非沉默级别分为七个，自 TRACE 到 FATAL，严重性（seriousness）逐渐递增；
+ * 此外设置一个日志记录不可达的最顶级 SILENT 级别，用以实现不记录日志。
  *
  * @since 5.0.0
  */
 public enum LogLevel {
-    TRACE, DEBUG, INFO, NOTICE, WARNING, ERROR, FATAL;
+    TRACE, DEBUG, INFO, NOTICE, WARNING, ERROR, FATAL, SILENT;
 
     /**
      * 判断本日志严重性等级是否不低于给定的参照日志严重性等级

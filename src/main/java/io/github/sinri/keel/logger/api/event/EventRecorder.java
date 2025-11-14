@@ -337,16 +337,18 @@ public interface EventRecorder {
      * @param building 事件日志记录的构建器
      */
     private void recordEvent(@NotNull LogLevel level, @Nullable String message, @Nullable Consumer<EventRecord> building) {
-        if (level.isEnoughSeriousAs(visibleLevel())) {
-            this.recordEvent(builder -> {
-                if (building != null) {
-                    building.accept(builder);
-                }
-                builder.level(level);
-                if (message != null) {
-                    builder.message(message);
-                }
-            });
+        if (visibleLevel() != LogLevel.SILENT) {
+            if (level.isEnoughSeriousAs(visibleLevel())) {
+                this.recordEvent(builder -> {
+                    if (building != null) {
+                        building.accept(builder);
+                    }
+                    builder.level(level);
+                    if (message != null) {
+                        builder.message(message);
+                    }
+                });
+            }
         }
     }
 
