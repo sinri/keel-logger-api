@@ -116,7 +116,7 @@
                 <version>${mavenSurefirePluginVersion}</version>
                 <configuration>
                     <includes>
-                        <include>io/github/sinri/keel/test/unittest/**/*Test.java</include>
+                        <include>io/github/sinri/keel/logger/api/**/*UnitTest.java</include>
                     </includes>
                 </configuration>
             </plugin>
