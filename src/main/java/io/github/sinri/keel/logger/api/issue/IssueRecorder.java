@@ -3,44 +3,46 @@ package io.github.sinri.keel.logger.api.issue;
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
 import io.github.sinri.keel.logger.api.event.EventRecordContext;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * @param <T> the type of the mapped implementation of {@link IssueRecord}
+ * 特定问题日志记录器
+ *
+ * @param <T> 特定问题日志记录
  * @since 5.0.0
  */
 public interface IssueRecorder<T extends IssueRecord<T>> {
-    @Nonnull
+    @NotNull
     Supplier<T> issueRecordSupplier();
 
-    @Nonnull
+    @NotNull
     TopicRecordConsumer consumer();
 
-    @Nonnull
+    @NotNull
     LogLevel visibleLevel();
 
-    @Nonnull
-    IssueRecorder<T> visibleLevel(@Nonnull LogLevel level);
+    @NotNull
+    IssueRecorder<T> visibleLevel(@NotNull LogLevel level);
 
-    @Nonnull
+    @NotNull
     String topic();
 
-    default void recordIssue(@Nonnull T issueRecord) {
+    default void recordIssue(@NotNull T issueRecord) {
         consumer().accept(topic(), issueRecord.toEventRecord());
     }
 
-    default void recordIssue(@Nonnull Consumer<T> issueRecordConsumer) {
+    default void recordIssue(@NotNull Consumer<T> issueRecordConsumer) {
         T t = issueRecordSupplier().get();
         issueRecordConsumer.accept(t);
         this.recordIssue(t);
     }
 
-    private void recordIssue(@Nonnull LogLevel level, @Nullable String message, @Nullable Consumer<T> building) {
+    private void recordIssue(@NotNull LogLevel level, @Nullable String message, @Nullable Consumer<T> building) {
         if (level.isEnoughSeriousAs(visibleLevel())) {
             this.recordIssue(builder -> {
                 if (building != null) {
@@ -55,105 +57,105 @@ public interface IssueRecorder<T extends IssueRecord<T>> {
     }
 
 
-    default void trace(@Nonnull String message) {
+    default void trace(@NotNull String message) {
         this.recordIssue(LogLevel.TRACE, message, null);
     }
 
-    default void debug(@Nonnull String message) {
+    default void debug(@NotNull String message) {
         this.recordIssue(LogLevel.DEBUG, message, null);
     }
 
-    default void info(@Nonnull String message) {
+    default void info(@NotNull String message) {
         this.recordIssue(LogLevel.INFO, message, null);
     }
 
-    default void notice(@Nonnull String message) {
+    default void notice(@NotNull String message) {
         this.recordIssue(LogLevel.NOTICE, message, null);
     }
 
-    default void warning(@Nonnull String message) {
+    default void warning(@NotNull String message) {
         this.recordIssue(LogLevel.WARNING, message, null);
     }
 
-    default void error(@Nonnull String message) {
+    default void error(@NotNull String message) {
         this.recordIssue(LogLevel.ERROR, message, null);
     }
 
-    default void fatal(@Nonnull String message) {
+    default void fatal(@NotNull String message) {
         this.recordIssue(LogLevel.FATAL, message, null);
     }
 
-    default void trace(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void trace(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.recordIssue(LogLevel.TRACE, message, eventRecordBuilder -> {
             new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void debug(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void debug(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.recordIssue(LogLevel.DEBUG, message, eventRecordBuilder -> {
             new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void info(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void info(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.recordIssue(LogLevel.INFO, message, eventRecordBuilder -> {
             new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void notice(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void notice(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.recordIssue(LogLevel.NOTICE, message, eventRecordBuilder -> {
             new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void warning(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void warning(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.recordIssue(LogLevel.WARNING, message, eventRecordBuilder -> {
             new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void error(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void error(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.recordIssue(LogLevel.ERROR, message, eventRecordBuilder -> {
             new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void fatal(@Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void fatal(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.recordIssue(LogLevel.FATAL, message, eventRecordBuilder -> {
             new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void trace(@Nonnull Consumer<T> building) {
+    default void trace(@NotNull Consumer<T> building) {
         this.recordIssue(LogLevel.TRACE, null, building);
     }
 
-    default void debug(@Nonnull Consumer<T> building) {
+    default void debug(@NotNull Consumer<T> building) {
         this.recordIssue(LogLevel.DEBUG, null, building);
     }
 
-    default void info(@Nonnull Consumer<T> building) {
+    default void info(@NotNull Consumer<T> building) {
         this.recordIssue(LogLevel.INFO, null, building);
     }
 
-    default void notice(@Nonnull Consumer<T> building) {
+    default void notice(@NotNull Consumer<T> building) {
         this.recordIssue(LogLevel.NOTICE, null, building);
     }
 
-    default void warning(@Nonnull Consumer<T> building) {
+    default void warning(@NotNull Consumer<T> building) {
         this.recordIssue(LogLevel.WARNING, null, building);
     }
 
-    default void error(@Nonnull Consumer<T> building) {
+    default void error(@NotNull Consumer<T> building) {
         this.recordIssue(LogLevel.ERROR, null, building);
     }
 
-    default void fatal(@Nonnull Consumer<T> building) {
+    default void fatal(@NotNull Consumer<T> building) {
         this.recordIssue(LogLevel.FATAL, null, building);
     }
 
-    default void exception(@Nonnull Throwable throwable, @Nullable LogLevel level, @Nullable String message, @Nullable Consumer<EventRecordContext> contextConsumer) {
+    default void exception(@NotNull Throwable throwable, @Nullable LogLevel level, @Nullable String message, @Nullable Consumer<EventRecordContext> contextConsumer) {
         recordIssue(issueRecord -> {
             issueRecord.exception(throwable);
             issueRecord.level(Objects.requireNonNullElse(level, LogLevel.ERROR));
@@ -166,15 +168,15 @@ public interface IssueRecorder<T extends IssueRecord<T>> {
         });
     }
 
-    default void exception(@Nonnull Throwable throwable) {
+    default void exception(@NotNull Throwable throwable) {
         this.exception(throwable, null, null, null);
     }
 
-    default void exception(@Nonnull Throwable throwable, @Nonnull String message) {
+    default void exception(@NotNull Throwable throwable, @NotNull String message) {
         this.exception(throwable, null, message, null);
     }
 
-    default void exception(@Nonnull Throwable throwable, @Nonnull String message, @Nonnull Consumer<EventRecordContext> contextConsumer) {
+    default void exception(@NotNull Throwable throwable, @NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
         this.exception(throwable, null, message, contextConsumer);
     }
 

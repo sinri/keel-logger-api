@@ -1,26 +1,35 @@
 package io.github.sinri.keel.logger.api;
 
-import javax.annotation.Nonnull;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
+ * 日志严重性等级。
+ * <p>
+ * 自 TRACE 到 FATAL，分为七个级别，严重性（seriousness）逐渐递增。
+ *
  * @since 5.0.0
  */
 public enum LogLevel {
-    TRACE, DEBUG, INFO, NOTICE, WARNING, ERROR, FATAL, SILENT;
+    TRACE, DEBUG, INFO, NOTICE, WARNING, ERROR, FATAL;
 
-    public boolean isEnoughSeriousAs(@Nonnull LogLevel standardLevel) {
+    /**
+     * 判断本日志严重性等级是否不低于给定的参照日志严重性等级
+     *
+     * @param standardLevel 参照日志严重性等级
+     * @return 本日志严重性等级不低于给定的参照日志严重性等级时返回{@code true}，反之返回{@code false}。
+     */
+    public boolean isEnoughSeriousAs(@NotNull LogLevel standardLevel) {
         return this.ordinal() >= standardLevel.ordinal();
     }
 
-    public boolean isNegligibleThan(@Nonnull LogLevel standardLevel) {
-        return this.ordinal() < standardLevel.ordinal();
-    }
-
     /**
-     * @return should always be silent
-     * @since 1.10
+     * 判断本日志严重性等级是否低于给定的参照日志严重性等级
+     *
+     * @param standardLevel 参照日志严重性等级
+     * @return 本日志严重性等级低于给定的参照日志严重性等级时返回{@code true}，反之返回{@code false}。
      */
-    public boolean isSilent() {
-        return this.ordinal() >= SILENT.ordinal();
+    public boolean isNegligibleThan(@NotNull LogLevel standardLevel) {
+        return this.ordinal() < standardLevel.ordinal();
     }
 }

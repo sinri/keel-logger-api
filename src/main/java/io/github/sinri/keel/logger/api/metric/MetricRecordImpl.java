@@ -1,17 +1,30 @@
 package io.github.sinri.keel.logger.api.metric;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 定量指标记录的默认实现类。
+ *
+ * @since 5.0.0
+ */
 class MetricRecordImpl implements MetricRecord {
-    private final @Nonnull Map<String, String> labelMap = new HashMap<>();
-    private final @Nonnull String metricName;
+    private final @NotNull Map<String, String> labelMap = new HashMap<>();
+    private final @NotNull String metricName;
     private final double value;
     private final long timestamp;
 
-    public MetricRecordImpl(@Nonnull String metricName, double value, @Nullable Map<String, String> labels) {
+    /**
+     * 构建一条当前时间戳下的定量指标记录。
+     *
+     * @param metricName 定量指标记录的名称
+     * @param value      定量指标的值
+     * @param labels     定量指标的标签集合
+     */
+    public MetricRecordImpl(@NotNull String metricName, double value, @Nullable Map<String, String> labels) {
         this.timestamp = System.currentTimeMillis();
         this.metricName = metricName;
         this.value = value;
@@ -20,7 +33,7 @@ class MetricRecordImpl implements MetricRecord {
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String metricName() {
         return metricName;
@@ -36,7 +49,7 @@ class MetricRecordImpl implements MetricRecord {
         return value;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Map<String, String> labels() {
         return labelMap;

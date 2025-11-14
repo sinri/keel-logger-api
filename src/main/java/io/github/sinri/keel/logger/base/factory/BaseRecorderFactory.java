@@ -8,10 +8,17 @@ import io.github.sinri.keel.logger.api.issue.IssueRecorder;
 import io.github.sinri.keel.logger.base.consumer.BaseTopicRecordConsumer;
 import io.github.sinri.keel.logger.base.event.BaseEventRecorder;
 import io.github.sinri.keel.logger.base.issue.BaseIssueRecorder;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
+/**
+ * 日志记录器工厂的基础实现。
+ * <p>
+ * 各方法实现均依赖于基础实现。
+ *
+ * @since 5.0.0
+ */
 public class BaseRecorderFactory implements RecorderFactory {
     private final static BaseRecorderFactory instance = new BaseRecorderFactory();
     private final TopicRecordConsumer sharedTopicRecordConsumer;
@@ -30,12 +37,12 @@ public class BaseRecorderFactory implements RecorderFactory {
     }
 
     @Override
-    public EventRecorder createEventRecorder(@Nonnull String topic) {
+    public EventRecorder createEventRecorder(@NotNull String topic) {
         return new BaseEventRecorder(topic, sharedTopicRecordConsumer());
     }
 
     @Override
-    public <L extends IssueRecord<L>> IssueRecorder<L> createIssueRecorder(@Nonnull String topic, @Nonnull Supplier<L> issueRecordSupplier) {
+    public <L extends IssueRecord<L>> IssueRecorder<L> createIssueRecorder(@NotNull String topic, @NotNull Supplier<L> issueRecordSupplier) {
         return new BaseIssueRecorder<>(topic, issueRecordSupplier, sharedTopicRecordConsumer());
     }
 }

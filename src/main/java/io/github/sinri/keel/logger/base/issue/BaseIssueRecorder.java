@@ -5,57 +5,75 @@ import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
 import io.github.sinri.keel.logger.api.issue.IssueRecord;
 import io.github.sinri.keel.logger.api.issue.IssueRecorder;
 import io.github.sinri.keel.logger.base.consumer.BaseTopicRecordConsumer;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
+/**
+ * 特定问题日志记录器的基础实现。
+ *
+ * @param <T> 特定问题日志记录的类型
+ */
 public class BaseIssueRecorder<T extends IssueRecord<T>> implements IssueRecorder<T> {
-    @Nonnull
+    @NotNull
     private final String topic;
-    @Nonnull
+    @NotNull
     private final Supplier<T> issueRecordSupplier;
-    @Nonnull
+    @NotNull
     private final TopicRecordConsumer consumer;
-    @Nonnull
+    @NotNull
     private LogLevel visibleLevel;
 
-    public BaseIssueRecorder(@Nonnull String topic, @Nonnull Supplier<T> issueRecordSupplier, @Nonnull TopicRecordConsumer consumer) {
+    /**
+     * 特定问题日志记录器的基础实现的构造方法。
+     *
+     * @param topic               主题
+     * @param issueRecordSupplier 问题日志记录的构造器
+     * @param consumer            主题化日志记录处理器
+     */
+    public BaseIssueRecorder(@NotNull String topic, @NotNull Supplier<T> issueRecordSupplier, @NotNull TopicRecordConsumer consumer) {
         this.topic = topic;
         this.visibleLevel = LogLevel.INFO;
         this.consumer = consumer;
         this.issueRecordSupplier = issueRecordSupplier;
     }
 
-    public BaseIssueRecorder(@Nonnull String topic, @Nonnull Supplier<T> issueRecordSupplier) {
+    /**
+     * 特定问题日志记录器的基础实现的构造方法。
+     *
+     * @param topic               主题
+     * @param issueRecordSupplier 问题日志记录的构造器
+     */
+    public BaseIssueRecorder(@NotNull String topic, @NotNull Supplier<T> issueRecordSupplier) {
         this(topic, issueRecordSupplier, BaseTopicRecordConsumer.getInstance());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Supplier<T> issueRecordSupplier() {
         return issueRecordSupplier;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public TopicRecordConsumer consumer() {
         return consumer;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public LogLevel visibleLevel() {
         return visibleLevel;
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public IssueRecorder<T> visibleLevel(@Nonnull LogLevel level) {
+    public IssueRecorder<T> visibleLevel(@NotNull LogLevel level) {
         this.visibleLevel = level;
         return this;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String topic() {
         return topic;
