@@ -1,5 +1,5 @@
 module io.github.sinri.keel.logger.api {
-    requires org.jetbrains.annotations;
+    requires transitive org.jetbrains.annotations;
 
     exports io.github.sinri.keel.logger.api;
     exports io.github.sinri.keel.logger.api.event;
