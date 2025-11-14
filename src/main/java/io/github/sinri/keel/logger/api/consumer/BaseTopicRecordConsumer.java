@@ -1,6 +1,5 @@
-package io.github.sinri.keel.logger.base.consumer;
+package io.github.sinri.keel.logger.api.consumer;
 
-import io.github.sinri.keel.logger.api.consumer.InstantTopicRecordConsumer;
 import io.github.sinri.keel.logger.api.event.EventRecord;
 import org.jetbrains.annotations.NotNull;
 

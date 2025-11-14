@@ -1,6 +1,5 @@
 package io.github.sinri.keel.logger.api.event;
 
-import io.github.sinri.keel.logger.base.event.BaseEventRecorder;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

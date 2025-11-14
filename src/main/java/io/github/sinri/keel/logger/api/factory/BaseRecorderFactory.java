@@ -1,13 +1,12 @@
-package io.github.sinri.keel.logger.base.factory;
+package io.github.sinri.keel.logger.api.factory;
 
+import io.github.sinri.keel.logger.api.consumer.BaseTopicRecordConsumer;
 import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
+import io.github.sinri.keel.logger.api.event.BaseEventRecorder;
 import io.github.sinri.keel.logger.api.event.EventRecorder;
-import io.github.sinri.keel.logger.api.factory.RecorderFactory;
+import io.github.sinri.keel.logger.api.issue.BaseIssueRecorder;
 import io.github.sinri.keel.logger.api.issue.IssueRecord;
 import io.github.sinri.keel.logger.api.issue.IssueRecorder;
-import io.github.sinri.keel.logger.base.consumer.BaseTopicRecordConsumer;
-import io.github.sinri.keel.logger.base.event.BaseEventRecorder;
-import io.github.sinri.keel.logger.base.issue.BaseIssueRecorder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;

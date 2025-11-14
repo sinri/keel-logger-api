@@ -1,9 +1,8 @@
-package io.github.sinri.keel.logger.base.event;
+package io.github.sinri.keel.logger.api.event;
 
 import io.github.sinri.keel.logger.api.LogLevel;
+import io.github.sinri.keel.logger.api.consumer.BaseTopicRecordConsumer;
 import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
-import io.github.sinri.keel.logger.api.event.EventRecorder;
-import io.github.sinri.keel.logger.base.consumer.BaseTopicRecordConsumer;
 import org.jetbrains.annotations.NotNull;
 
 
