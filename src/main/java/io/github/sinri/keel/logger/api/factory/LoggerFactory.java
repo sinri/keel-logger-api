@@ -21,7 +21,7 @@ public interface LoggerFactory {
      *
      * @return 日志写入适配器
      */
-    LogWriterAdapter sharedTopicRecordConsumer();
+    LogWriterAdapter sharedAdapter();
 
     /**
      * 创建某一主题下的日志记录器。

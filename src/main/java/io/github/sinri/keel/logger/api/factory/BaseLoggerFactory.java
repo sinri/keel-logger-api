@@ -31,17 +31,17 @@ public class BaseLoggerFactory implements LoggerFactory {
     }
 
     @Override
-    public LogWriterAdapter sharedTopicRecordConsumer() {
+    public LogWriterAdapter sharedAdapter() {
         return sharedLogWriterAdapter;
     }
 
     @Override
     public Logger createLogger(@NotNull String topic) {
-        return new BaseLogger(topic, sharedTopicRecordConsumer());
+        return new BaseLogger(topic, sharedAdapter());
     }
 
     @Override
     public <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier) {
-        return new BaseSpecificLogger<>(topic, specificLogSupplier, sharedTopicRecordConsumer());
+        return new BaseSpecificLogger<>(topic, specificLogSupplier, sharedAdapter());
     }
 }
