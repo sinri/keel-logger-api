@@ -1,4 +1,4 @@
-package io.github.sinri.keel.logger.api.event;
+package io.github.sinri.keel.logger.api.log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,21 +12,21 @@ import java.util.function.Consumer;
  *
  * @since 5.0.0
  */
-public final class EventRecordContext {
+public final class LogContext {
     @NotNull
     private final Map<String, Object> contentMap;
 
-    public EventRecordContext() {
+    public LogContext() {
         this.contentMap = new java.util.TreeMap<>();
     }
 
-    public EventRecordContext(@NotNull Consumer<EventRecordContext> contextConsumer) {
+    public LogContext(@NotNull Consumer<LogContext> contextConsumer) {
         this();
         contextConsumer.accept(this);
     }
 
     @NotNull
-    public EventRecordContext put(String key, Object value) {
+    public LogContext put(String key, Object value) {
         this.contentMap.put(key, value);
         return this;
     }

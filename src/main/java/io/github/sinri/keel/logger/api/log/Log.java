@@ -1,4 +1,4 @@
-package io.github.sinri.keel.logger.api.event;
+package io.github.sinri.keel.logger.api.log;
 
 import io.github.sinri.keel.logger.api.LogLevel;
 import org.jetbrains.annotations.NotNull;
@@ -10,11 +10,13 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 
 /**
- * 事件日志记录
+ * 日志。
+ * <p>
+ * 本类是一个标准而基础的日志实体类；特定日志可以扩展读写方法，但必须与之兼容。
  *
  * @since 5.0.0
  */
-public class EventRecord {
+public class Log {
     public final static String MapKeyContext = "context";
     public final static String MapKeyMessage = "message";
     public final static String MapKeyClassification = "classification";
@@ -29,7 +31,7 @@ public class EventRecord {
      * 事件日志记录的上下文
      */
     @NotNull
-    private final EventRecordContext eventRecordContext;
+    private final LogContext logContext;
     /**
      * 事件日志记录的时间戳
      */
@@ -60,11 +62,11 @@ public class EventRecord {
     @Nullable
     private List<String> classification;
 
-    public EventRecord() {
+    public Log() {
         this.timestamp = System.currentTimeMillis();
         this.level = LogLevel.INFO;
         this.threadInfo = Thread.currentThread().toString();
-        this.eventRecordContext = new EventRecordContext();
+        this.logContext = new LogContext();
     }
 
     /**
@@ -73,7 +75,7 @@ public class EventRecord {
      * @param level 日志严重性等级
      * @return 当前事件日志记录
      */
-    public EventRecord level(@NotNull LogLevel level) {
+    public Log level(@NotNull LogLevel level) {
         this.level = level;
         return this;
     }
@@ -84,7 +86,7 @@ public class EventRecord {
      * @param message 消息内容
      * @return 当前事件日志记录
      */
-    public EventRecord message(@NotNull String message) {
+    public Log message(@NotNull String message) {
         this.message = message;
         return this;
     }
@@ -95,7 +97,7 @@ public class EventRecord {
      * @param throwable 异常信息
      * @return 当前事件日志记录
      */
-    public EventRecord exception(@NotNull Throwable throwable) {
+    public Log exception(@NotNull Throwable throwable) {
         this.exception = throwable;
         return this;
     }
@@ -107,8 +109,8 @@ public class EventRecord {
      * @param contextValue 上下文值
      * @return 当前事件日志记录
      */
-    public EventRecord context(@NotNull String contextKey, @Nullable Object contextValue) {
-        this.eventRecordContext.put(contextKey, contextValue);
+    public Log context(@NotNull String contextKey, @Nullable Object contextValue) {
+        this.logContext.put(contextKey, contextValue);
         return this;
     }
 
@@ -118,8 +120,8 @@ public class EventRecord {
      * @param contextConsumer 对上下文信息进行读写的处理逻辑
      * @return 当前事件日志记录
      */
-    public EventRecord context(@NotNull Consumer<EventRecordContext> contextConsumer) {
-        contextConsumer.accept(this.eventRecordContext);
+    public Log context(@NotNull Consumer<LogContext> contextConsumer) {
+        contextConsumer.accept(this.logContext);
         return this;
     }
 
@@ -148,8 +150,8 @@ public class EventRecord {
      * @return 上下文信息
      */
     @NotNull
-    public EventRecordContext context() {
-        return eventRecordContext;
+    public LogContext context() {
+        return logContext;
     }
 
     /**
@@ -199,7 +201,7 @@ public class EventRecord {
      * @return 当前事件日志记录
      */
     @NotNull
-    public EventRecord classification(@Nullable List<String> classification) {
+    public Log classification(@Nullable List<String> classification) {
         this.classification = classification;
         return this;
     }
@@ -212,7 +214,7 @@ public class EventRecord {
      * @return 当前事件日志记录
      */
     @NotNull
-    protected EventRecord extra(@NotNull String key, @Nullable Object value) {
+    protected Log extra(@NotNull String key, @Nullable Object value) {
         this.extra.put(key, value);
         return this;
     }

@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.consumer;
 
-import io.github.sinri.keel.logger.api.event.EventRecord;
+import io.github.sinri.keel.logger.api.log.Log;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -14,12 +14,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 主题化日志记录即时处理器的基础实现。
+ * 基本日志接入器。
+ * <p>
+ * 兼容日志写入适配器要求，处理日志为文本并写入标准输出。
+ * <p>
+ * 本类可直接使用，也可以继承已实现自定义格式的处理器。
  *
  * @since 5.0.0
  */
-public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
-    private static final BaseTopicRecordConsumer instance = new BaseTopicRecordConsumer();
+public class BaseLogWriter implements InstantLogWriterAdapter {
+    private static final BaseLogWriter instance = new BaseLogWriter();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 
     /**
@@ -27,28 +31,28 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
      * <p>
      * 设定为 protected 级别，确保单例但可继承。
      */
-    protected BaseTopicRecordConsumer() {
+    protected BaseLogWriter() {
 
     }
 
     /**
-     * 获取主题化日志记录即时处理器的基础实现的单例实例。
+     * 获取单例实例。
      *
-     * @return 主题化日志记录即时处理器的基础实现的单例实例
+     * @return 单例实例
      */
-    public static BaseTopicRecordConsumer getInstance() {
+    public static BaseLogWriter getInstance() {
         return instance;
     }
 
     @Override
-    public void accept(@NotNull String topic, @NotNull EventRecord loggingEntity) {
+    public void accept(@NotNull String topic, @NotNull Log loggingEntity) {
         write(render(topic, loggingEntity));
     }
 
     /**
-     * 渲染事件日志记录的分类信息为字符串。
+     * 渲染日志的分类信息为字符串。
      *
-     * @param classification 事件日志记录的分类信息
+     * @param classification 日志的分类信息
      * @return 渲染后的分类信息字符串
      */
     protected String renderClassification(@NotNull List<String> classification) {
@@ -56,9 +60,9 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
     }
 
     /**
-     * 渲染事件日志记录的异常信息为字符串。
+     * 渲染日志的异常信息为字符串。
      *
-     * @param throwable 异常对象
+     * @param throwable 日志对应的异常对象
      * @return 渲染后的异常信息字符串
      */
     protected String renderThrowable(@NotNull Throwable throwable) {
@@ -72,9 +76,9 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
     }
 
     /**
-     * 渲染事件日志记录的上下文信息为字符串。
+     * 渲染日志的上下文信息为字符串。
      *
-     * @param context 事件日志记录的上下文信息
+     * @param context 日志的上下文信息
      * @return 渲染后的上下文信息字符串
      */
     protected String renderContext(@NotNull Map<String, Object> context) {
@@ -84,42 +88,42 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
     }
 
     /**
-     * 渲染事件日志记录为字符串。
+     * 渲染日志为字符串。
      *
-     * @param topic       主题名称
-     * @param eventRecord 事件日志记录
-     * @return 渲染后的事件日志记录字符串
+     * @param topic 主题
+     * @param log   日志
+     * @return 日志经渲染后的字符串
      */
-    protected String render(@NotNull String topic, @NotNull EventRecord eventRecord) {
+    protected String render(@NotNull String topic, @NotNull Log log) {
         StringBuilder sb = new StringBuilder();
-        var zonedDateTime = Instant.ofEpochMilli(eventRecord.timestamp()).atZone(ZoneId.systemDefault());
+        var zonedDateTime = Instant.ofEpochMilli(log.timestamp()).atZone(ZoneId.systemDefault());
         sb.append("㏒ ")
           .append(zonedDateTime.format(formatter)).append(" ")
-          .append("[").append(eventRecord.level().name()).append("] ")
+          .append("[").append(log.level().name()).append("] ")
           .append(topic)
-          .append(" <").append(eventRecord.threadInfo()).append(">");
+          .append(" <").append(log.threadInfo()).append(">");
 
-        List<String> classification = eventRecord.classification();
+        List<String> classification = log.classification();
         if (classification != null && !classification.isEmpty()) {
             sb.append("\n").append(renderClassification(classification));
         }
 
-        String message = eventRecord.message();
+        String message = log.message();
         if (message != null && !message.isBlank()) {
             sb.append("\n").append(message);
         }
-        Throwable exception = eventRecord.exception();
+        Throwable exception = log.exception();
         if (exception != null) {
             sb.append("\n")
               .append(renderThrowable(exception));
         }
-        Map<String, Object> map = eventRecord.context().toMap();
+        Map<String, Object> map = log.context().toMap();
         if (!map.isEmpty()) {
             sb.append("\n")
               .append(renderContext(map));
         }
 
-        Map<String, Object> extra = eventRecord.extra();
+        Map<String, Object> extra = log.extra();
         if (!extra.isEmpty()) {
             sb.append("\nExtra as following:\n")
               .append(renderContext(extra));
@@ -129,9 +133,9 @@ public class BaseTopicRecordConsumer implements InstantTopicRecordConsumer {
     }
 
     /**
-     * 将渲染后的事件日志记录写入目标（本类实现中是标准输出）。
+     * 将日志渲染结果写入目标（本类实现中是标准输出）。
      *
-     * @param renderedEntity 渲染后的事件日志记录字符串
+     * @param renderedEntity 日志渲染结果
      */
     protected void write(@NotNull String renderedEntity) {
         System.out.println(renderedEntity);

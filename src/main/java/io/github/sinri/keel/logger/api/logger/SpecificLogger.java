@@ -1,8 +1,9 @@
-package io.github.sinri.keel.logger.api.issue;
+package io.github.sinri.keel.logger.api.logger;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
-import io.github.sinri.keel.logger.api.event.EventRecordContext;
+import io.github.sinri.keel.logger.api.consumer.LogWriterAdapter;
+import io.github.sinri.keel.logger.api.log.LogContext;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,29 +12,29 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * 特定问题日志记录器
+ * 特定日志记录器
  *
- * @param <T> 特定问题日志记录
+ * @param <T> 特定日志记录
  * @since 5.0.0
  */
-public interface IssueRecorder<T extends IssueRecord<T>> {
+public interface SpecificLogger<T extends SpecificLog<T>> {
     @NotNull
     Supplier<T> issueRecordSupplier();
 
     @NotNull
-    TopicRecordConsumer consumer();
+    LogWriterAdapter consumer();
 
     @NotNull
     LogLevel visibleLevel();
 
     @NotNull
-    IssueRecorder<T> visibleLevel(@NotNull LogLevel level);
+    SpecificLogger<T> visibleLevel(@NotNull LogLevel level);
 
     @NotNull
     String topic();
 
     default void recordIssue(@NotNull T issueRecord) {
-        consumer().accept(topic(), issueRecord.toEventRecord());
+        consumer().accept(topic(), issueRecord.toLog());
     }
 
     default void recordIssue(@NotNull Consumer<T> issueRecordConsumer) {
@@ -87,45 +88,45 @@ public interface IssueRecorder<T extends IssueRecord<T>> {
         this.recordIssue(LogLevel.FATAL, message, null);
     }
 
-    default void trace(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void trace(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.recordIssue(LogLevel.TRACE, message, eventRecordBuilder -> {
-            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new LogContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void debug(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void debug(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.recordIssue(LogLevel.DEBUG, message, eventRecordBuilder -> {
-            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new LogContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void info(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void info(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.recordIssue(LogLevel.INFO, message, eventRecordBuilder -> {
-            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new LogContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void notice(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void notice(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.recordIssue(LogLevel.NOTICE, message, eventRecordBuilder -> {
-            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new LogContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void warning(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void warning(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.recordIssue(LogLevel.WARNING, message, eventRecordBuilder -> {
-            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new LogContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void error(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void error(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.recordIssue(LogLevel.ERROR, message, eventRecordBuilder -> {
-            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new LogContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
-    default void fatal(@NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void fatal(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.recordIssue(LogLevel.FATAL, message, eventRecordBuilder -> {
-            new EventRecordContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
+            new LogContext(contextConsumer).toMap().forEach(eventRecordBuilder::context);
         });
     }
 
@@ -157,7 +158,7 @@ public interface IssueRecorder<T extends IssueRecord<T>> {
         this.recordIssue(LogLevel.FATAL, null, building);
     }
 
-    default void exception(@NotNull Throwable throwable, @Nullable LogLevel level, @Nullable String message, @Nullable Consumer<EventRecordContext> contextConsumer) {
+    default void exception(@NotNull Throwable throwable, @Nullable LogLevel level, @Nullable String message, @Nullable Consumer<LogContext> contextConsumer) {
         recordIssue(issueRecord -> {
             issueRecord.exception(throwable);
             issueRecord.level(Objects.requireNonNullElse(level, LogLevel.ERROR));
@@ -165,7 +166,7 @@ public interface IssueRecorder<T extends IssueRecord<T>> {
                 issueRecord.message(message);
             }
             if (contextConsumer != null) {
-                new EventRecordContext(contextConsumer).toMap().forEach(issueRecord::context);
+                new LogContext(contextConsumer).toMap().forEach(issueRecord::context);
             }
         });
     }
@@ -178,7 +179,7 @@ public interface IssueRecorder<T extends IssueRecord<T>> {
         this.exception(throwable, null, message, null);
     }
 
-    default void exception(@NotNull Throwable throwable, @NotNull String message, @NotNull Consumer<EventRecordContext> contextConsumer) {
+    default void exception(@NotNull Throwable throwable, @NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
         this.exception(throwable, null, message, contextConsumer);
     }
 

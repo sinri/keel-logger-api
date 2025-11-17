@@ -1,35 +1,36 @@
-package io.github.sinri.keel.logger.api.issue;
+package io.github.sinri.keel.logger.api.logger;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.consumer.BaseTopicRecordConsumer;
-import io.github.sinri.keel.logger.api.consumer.TopicRecordConsumer;
+import io.github.sinri.keel.logger.api.consumer.BaseLogWriter;
+import io.github.sinri.keel.logger.api.consumer.LogWriterAdapter;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 /**
- * 特定问题日志记录器的基础实现。
+ * 特定日志记录器的基础实现。
  *
- * @param <T> 特定问题日志记录的类型
+ * @param <T> 特定日志记录的类型
  */
-public class BaseIssueRecorder<T extends IssueRecord<T>> implements IssueRecorder<T> {
+public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLogger<T> {
     @NotNull
     private final String topic;
     @NotNull
     private final Supplier<T> issueRecordSupplier;
     @NotNull
-    private final TopicRecordConsumer consumer;
+    private final LogWriterAdapter consumer;
     @NotNull
     private LogLevel visibleLevel;
 
     /**
-     * 特定问题日志记录器的基础实现的构造方法。
+     * 特定日志记录器的基础实现的构造方法。
      *
      * @param topic               主题
      * @param issueRecordSupplier 问题日志记录的构造器
      * @param consumer            主题化日志记录处理器
      */
-    public BaseIssueRecorder(@NotNull String topic, @NotNull Supplier<T> issueRecordSupplier, @NotNull TopicRecordConsumer consumer) {
+    public BaseSpecificLogger(@NotNull String topic, @NotNull Supplier<T> issueRecordSupplier, @NotNull LogWriterAdapter consumer) {
         this.topic = topic;
         this.visibleLevel = LogLevel.INFO;
         this.consumer = consumer;
@@ -37,13 +38,13 @@ public class BaseIssueRecorder<T extends IssueRecord<T>> implements IssueRecorde
     }
 
     /**
-     * 特定问题日志记录器的基础实现的构造方法。
+     * 特定日志记录器的基础实现的构造方法。
      *
      * @param topic               主题
      * @param issueRecordSupplier 问题日志记录的构造器
      */
-    public BaseIssueRecorder(@NotNull String topic, @NotNull Supplier<T> issueRecordSupplier) {
-        this(topic, issueRecordSupplier, BaseTopicRecordConsumer.getInstance());
+    public BaseSpecificLogger(@NotNull String topic, @NotNull Supplier<T> issueRecordSupplier) {
+        this(topic, issueRecordSupplier, BaseLogWriter.getInstance());
     }
 
     @NotNull
@@ -54,7 +55,7 @@ public class BaseIssueRecorder<T extends IssueRecord<T>> implements IssueRecorde
 
     @NotNull
     @Override
-    public TopicRecordConsumer consumer() {
+    public LogWriterAdapter consumer() {
         return consumer;
     }
 
@@ -66,7 +67,7 @@ public class BaseIssueRecorder<T extends IssueRecord<T>> implements IssueRecorde
 
     @NotNull
     @Override
-    public IssueRecorder<T> visibleLevel(@NotNull LogLevel level) {
+    public SpecificLogger<T> visibleLevel(@NotNull LogLevel level) {
         this.visibleLevel = level;
         return this;
     }

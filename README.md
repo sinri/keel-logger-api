@@ -1,18 +1,10 @@
 # Keel Logger Api
 
-The low-level logging API for Keel.
+Keel 体系下通用日志记录标准。
 
-## Record
+## 设计思路
 
-Defined a basic log recording interface for universal logging without certain format.
+提供一种标准日志格式，能通过流式的日志记录器操作填充内容，并能通过任意适配器完成实际输出。
+此外，在数据格式兼容的基础上，提供特定日志的记录方案，以满足特定场景下的日志记录需求。
+通过建立工厂类，实现日志记录器的创建和管理，以提供更灵活的日志记录方式。
 
-## Event
-
-For most scenarios, logging is for recording events,
-which would hold a timestamp, a level, a message, sometimes more context entries, and throwable information for exception logging.
-The common event logging interface.
-
-## Issue
-
-When a certain format of logging is needed,
-the issue logging interface can be used to record issues.
