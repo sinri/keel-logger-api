@@ -22,7 +22,7 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
     Supplier<T> issueRecordSupplier();
 
     @NotNull
-    LogWriterAdapter consumer();
+    LogWriterAdapter adapter();
 
     @NotNull
     LogLevel visibleLevel();
@@ -34,7 +34,7 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
     String topic();
 
     default void recordIssue(@NotNull T issueRecord) {
-        consumer().accept(topic(), issueRecord.toLog());
+        adapter().accept(topic(), issueRecord.toLog());
     }
 
     default void recordIssue(@NotNull Consumer<T> issueRecordConsumer) {

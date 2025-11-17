@@ -55,7 +55,7 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
 
     @NotNull
     @Override
-    public LogWriterAdapter consumer() {
+    public LogWriterAdapter adapter() {
         return consumer;
     }
 
