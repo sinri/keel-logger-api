@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.factory;
 
-import io.github.sinri.keel.logger.api.consumer.LogWriterAdapter;
+import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.SpecificLog;
 import io.github.sinri.keel.logger.api.logger.Logger;
 import io.github.sinri.keel.logger.api.logger.SpecificLogger;

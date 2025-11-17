@@ -1,4 +1,4 @@
-package io.github.sinri.keel.logger.api.consumer;
+package io.github.sinri.keel.logger.api.adapter;
 
 import java.io.Closeable;
 

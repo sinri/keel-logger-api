@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.logger;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.consumer.LogWriterAdapter;
+import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.Log;
 import io.github.sinri.keel.logger.api.log.LogContext;
 import org.jetbrains.annotations.NotNull;

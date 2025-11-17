@@ -1,4 +1,4 @@
-package io.github.sinri.keel.logger.api.consumer;
+package io.github.sinri.keel.logger.api.adapter;
 
 /**
  * 即时性日志写入适配器。
