@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  *
  * @since 5.0.0
  */
-public class Log {
+public class Log implements LogConvertible {
     public final static String MapKeyContext = "context";
     public final static String MapKeyMessage = "message";
     public final static String MapKeyClassification = "classification";
@@ -227,5 +227,10 @@ public class Log {
     @NotNull
     public Map<String, Object> extra() {
         return extra;
+    }
+
+    @Override
+    public @NotNull Log toLog() {
+        return this;
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
  * @param <T> 特定问题记录类的一个实现类型
  * @since 5.0.0
  */
+@Deprecated(forRemoval = true)
 public abstract class SpecificLog<T extends SpecificLog<T>> extends Log {
     /**
      * 返回自身以实现链式调用。
