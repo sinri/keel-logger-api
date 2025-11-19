@@ -2,7 +2,7 @@ package io.github.sinri.keel.logger.api.factory;
 
 import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
-import io.github.sinri.keel.logger.api.log.Log;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import io.github.sinri.keel.logger.api.logger.BaseLogger;
 import io.github.sinri.keel.logger.api.logger.BaseSpecificLogger;
 import io.github.sinri.keel.logger.api.logger.Logger;
@@ -41,7 +41,7 @@ public class BaseLoggerFactory implements LoggerFactory {
     }
 
     @Override
-    public <L extends Log> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier) {
+    public <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier) {
         return new BaseSpecificLogger<>(topic, specificLogSupplier, sharedAdapter());
     }
 }

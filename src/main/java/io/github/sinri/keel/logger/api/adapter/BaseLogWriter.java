@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.adapter;
 
-import io.github.sinri.keel.logger.api.log.Log;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
@@ -42,8 +42,8 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
     }
 
     @Override
-    public void accept(@NotNull String topic, @NotNull Log loggingEntity) {
-        write(render(topic, loggingEntity));
+    public void accept(@NotNull String topic, @NotNull SpecificLog<?> log) {
+        write(render(topic, log));
     }
 
     /**
@@ -93,7 +93,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
      * @param log   日志
      * @return 日志经渲染后的字符串
      */
-    protected String render(@NotNull String topic, @NotNull Log log) {
+    protected String render(@NotNull String topic, @NotNull SpecificLog<?> log) {
         StringBuilder sb = new StringBuilder();
         var zonedDateTime = Instant.ofEpochMilli(log.timestamp()).atZone(ZoneId.systemDefault());
         sb.append("㏒ ")

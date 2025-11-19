@@ -3,7 +3,7 @@ package io.github.sinri.keel.logger.api.logger;
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
-import io.github.sinri.keel.logger.api.log.Log;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -13,7 +13,7 @@ import java.util.function.Supplier;
  *
  * @param <T> 特定日志记录的类型
  */
-public class BaseSpecificLogger<T extends Log> implements SpecificLogger<T> {
+public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLogger<T> {
     @NotNull
     private final String topic;
     @NotNull

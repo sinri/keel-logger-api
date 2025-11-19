@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api.adapter;
 
-import io.github.sinri.keel.logger.api.log.Log;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -15,8 +15,8 @@ public sealed interface LogWriterAdapter permits InstantLogWriterAdapter, Persis
      * <p>
      * 常见的处理方式如格式化后写入标准输出、文件等。
      *
-     * @param topic         主题名称
-     * @param loggingEntity 事件日志记录
+     * @param topic 主题名称
+     * @param log   事件日志记录
      */
-    void accept(@NotNull String topic, @NotNull Log loggingEntity);
+    void accept(@NotNull String topic, @NotNull SpecificLog<?> log);
 }

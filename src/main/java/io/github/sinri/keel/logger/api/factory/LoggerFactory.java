@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.factory;
 
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
-import io.github.sinri.keel.logger.api.log.Log;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import io.github.sinri.keel.logger.api.logger.Logger;
 import io.github.sinri.keel.logger.api.logger.SpecificLogger;
 import org.jetbrains.annotations.NotNull;
@@ -39,6 +39,6 @@ public interface LoggerFactory {
      * @param <L>                 特定日志记录的类型。
      * @return 特定日志记录器。
      */
-    <L extends Log> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier);
+    <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier);
 
 }

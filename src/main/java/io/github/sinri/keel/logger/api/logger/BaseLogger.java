@@ -3,7 +3,10 @@ package io.github.sinri.keel.logger.api.logger;
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
+import io.github.sinri.keel.logger.api.log.Log;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 
 /**
@@ -20,7 +23,7 @@ public class BaseLogger implements Logger {
     /**
      * 日志记录器的基础实现的构造方法。
      *
-     * @param topic               主题
+     * @param topic            主题
      * @param logWriterAdapter 主题化日志记录处理器
      */
     public BaseLogger(@NotNull String topic, @NotNull LogWriterAdapter logWriterAdapter) {
@@ -51,6 +54,7 @@ public class BaseLogger implements Logger {
 
     /**
      * 设置日志记录器的最低可见日志严重性等级。
+     *
      * @param level 最低可见日志严重性等级
      * @return 当前日志记录器
      */
@@ -63,6 +67,7 @@ public class BaseLogger implements Logger {
 
     /**
      * 获取日志记录器的主题。
+     *
      * @return 日志记录器的主题
      */
     @NotNull
@@ -71,13 +76,19 @@ public class BaseLogger implements Logger {
         return topic;
     }
 
+    @Override
+    public final @NotNull Supplier<Log> specificLogSupplier() {
+        return Log::new;
+    }
+
     /**
      * 获取日志记录器的主题记录消费者。
+     *
      * @return 日志记录器的主题化日志记录处理器
      */
     @NotNull
     @Override
-    public LogWriterAdapter consumer() {
+    public LogWriterAdapter adapter() {
         return logWriterAdapter;
     }
 

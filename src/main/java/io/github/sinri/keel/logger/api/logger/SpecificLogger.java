@@ -2,8 +2,8 @@ package io.github.sinri.keel.logger.api.logger;
 
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
-import io.github.sinri.keel.logger.api.log.Log;
 import io.github.sinri.keel.logger.api.log.LogContext;
+import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +16,7 @@ import java.util.function.Supplier;
  * @param <T> 特定日志记录
  * @since 5.0.0
  */
-public interface SpecificLogger<T extends Log> {
+public interface SpecificLogger<T extends SpecificLog<T>> {
     @NotNull
     Supplier<T> specificLogSupplier();
 
@@ -34,7 +34,7 @@ public interface SpecificLogger<T extends Log> {
 
     default void log(@NotNull T specificLog) {
         if (visibleLevel() == LogLevel.SILENT || specificLog.level().isNegligibleThan(visibleLevel())) return;
-        adapter().accept(topic(), specificLog.toLog());
+        adapter().accept(topic(), specificLog);
     }
 
     default void log(@NotNull Consumer<T> consumer) {
