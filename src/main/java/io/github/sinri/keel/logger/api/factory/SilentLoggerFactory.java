@@ -16,9 +16,14 @@ import java.util.function.Supplier;
  *
  * @since 5.0.0
  */
-public class SilentLoggerFactory implements LoggerFactory {
+public final class SilentLoggerFactory implements LoggerFactory {
+    private static final SilentLoggerFactory instance = new SilentLoggerFactory();
 
-    public SilentLoggerFactory() {
+    private SilentLoggerFactory() {
+    }
+
+    public static SilentLoggerFactory getInstance() {
+        return instance;
     }
 
     @Override
