@@ -66,10 +66,10 @@ logger.log(log ->log
         .
 
 level(LogLevel.INFO)
-    .
+        .
 
 message("User login")
-    .
+        .
 
 context(ctx ->ctx.
 

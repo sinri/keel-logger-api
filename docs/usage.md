@@ -119,10 +119,10 @@ logger.log(log ->log
         .
 
 level(LogLevel.NOTICE)
-    .
+        .
 
 message("自定义日志")
-    .
+        .
 
 context(ctx ->ctx.
 
