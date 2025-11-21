@@ -32,124 +32,138 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
     @NotNull
     String topic();
 
+    private boolean isLogEnabled(@NotNull LogLevel level) {
+        return visibleLevel() != LogLevel.SILENT && !level.isNegligibleThan(visibleLevel());
+    }
+
+    /**
+     * 前置检查是否需要记录指定级别的日志，若不需要则直接返回，避免日志对象的创建与组装。
+     */
+    private void logIfEnabled(@NotNull LogLevel level, @NotNull Consumer<T> consumer) {
+        if (!isLogEnabled(level)) return;
+        T t = specificLogSupplier().get();
+        consumer.accept(t);
+        t.level(level);
+        this.log(t);
+    }
+
     default void log(@NotNull T specificLog) {
         if (visibleLevel() == LogLevel.SILENT || specificLog.level().isNegligibleThan(visibleLevel())) return;
         adapter().accept(topic(), specificLog);
     }
 
-    default void log(@NotNull Consumer<T> consumer) {
-        T t = specificLogSupplier().get();
-        consumer.accept(t);
-        this.log(t);
-    }
-
     default void trace(@NotNull String message) {
-        this.log(log -> log.level(LogLevel.TRACE).message(message));
+        this.logIfEnabled(LogLevel.TRACE, log -> log.level(LogLevel.TRACE).message(message));
     }
 
     default void debug(@NotNull String message) {
-        this.log(log -> log.level(LogLevel.DEBUG).message(message));
+        this.logIfEnabled(LogLevel.DEBUG, log -> log.level(LogLevel.DEBUG).message(message));
     }
 
     default void info(@NotNull String message) {
-        this.log(log -> log.level(LogLevel.INFO).message(message));
+        this.logIfEnabled(LogLevel.INFO, log -> log.level(LogLevel.INFO).message(message));
     }
 
     default void notice(@NotNull String message) {
-        this.log(log -> log.level(LogLevel.NOTICE).message(message));
+        this.logIfEnabled(LogLevel.NOTICE, log -> log.level(LogLevel.NOTICE).message(message));
     }
 
     default void warning(@NotNull String message) {
-        this.log(log -> log.level(LogLevel.WARNING).message(message));
+        this.logIfEnabled(LogLevel.WARNING, log -> log.level(LogLevel.WARNING).message(message));
     }
 
     default void error(@NotNull String message) {
-        this.log(log -> log.level(LogLevel.ERROR).message(message));
+        this.logIfEnabled(LogLevel.ERROR, log -> log.level(LogLevel.ERROR).message(message));
     }
 
     default void fatal(@NotNull String message) {
-        this.log(log -> log.level(LogLevel.FATAL).message(message));
+        this.logIfEnabled(LogLevel.FATAL, log -> log.level(LogLevel.FATAL).message(message));
     }
 
     default void trace(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> log.level(LogLevel.TRACE).message(message).context(contextConsumer));
+        this.logIfEnabled(LogLevel.TRACE, log -> log.level(LogLevel.TRACE).message(message).context(contextConsumer));
     }
 
     default void debug(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> log.level(LogLevel.DEBUG).message(message).context(contextConsumer));
+        this.logIfEnabled(LogLevel.DEBUG, log -> log.level(LogLevel.DEBUG).message(message).context(contextConsumer));
     }
 
     default void info(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> log.level(LogLevel.INFO).message(message).context(contextConsumer));
+        this.logIfEnabled(LogLevel.INFO, log -> log.level(LogLevel.INFO).message(message).context(contextConsumer));
     }
 
     default void notice(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> log.level(LogLevel.NOTICE).message(message).context(contextConsumer));
+        this.logIfEnabled(LogLevel.NOTICE, log -> log.level(LogLevel.NOTICE).message(message).context(contextConsumer));
     }
 
     default void warning(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> log.level(LogLevel.WARNING).message(message).context(contextConsumer));
+        this.logIfEnabled(LogLevel.WARNING, log -> log.level(LogLevel.WARNING).message(message)
+                                                      .context(contextConsumer));
     }
 
     default void error(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> log.level(LogLevel.ERROR).message(message).context(contextConsumer));
+        this.logIfEnabled(LogLevel.ERROR, log -> log.level(LogLevel.ERROR).message(message).context(contextConsumer));
     }
 
     default void fatal(@NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> log.level(LogLevel.FATAL).message(message).context(contextConsumer));
+        this.logIfEnabled(LogLevel.FATAL, log -> log.level(LogLevel.FATAL).message(message).context(contextConsumer));
     }
 
     default void trace(@NotNull Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.TRACE, log -> {
             building.accept(log);
             log.level(LogLevel.TRACE);
         });
     }
 
     default void debug(@NotNull Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.DEBUG, log -> {
             building.accept(log);
             log.level(LogLevel.DEBUG);
         });
     }
 
     default void info(@NotNull Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.INFO, log -> {
             building.accept(log);
             log.level(LogLevel.INFO);
         });
     }
 
     default void notice(@NotNull Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.NOTICE, log -> {
             building.accept(log);
             log.level(LogLevel.NOTICE);
         });
     }
 
     default void warning(@NotNull Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.WARNING, log -> {
             building.accept(log);
             log.level(LogLevel.WARNING);
         });
     }
 
     default void error(@NotNull Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.ERROR, log -> {
             building.accept(log);
             log.level(LogLevel.ERROR);
         });
     }
 
     default void fatal(@NotNull Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.FATAL, log -> {
             building.accept(log);
             log.level(LogLevel.FATAL);
         });
     }
 
+    /**
+     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
+     */
+    @Deprecated(since = "5.0.0")
     default void exception(@NotNull Throwable throwable, @Nullable Consumer<T> building) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.ERROR, log -> {
             log.level(LogLevel.ERROR);
             if (building != null) {
                 building.accept(log);
@@ -158,23 +172,35 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
         });
     }
 
+    /**
+     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
+     */
+    @Deprecated(since = "5.0.0")
     default void exception(@NotNull Throwable throwable) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.ERROR, log -> {
             log.level(LogLevel.ERROR);
             log.exception(throwable);
         });
     }
 
+    /**
+     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
+     */
+    @Deprecated(since = "5.0.0")
     default void exception(@NotNull Throwable throwable, @NotNull String message) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.ERROR, log -> {
             log.level(LogLevel.ERROR);
             log.exception(throwable);
             log.message(message);
         });
     }
 
+    /**
+     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
+     */
+    @Deprecated(since = "5.0.0")
     default void exception(@NotNull Throwable throwable, @NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.log(log -> {
+        this.logIfEnabled(LogLevel.ERROR, log -> {
             log.level(LogLevel.ERROR);
             log.exception(throwable);
             log.message(message);

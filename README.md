@@ -20,36 +20,28 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 <dependency>
     <groupId>io.github.sinri</groupId>
     <artifactId>keel-logger-api</artifactId>
-    <version>5.0.0-rc.11</version>
 </dependency>
 ```
 
 ### 基础使用
 
 ```java
-// 假设你有一个实现了 Logger 接口的实例 logger
-logger.info("Hello, Keel Logger!");
+void snippet() {
+    // 假设你有一个实现了 Logger 接口的实例 logger
+    logger.info("Hello, Keel Logger!");
 
-// 带上下文的日志
-logger.
+    // 带上下文的日志
+    logger.warning("Something happened", context -> {
+        context.put("userId", 12345);
+        context.put("action", "login");
+    });
 
-warning("Something happened",context ->{
-        context.
-
-put("userId",12345);
-    context.
-
-put("action","login");
-});
-
-        // 记录异常
-        try{
+    // 记录异常
+    try {
         // ...
-        }catch(
-Exception e){
-        logger.
-
-exception(e, "An error occurred");
+    } catch (Exception e) {
+        logger.exception(e, "An error occurred");
+    }
 }
 ```
 
