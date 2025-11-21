@@ -61,19 +61,11 @@ SDK 定义了 8 个日志等级，按严重性递增：
 
 为了简化日志记录，SDK 提供了流式 API。例如：
 
-```java
+```
 logger.log(log ->log
-        .
-
-level(LogLevel.INFO)
-        .
-
-message("User login")
-        .
-
-context(ctx ->ctx.
-
-put("userId",1001))
+        .level(LogLevel.INFO)
+        .message("User login")
+        .context(ctx ->ctx.put("userId",1001))
         );
 ```
 
