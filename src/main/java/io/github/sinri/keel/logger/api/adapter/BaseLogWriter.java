@@ -63,14 +63,6 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
      * @return 渲染后的异常信息字符串
      */
     protected String renderThrowable(@NotNull Throwable throwable) {
-        //        try (StringWriter sw = new StringWriter(); PrintWriter printWriter = new PrintWriter(sw)) {
-        //            sw.append(throwable.toString()).append("\n");
-        //            throwable.printStackTrace(printWriter);
-        //            return sw.toString();
-        //        } catch (IOException e) {
-        //            throw new RuntimeException(e);
-        //        }
-
         return ThrowableRender.renderThrowableChain(throwable);
     }
 

@@ -7,6 +7,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Inner Class for Render Throwable Chain
+ *
+ * @since 5.0.0
+ */
 class ThrowableRender {
 
     @NotNull
@@ -50,6 +55,7 @@ class ThrowableRender {
             String ignoringClassPackage = null;
             int ignoringCount = 0;
             for (StackTraceElement stackTranceItem : stackTrace) {
+                if (stackTranceItem == null) continue;
                 String className = stackTranceItem.getClassName();
                 String matchedClassPackage = null;
                 for (var cp : ignorableStackPackageSet) {
