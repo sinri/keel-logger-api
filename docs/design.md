@@ -42,6 +42,14 @@ SDK 的核心架构主要由以下几个组件构成：
 - **InstantLogWriterAdapter**: 立即输出日志的适配器。
 - **PersistentLogWriterAdapter**: 用于持久化日志的适配器。
 
+### 4. LoggerFactory (日志记录器工厂)
+
+`LoggerFactory` 负责创建 `Logger` 或 `SpecificLogger` 实例。它管理着所有由其创建的 Logger 所共用的 `LogWriterAdapter`。
+
+- **sharedAdapter()**: 返回工厂共享的日志输出适配器。
+- **createLogger(topic)**: 创建指定主题的通用 Logger。
+- **createLogger(topic, supplier)**: 创建指定主题和特定日志类型的 SpecificLogger。
+
 ## 关键概念
 
 ### 日志等级 (LogLevel)
@@ -61,12 +69,14 @@ SDK 定义了 8 个日志等级，按严重性递增：
 
 为了简化日志记录，SDK 提供了流式 API。例如：
 
-```
-logger.log(log ->log
-        .level(LogLevel.INFO)
-        .message("User login")
-        .context(ctx ->ctx.put("userId",1001))
-        );
+```java
+void snippet() {
+    logger.log(log -> log
+            .level(LogLevel.INFO)
+            .message("User login")
+            .context(ctx -> ctx.put("userId", 1001))
+    );
+}
 ```
 
 这种方式允许在一条语句中完成日志的所有配置，清晰且易于维护。
