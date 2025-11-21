@@ -15,7 +15,7 @@ class BaseLogWriterTest {
         TestSpecificLog log = new TestSpecificLog();
 
         String rendered = writer.render("test-topic", log);
-        Assertions.assertTrue(rendered.contains("[INFO] test-topic <main>"));
+        Assertions.assertTrue(rendered.contains("[INFO] test-topic"));
         Assertions.assertTrue(rendered.contains("test message"));
         Assertions.assertTrue(rendered.contains("key:\tvalue"));
         Assertions.assertTrue(rendered.contains("test"));
@@ -28,7 +28,6 @@ class BaseLogWriterTest {
                 .message("test message")
                 .context("key", "value")
                 .classification(List.of("test"));
-            this.threadInfo = "main";
         }
 
     }
