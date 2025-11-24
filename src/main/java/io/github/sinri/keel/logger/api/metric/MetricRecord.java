@@ -15,6 +15,8 @@ import java.util.Map;
 public interface MetricRecord {
     /**
      * 创建一条定量指标记录。
+     * <p>
+     * 定量指标对应的时间戳默认使用当前时间生成。
      *
      * @param metricName 定量指标记录的名称
      * @param value      定量指标的值
@@ -23,7 +25,21 @@ public interface MetricRecord {
      */
     @NotNull
     static MetricRecord create(@NotNull String metricName, double value, @Nullable Map<String, String> labels) {
-        return new MetricRecordImpl(metricName, value, labels);
+        return new MetricRecordImpl(System.currentTimeMillis(), metricName, value, labels);
+    }
+
+    /**
+     * 创建一条定量指标记录。
+     *
+     * @param timestamp  定量指标对应的时间戳
+     * @param metricName 定量指标记录的名称
+     * @param value      定量指标的值
+     * @param labels     定量指标的标签集合
+     * @return 根据上面的参数创建出来的一条定量指标记录
+     */
+    @NotNull
+    static MetricRecord create(long timestamp, @NotNull String metricName, double value, @Nullable Map<String, String> labels) {
+        return new MetricRecordImpl(timestamp, metricName, value, labels);
     }
 
     /**

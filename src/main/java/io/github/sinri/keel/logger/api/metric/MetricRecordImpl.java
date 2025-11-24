@@ -33,14 +33,6 @@ class MetricRecordImpl implements MetricRecord {
         }
     }
 
-    public MetricRecordImpl(@NotNull String metricName, double value, @Nullable Map<String, String> labels) {
-        this(System.currentTimeMillis(), metricName, value, labels);
-    }
-
-    public MetricRecordImpl(@NotNull String metricName, double value) {
-        this(System.currentTimeMillis(), metricName, value, null);
-    }
-
     @NotNull
     @Override
     public String metricName() {
