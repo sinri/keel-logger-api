@@ -24,13 +24,21 @@ class MetricRecordImpl implements MetricRecord {
      * @param value      定量指标的值
      * @param labels     定量指标的标签集合
      */
-    public MetricRecordImpl(@NotNull String metricName, double value, @Nullable Map<String, String> labels) {
-        this.timestamp = System.currentTimeMillis();
+    public MetricRecordImpl(long timestamp, @NotNull String metricName, double value, @Nullable Map<String, String> labels) {
+        this.timestamp = timestamp;
         this.metricName = metricName;
         this.value = value;
         if (labels != null) {
             this.labelMap.putAll(labels);
         }
+    }
+
+    public MetricRecordImpl(@NotNull String metricName, double value, @Nullable Map<String, String> labels) {
+        this(System.currentTimeMillis(), metricName, value, labels);
+    }
+
+    public MetricRecordImpl(@NotNull String metricName, double value) {
+        this(System.currentTimeMillis(), metricName, value, null);
     }
 
     @NotNull
