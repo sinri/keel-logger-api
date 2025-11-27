@@ -37,6 +37,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
      *
      * @return 单例实例
      */
+    @NotNull
     public static BaseLogWriter getInstance() {
         return instance;
     }
@@ -52,6 +53,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
      * @param classification 日志的分类信息
      * @return 渲染后的分类信息字符串
      */
+    @NotNull
     protected String renderClassification(@NotNull List<String> classification) {
         return String.join(",", classification);
     }
@@ -62,6 +64,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
      * @param throwable 日志对应的异常对象
      * @return 渲染后的异常信息字符串
      */
+    @NotNull
     protected String renderThrowable(@NotNull Throwable throwable) {
         return ThrowableRender.renderThrowableChain(throwable);
     }
@@ -72,6 +75,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
      * @param context 日志的上下文信息
      * @return 渲染后的上下文信息字符串
      */
+    @NotNull
     protected String renderContext(@NotNull Map<String, Object> context) {
         return context.entrySet().stream()
                       .map(entry -> "\t" + entry.getKey() + ":\t" + entry.getValue())
@@ -85,6 +89,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
      * @param log   日志
      * @return 日志经渲染后的字符串
      */
+    @NotNull
     protected String render(@NotNull String topic, @NotNull SpecificLog<?> log) {
         StringBuilder sb = new StringBuilder();
         var zonedDateTime = Instant.ofEpochMilli(log.timestamp()).atZone(ZoneId.systemDefault());

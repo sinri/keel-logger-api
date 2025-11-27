@@ -26,17 +26,20 @@ public final class SilentLoggerFactory implements LoggerFactory {
         return instance;
     }
 
+    @NotNull
     @Override
     public LogWriterAdapter sharedAdapter() {
         return SilentLogWriter.getInstance();
     }
 
     @Override
+    @NotNull 
     public Logger createLogger(@NotNull String topic) {
         return new BaseLogger(topic, sharedAdapter());
     }
 
     @Override
+    @NotNull 
     public <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier) {
         return new BaseSpecificLogger<>(topic, specificLogSupplier, sharedAdapter());
     }

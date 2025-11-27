@@ -14,6 +14,7 @@ public final class SilentLogWriter implements InstantLogWriterAdapter {
     private SilentLogWriter() {
     }
 
+    @NotNull
     public static SilentLogWriter getInstance() {
         return instance;
     }

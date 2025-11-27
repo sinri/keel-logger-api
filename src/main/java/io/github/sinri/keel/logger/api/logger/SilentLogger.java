@@ -16,10 +16,12 @@ import java.util.function.Supplier;
  * @since 5.0.0
  */
 public final class SilentLogger implements Logger {
+    @NotNull
     private final String topic;
+    @NotNull
     private final LogWriterAdapter adapter;
 
-    private SilentLogger(String topic) {
+    private SilentLogger(@NotNull String topic) {
         this.topic = topic;
         adapter = (InstantLogWriterAdapter) (anyTopic, log) -> {
             // do nothing

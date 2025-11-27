@@ -17,7 +17,9 @@ import java.util.function.Supplier;
 public class BaseLogger implements Logger {
     @NotNull
     private final String topic;
+    @NotNull
     private final LogWriterAdapter logWriterAdapter;
+    @NotNull
     private LogLevel level;
 
     /**

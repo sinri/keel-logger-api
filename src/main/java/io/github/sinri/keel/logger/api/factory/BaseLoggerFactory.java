@@ -20,6 +20,7 @@ import java.util.function.Supplier;
  */
 public class BaseLoggerFactory implements LoggerFactory {
     private final static BaseLoggerFactory instance = new BaseLoggerFactory();
+    @NotNull
     private final LogWriterAdapter sharedLogWriterAdapter;
 
     protected BaseLoggerFactory() {
@@ -30,17 +31,20 @@ public class BaseLoggerFactory implements LoggerFactory {
         return instance;
     }
 
+    @NotNull
     @Override
     public LogWriterAdapter sharedAdapter() {
         return sharedLogWriterAdapter;
     }
 
     @Override
+    @NotNull 
     public Logger createLogger(@NotNull String topic) {
         return new BaseLogger(topic, sharedAdapter());
     }
 
     @Override
+    @NotNull 
     public <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier) {
         return new BaseSpecificLogger<>(topic, specificLogSupplier, sharedAdapter());
     }

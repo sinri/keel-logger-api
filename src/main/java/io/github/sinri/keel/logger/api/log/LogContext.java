@@ -1,6 +1,7 @@
 package io.github.sinri.keel.logger.api.log;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -26,11 +27,16 @@ public final class LogContext {
     }
 
     @NotNull
-    public LogContext put(String key, Object value) {
+    public LogContext put(@NotNull String key, @Nullable Object value) {
         this.contentMap.put(key, value);
         return this;
     }
 
+    /**
+     * 返回嵌入的 Map，可对其内容进行读写。
+     *
+     * @return 嵌入的 Map
+     */
     @NotNull
     public Map<String, Object> toMap() {
         return contentMap;

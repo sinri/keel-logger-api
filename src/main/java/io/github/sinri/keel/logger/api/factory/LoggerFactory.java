@@ -21,6 +21,7 @@ public interface LoggerFactory {
      *
      * @return 日志写入适配器
      */
+    @NotNull
     LogWriterAdapter sharedAdapter();
 
     /**
@@ -29,6 +30,7 @@ public interface LoggerFactory {
      * @param topic 主题
      * @return 日志记录器。
      */
+    @NotNull
     Logger createLogger(@NotNull String topic);
 
     /**
@@ -39,6 +41,7 @@ public interface LoggerFactory {
      * @param <L>                 特定日志记录的类型。
      * @return 特定日志记录器。
      */
+    @NotNull
     <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier);
 
 }

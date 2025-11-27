@@ -87,6 +87,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @return 当前的特定问题日志记录实例，即自身
      */
     @SuppressWarnings("unchecked")
+    @NotNull
     public final T getImplementation() {
         return (T) this;
     }
@@ -97,6 +98,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param level 日志严重性等级
      * @return 当前特定问题日志记录
      */
+    @NotNull
     public T level(@NotNull LogLevel level) {
         this.level = level;
         return getImplementation();
@@ -108,6 +110,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param message 消息内容
      * @return 当前特定问题日志记录
      */
+    @NotNull
     public T message(@NotNull String message) {
         this.message = message;
         return getImplementation();
@@ -119,6 +122,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param throwable 异常信息
      * @return 当前特定问题日志记录
      */
+    @NotNull
     public T exception(@NotNull Throwable throwable) {
         this.exception = throwable;
         return getImplementation();
@@ -131,6 +135,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param contextValue 上下文值
      * @return 当前特定问题日志记录
      */
+    @NotNull
     public T context(@NotNull String contextKey, @Nullable Object contextValue) {
         this.logContext.put(contextKey, contextValue);
         return getImplementation();
@@ -142,6 +147,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param contextConsumer 对上下文信息进行读写的处理逻辑
      * @return 当前特定问题日志记录
      */
+    @NotNull
     public T context(@NotNull Consumer<LogContext> contextConsumer) {
         contextConsumer.accept(this.logContext);
         return getImplementation();

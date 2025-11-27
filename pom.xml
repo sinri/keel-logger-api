@@ -6,8 +6,8 @@
 
     <groupId>io.github.sinri</groupId>
     <artifactId>keel-logger-api</artifactId>
-    <version>5.0.0-rc.14</version>
-    <!--            <version>5.0.0-SNAPSHOT</version>-->
+    <!--    <version>5.0.0-rc.15</version>-->
+    <version>5.0.0-SNAPSHOT</version>
 
     <name>Keel-Logger-API</name>
     <description>
@@ -117,7 +117,7 @@
                 <version>${mavenSurefirePluginVersion}</version>
                 <configuration>
                     <includes>
-                        <include>io/github/sinri/keel/logger/api/**/*UnitTest.java</include>
+                        <include>io/github/sinri/keel/logger/api/**/*Test.java</include>
                     </includes>
                 </configuration>
             </plugin>
