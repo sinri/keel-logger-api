@@ -93,7 +93,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
     protected String render(@NotNull String topic, @NotNull SpecificLog<?> log) {
         StringBuilder sb = new StringBuilder();
         var zonedDateTime = Instant.ofEpochMilli(log.timestamp()).atZone(ZoneId.systemDefault());
-        sb.append("㏒ ")
+        sb.append("* ")
           .append(zonedDateTime.format(formatter)).append(" ")
           .append("[").append(log.level().name()).append("] ")
           .append(topic)

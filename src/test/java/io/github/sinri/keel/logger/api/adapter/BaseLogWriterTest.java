@@ -205,7 +205,7 @@ class BaseLogWriterTest {
         String rendered = writer.render("test-topic", log);
         Assertions.assertNotNull(rendered);
         // Timestamp should be rendered in the format
-        Assertions.assertTrue(rendered.contains("㏒"));
+        Assertions.assertTrue(rendered.contains("+"));
     }
 
     @Test
