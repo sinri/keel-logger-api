@@ -4,11 +4,11 @@ import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 沉默的即时性日志写入适配器。
+ * 永远保持沉默的日志写入适配器。
  *
  * @since 5.0.0
  */
-public final class SilentLogWriter implements InstantLogWriterAdapter {
+public final class SilentLogWriter implements LogWriterAdapter {
     private static final SilentLogWriter instance = new SilentLogWriter();
 
     private SilentLogWriter() {

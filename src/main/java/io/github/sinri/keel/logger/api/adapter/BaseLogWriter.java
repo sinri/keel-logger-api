@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  *
  * @since 5.0.0
  */
-public class BaseLogWriter implements InstantLogWriterAdapter {
+public class BaseLogWriter implements LogWriterAdapter {
     private static final BaseLogWriter instance = new BaseLogWriter();
     private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 

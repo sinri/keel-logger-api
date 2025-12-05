@@ -39,8 +39,9 @@ SDK 的核心架构主要由以下几个组件构成：
 
 `LogWriterAdapter` 负责将 `SpecificLog` 输出到具体的目的地。这是一个函数式接口 (`Consumer<SpecificLog<?>>`)，允许用户自定义输出逻辑。
 
-- **InstantLogWriterAdapter**: 立即输出日志的适配器。
-- **PersistentLogWriterAdapter**: 用于持久化日志的适配器。
+- **BaseLogWriter**: 基础的日志输出适配器，将日志写入标准输出。
+- **SilentLogWriter**: 静默的日志输出适配器，不输出任何日志。
+- **PersistentLogWriterAdapter**: 用于持久化日志的适配器，支持资源管理和关闭操作。
 
 ### 4. LoggerFactory (日志记录器工厂)
 

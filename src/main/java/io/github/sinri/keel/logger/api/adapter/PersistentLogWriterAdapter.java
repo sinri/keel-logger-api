@@ -5,7 +5,8 @@ import java.io.Closeable;
 /**
  * 持久性日志写入适配器。
  *
+ * @see Closeable
  * @since 5.0.0
  */
-public non-sealed interface PersistentLogWriterAdapter extends LogWriterAdapter, Closeable {
+public interface PersistentLogWriterAdapter extends Closeable, LogWriterAdapter {
 }

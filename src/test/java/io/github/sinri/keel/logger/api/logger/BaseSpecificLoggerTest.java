@@ -2,7 +2,7 @@ package io.github.sinri.keel.logger.api.logger;
 
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
-import io.github.sinri.keel.logger.api.adapter.InstantLogWriterAdapter;
+import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.Log;
 import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
@@ -372,7 +372,7 @@ class BaseSpecificLoggerTest {
         Assertions.assertEquals("value", adapter.capturedLogs.get(0).context().toMap().get("key"));
     }
 
-    private static class MockLogWriterAdapter implements InstantLogWriterAdapter {
+    private static class MockLogWriterAdapter implements LogWriterAdapter {
         public List<String> capturedTopics = new ArrayList<>();
         public List<SpecificLog<?>> capturedLogs = new ArrayList<>();
 

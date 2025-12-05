@@ -1,8 +1,8 @@
 package io.github.sinri.keel.logger.api.logger;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import io.github.sinri.keel.logger.api.adapter.InstantLogWriterAdapter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
+import io.github.sinri.keel.logger.api.adapter.SilentLogWriter;
 import io.github.sinri.keel.logger.api.log.Log;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,9 +23,7 @@ public final class SilentLogger implements Logger {
 
     private SilentLogger(@NotNull String topic) {
         this.topic = topic;
-        adapter = (InstantLogWriterAdapter) (anyTopic, log) -> {
-            // do nothing
-        };
+        adapter = SilentLogWriter.getInstance();
     }
 
     @Override

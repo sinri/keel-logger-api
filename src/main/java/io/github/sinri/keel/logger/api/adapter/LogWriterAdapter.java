@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 5.0.0
  */
-public sealed interface LogWriterAdapter permits InstantLogWriterAdapter, PersistentLogWriterAdapter {
+public interface LogWriterAdapter {
     /**
      * 在指定主题下，对给定的一个日志进行处理。
      * <p>
