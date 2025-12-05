@@ -23,8 +23,12 @@ public class BaseLoggerFactory implements LoggerFactory {
     @NotNull
     private final LogWriterAdapter sharedLogWriterAdapter;
 
+    protected BaseLoggerFactory(@NotNull LogWriterAdapter logWriterAdapter) {
+        this.sharedLogWriterAdapter = logWriterAdapter;
+    }
+
     protected BaseLoggerFactory() {
-        sharedLogWriterAdapter = BaseLogWriter.getInstance();
+        this(BaseLogWriter.getInstance());
     }
 
     public static BaseLoggerFactory getInstance() {
@@ -38,13 +42,13 @@ public class BaseLoggerFactory implements LoggerFactory {
     }
 
     @Override
-    @NotNull 
+    @NotNull
     public Logger createLogger(@NotNull String topic) {
         return new BaseLogger(topic, sharedAdapter());
     }
 
     @Override
-    @NotNull 
+    @NotNull
     public <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier) {
         return new BaseSpecificLogger<>(topic, specificLogSupplier, sharedAdapter());
     }

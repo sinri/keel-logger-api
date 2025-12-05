@@ -78,7 +78,7 @@ public class BaseLogWriter implements InstantLogWriterAdapter {
     @NotNull
     protected String renderContext(@NotNull Map<String, Object> context) {
         return context.entrySet().stream()
-                      .map(entry -> "\t" + entry.getKey() + ":\t" + entry.getValue())
+                      .map(entry -> "\t%s:\t%s".formatted(entry.getKey(), entry.getValue()))
                       .collect(Collectors.joining("\n"));
     }
 
