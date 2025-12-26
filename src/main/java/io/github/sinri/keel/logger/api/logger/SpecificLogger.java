@@ -5,7 +5,6 @@ import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.LogContext;
 import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -157,55 +156,4 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
             log.level(LogLevel.FATAL);
         });
     }
-
-    /**
-     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
-     */
-    @Deprecated(since = "5.0.0")
-    default void exception(@NotNull Throwable throwable, @Nullable Consumer<T> building) {
-        this.logIfEnabled(LogLevel.ERROR, log -> {
-            log.level(LogLevel.ERROR);
-            if (building != null) {
-                building.accept(log);
-            }
-            log.exception(throwable);
-        });
-    }
-
-    /**
-     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
-     */
-    @Deprecated(since = "5.0.0")
-    default void exception(@NotNull Throwable throwable) {
-        this.logIfEnabled(LogLevel.ERROR, log -> {
-            log.level(LogLevel.ERROR);
-            log.exception(throwable);
-        });
-    }
-
-    /**
-     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
-     */
-    @Deprecated(since = "5.0.0")
-    default void exception(@NotNull Throwable throwable, @NotNull String message) {
-        this.logIfEnabled(LogLevel.ERROR, log -> {
-            log.level(LogLevel.ERROR);
-            log.exception(throwable);
-            log.message(message);
-        });
-    }
-
-    /**
-     * @deprecated use other methods instead and register {@link Throwable} in building consumer.
-     */
-    @Deprecated(since = "5.0.0")
-    default void exception(@NotNull Throwable throwable, @NotNull String message, @NotNull Consumer<LogContext> contextConsumer) {
-        this.logIfEnabled(LogLevel.ERROR, log -> {
-            log.level(LogLevel.ERROR);
-            log.exception(throwable);
-            log.message(message);
-            log.context(contextConsumer);
-        });
-    }
-
 }
