@@ -4,25 +4,35 @@
 
 ### ~/.gradle/gradle.properties
 
-略
+Ensure the following properties are set.
+
+```properties
+internalNexusPublicUrl=*
+internalNexusSnapshotsUrl=*
+internalNexusReleasesUrl=*
+internalNexusUsername=*
+internalNexusPassword=*
+```
 
 ## Prepare Gradle Project Files
 
 ### build.gradle.kts
 
-略
+See the `build.gradle.kts` file.
 
 ### gradle.properties
 
-略
+See the `gradle.properties` file.
 
 ### settings.gradle.kts
 
-略
+See the `settings.gradle.kts` file.
 
 ## Generate Gradle Wrapper
 
 Run the following command in the project root directory to generate a Gradle wrapper.
+
+The gradle version should be the same as the one used in the project.
 
 ```bash
 gradle wrapper --gradle-version 9.2.1 --distribution-type all
