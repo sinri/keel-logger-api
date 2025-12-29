@@ -119,10 +119,13 @@ class SilentLoggerTest {
         RuntimeException exception = new RuntimeException("test");
 
         Assertions.assertDoesNotThrow(() -> {
-            logger.exception(exception);
-            logger.exception(exception, "message");
-            logger.exception(exception, "message", c -> c.put("key", "value"));
-            logger.exception(exception, log -> log.message("custom"));
+            logger.error(log -> log.exception(exception));
+            logger.error(log -> log.exception(exception).message("message"));
+            logger.error(log -> log.exception(exception).message("message").context("key", "value"));
+            logger.error(log -> {
+                log.exception(exception);
+                log.message("custom");
+            });
         });
     }
 

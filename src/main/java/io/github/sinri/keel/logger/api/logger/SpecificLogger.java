@@ -156,4 +156,12 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
             log.level(LogLevel.FATAL);
         });
     }
+
+    /**
+     * 基于本实例，获得对应的 {@link Logger} 实例，应保证每次返回的结果等效。
+     *
+     * @return 可复用的 {@link Logger} 实例，具备和本实例同样的 topic 和 LogWriterAdapter；一般，还应同步 visibleLogLevel。
+     */
+    @NotNull
+    Logger normalizedLogger();
 }

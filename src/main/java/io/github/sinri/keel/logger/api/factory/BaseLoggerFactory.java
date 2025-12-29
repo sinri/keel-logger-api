@@ -31,6 +31,7 @@ public class BaseLoggerFactory implements LoggerFactory {
         this(BaseLogWriter.getInstance());
     }
 
+    @NotNull
     public static BaseLoggerFactory getInstance() {
         return instance;
     }

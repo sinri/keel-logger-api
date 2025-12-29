@@ -311,7 +311,7 @@ class BaseLoggerTest {
         logger.visibleLevel(LogLevel.ERROR);
 
         RuntimeException exception = new RuntimeException("Test exception");
-        logger.exception(exception);
+        logger.error(log -> log.exception(exception));
 
         Assertions.assertEquals(1, adapter.capturedLogs.size());
         Assertions.assertEquals(LogLevel.ERROR, adapter.capturedLogs.get(0).level());
@@ -325,7 +325,7 @@ class BaseLoggerTest {
         logger.visibleLevel(LogLevel.ERROR);
 
         RuntimeException exception = new RuntimeException("Test exception");
-        logger.exception(exception, "Exception message");
+        logger.error(log -> log.exception(exception).message("Exception message"));
 
         Assertions.assertEquals(1, adapter.capturedLogs.size());
         Assertions.assertEquals("Exception message", adapter.capturedLogs.get(0).message());
@@ -339,7 +339,7 @@ class BaseLoggerTest {
         logger.visibleLevel(LogLevel.ERROR);
 
         RuntimeException exception = new RuntimeException("Test exception");
-        logger.exception(exception, "Exception message", c -> c.put("errorCode", "500"));
+        logger.error(log -> log.exception(exception).message("Exception message").context("errorCode", "500"));
 
         Assertions.assertEquals(1, adapter.capturedLogs.size());
         Assertions.assertEquals("Exception message", adapter.capturedLogs.get(0).message());
@@ -354,7 +354,8 @@ class BaseLoggerTest {
         logger.visibleLevel(LogLevel.ERROR);
 
         RuntimeException exception = new RuntimeException("Test exception");
-        logger.exception(exception, log -> {
+        logger.error(log -> {
+            log.exception(exception);
             log.message("Custom message");
             log.context("key", "value");
         });

@@ -75,6 +75,43 @@ class BaseSpecificLoggerTest {
     }
 
     @Test
+    void testNormalizedLogger() {
+        MockLogWriterAdapter adapter = new MockLogWriterAdapter();
+        BaseSpecificLogger<Log> logger = new BaseSpecificLogger<>("test-topic", Log::new, adapter);
+        logger.visibleLevel(LogLevel.DEBUG);
+
+        Logger normalized = logger.normalizedLogger();
+
+        Assertions.assertNotNull(normalized);
+        Assertions.assertEquals("test-topic", normalized.topic());
+        Assertions.assertSame(adapter, normalized.adapter());
+        Assertions.assertEquals(LogLevel.DEBUG, normalized.visibleLevel());
+
+        Logger normalized2 = logger.normalizedLogger();
+        Assertions.assertSame(normalized, normalized2, "Should return the same instance");
+    }
+
+    @Test
+    void testNormalizeVisibleLevelPropagation() {
+        BaseSpecificLogger<Log> logger = new BaseSpecificLogger<>("test-topic", Log::new);
+        logger.visibleLevel(LogLevel.DEBUG);
+
+        Logger normalized = logger.normalizedLogger();
+
+        Assertions.assertEquals(LogLevel.DEBUG, normalized.visibleLevel(), "Normalized logger should inherit visibleLevel from BaseSpecificLogger");
+    }
+
+    @Test
+    void testNormalizeVisibleLevelSyncAfterCreation() {
+        BaseSpecificLogger<Log> logger = new BaseSpecificLogger<>("test-topic", Log::new);
+        Logger normalized = logger.normalizedLogger();
+        Assertions.assertEquals(LogLevel.INFO, normalized.visibleLevel());
+
+        logger.visibleLevel(LogLevel.ERROR);
+        Assertions.assertEquals(LogLevel.ERROR, normalized.visibleLevel(), "Normalized logger should stay in sync with BaseSpecificLogger's visibleLevel");
+    }
+
+    @Test
     void testTrace() {
         MockLogWriterAdapter adapter = new MockLogWriterAdapter();
         BaseSpecificLogger<Log> logger = new BaseSpecificLogger<>("test-topic", Log::new, adapter);
@@ -315,7 +352,7 @@ class BaseSpecificLoggerTest {
 
         RuntimeException exception = new RuntimeException("Test exception");
 
-        logger.exception(exception);
+        logger.error(log -> log.exception(exception));
 
         Assertions.assertEquals(1, adapter.capturedLogs.size());
         Assertions.assertEquals(LogLevel.ERROR, adapter.capturedLogs.get(0).level());
@@ -330,7 +367,7 @@ class BaseSpecificLoggerTest {
 
         RuntimeException exception = new RuntimeException("Test exception");
 
-        logger.exception(exception, "Exception message");
+        logger.error(log -> log.exception(exception).message("Exception message"));
 
         Assertions.assertEquals(1, adapter.capturedLogs.size());
         Assertions.assertEquals("Exception message", adapter.capturedLogs.get(0).message());
@@ -345,7 +382,7 @@ class BaseSpecificLoggerTest {
 
         RuntimeException exception = new RuntimeException("Test exception");
 
-        logger.exception(exception, "Exception message", c -> c.put("errorCode", "500"));
+        logger.error(log -> log.exception(exception).message("Exception message").context("errorCode", "500"));
 
         Assertions.assertEquals(1, adapter.capturedLogs.size());
         Assertions.assertEquals("Exception message", adapter.capturedLogs.get(0).message());
@@ -361,7 +398,8 @@ class BaseSpecificLoggerTest {
 
         RuntimeException exception = new RuntimeException("Test exception");
 
-        logger.exception(exception, log -> {
+        logger.error(log -> {
+            log.exception(exception);
             log.message("Custom message");
             log.context("key", "value");
         });

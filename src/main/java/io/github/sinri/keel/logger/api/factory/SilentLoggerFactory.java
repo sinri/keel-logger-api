@@ -22,6 +22,7 @@ public final class SilentLoggerFactory implements LoggerFactory {
     private SilentLoggerFactory() {
     }
 
+    @NotNull
     public static SilentLoggerFactory getInstance() {
         return instance;
     }
