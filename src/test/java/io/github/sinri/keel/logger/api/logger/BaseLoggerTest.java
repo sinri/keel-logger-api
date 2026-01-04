@@ -5,7 +5,7 @@ import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.Log;
 import io.github.sinri.keel.logger.api.log.SpecificLog;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -482,12 +482,13 @@ class BaseLoggerTest {
         Assertions.assertEquals(LogLevel.INFO, logger.visibleLevel());
     }
 
+    @NullMarked
     private static class MockLogWriterAdapter implements LogWriterAdapter {
         public List<String> capturedTopics = new ArrayList<>();
         public List<SpecificLog<?>> capturedLogs = new ArrayList<>();
 
         @Override
-        public void accept(@NotNull String topic, @NotNull SpecificLog<?> log) {
+        public void accept(String topic, SpecificLog<?> log) {
             capturedTopics.add(topic);
             capturedLogs.add(log);
         }

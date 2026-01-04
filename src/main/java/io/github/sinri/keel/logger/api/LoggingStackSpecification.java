@@ -1,6 +1,6 @@
 package io.github.sinri.keel.logger.api;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,8 +8,8 @@ import java.util.Set;
 /**
  * @since 5.0.0
  */
+@NullMarked
 public final class LoggingStackSpecification {
-    @NotNull
     public static final Set<String> IgnorableCallStackPackage;
 
     static {

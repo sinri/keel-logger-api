@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.metric;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 
@@ -12,6 +12,7 @@ import java.util.Map;
  *
  * @since 5.0.0
  */
+@NullMarked
 public interface MetricRecord {
     /**
      * 创建一条定量指标记录。
@@ -23,8 +24,7 @@ public interface MetricRecord {
      * @param labels     定量指标的标签集合
      * @return 根据上面的参数创建出来的一条定量指标记录
      */
-    @NotNull
-    static MetricRecord create(@NotNull String metricName, double value, @Nullable Map<String, String> labels) {
+    static MetricRecord create(String metricName, double value, @Nullable Map<String, String> labels) {
         return new MetricRecordImpl(System.currentTimeMillis(), metricName, value, labels);
     }
 
@@ -37,8 +37,7 @@ public interface MetricRecord {
      * @param labels     定量指标的标签集合
      * @return 根据上面的参数创建出来的一条定量指标记录
      */
-    @NotNull
-    static MetricRecord create(long timestamp, @NotNull String metricName, double value, @Nullable Map<String, String> labels) {
+    static MetricRecord create(long timestamp, String metricName, double value, @Nullable Map<String, String> labels) {
         return new MetricRecordImpl(timestamp, metricName, value, labels);
     }
 
@@ -47,7 +46,6 @@ public interface MetricRecord {
      *
      * @return 定量指标记录的名称
      */
-    @NotNull
     String metricName();
 
     /**
@@ -69,6 +67,5 @@ public interface MetricRecord {
      *
      * @return 定量指标的标签集合
      */
-    @NotNull
     Map<String, String> labels();
 }

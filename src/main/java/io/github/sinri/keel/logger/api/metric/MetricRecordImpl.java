@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.metric;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +11,10 @@ import java.util.Map;
  *
  * @since 5.0.0
  */
+@NullMarked
 class MetricRecordImpl implements MetricRecord {
-    private final @NotNull Map<String, String> labelMap = new HashMap<>();
-    private final @NotNull String metricName;
+    private final Map<String, String> labelMap = new HashMap<>();
+    private final String metricName;
     private final double value;
     private final long timestamp;
 
@@ -24,7 +25,7 @@ class MetricRecordImpl implements MetricRecord {
      * @param value      定量指标的值
      * @param labels     定量指标的标签集合
      */
-    public MetricRecordImpl(long timestamp, @NotNull String metricName, double value, @Nullable Map<String, String> labels) {
+    public MetricRecordImpl(long timestamp, String metricName, double value, @Nullable Map<String, String> labels) {
         this.timestamp = timestamp;
         this.metricName = metricName;
         this.value = value;
@@ -33,7 +34,6 @@ class MetricRecordImpl implements MetricRecord {
         }
     }
 
-    @NotNull
     @Override
     public String metricName() {
         return metricName;
@@ -49,7 +49,6 @@ class MetricRecordImpl implements MetricRecord {
         return value;
     }
 
-    @NotNull
     @Override
     public Map<String, String> labels() {
         return labelMap;

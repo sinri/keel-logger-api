@@ -1,8 +1,8 @@
 package io.github.sinri.keel.logger.api.log;
 
 import io.github.sinri.keel.logger.api.LogLevel;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +14,7 @@ import java.util.function.Consumer;
  *
  * @since 5.0.0
  */
+@NullMarked
 public abstract class SpecificLog<T extends SpecificLog<T>> {
     public final static String MapKeyContext = "context";
     public final static String MapKeyMessage = "message";
@@ -24,12 +25,10 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
     /**
      * 特定问题日志记录所在的线程线程
      */
-    @NotNull
     private final String threadInfo;
     /**
      * 特定问题日志记录的上下文
      */
-    @NotNull
     private final LogContext logContext;
     /**
      * 特定问题日志记录的时间戳
@@ -38,7 +37,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
     /**
      * 特定问题日志记录在标准字段之外的扩展记录
      */
-    @NotNull
     private final Map<String, Object> extra;
     /**
      * 特定问题日志记录的消息内容（可选）
@@ -48,7 +46,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
     /**
      * 特定问题日志记录的日志严重性等级
      */
-    @NotNull
     private LogLevel level;
     /**
      * 特定问题日志记录的异常信息（可选）
@@ -69,7 +66,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
         this.extra = new TreeMap<>();
     }
 
-    protected SpecificLog(@NotNull SpecificLog<?> specificLog) {
+    protected SpecificLog(SpecificLog<?> specificLog) {
         super();
         this.timestamp = specificLog.timestamp;
         this.level = specificLog.level;
@@ -87,7 +84,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @return 当前的特定问题日志记录实例，即自身
      */
     @SuppressWarnings("unchecked")
-    @NotNull
     public final T getImplementation() {
         return (T) this;
     }
@@ -98,8 +94,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param level 日志严重性等级
      * @return 当前特定问题日志记录
      */
-    @NotNull
-    public T level(@NotNull LogLevel level) {
+    public T level(LogLevel level) {
         this.level = level;
         return getImplementation();
     }
@@ -110,8 +105,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param message 消息内容
      * @return 当前特定问题日志记录
      */
-    @NotNull
-    public T message(@NotNull String message) {
+    public T message(String message) {
         this.message = message;
         return getImplementation();
     }
@@ -122,8 +116,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param throwable 异常信息
      * @return 当前特定问题日志记录
      */
-    @NotNull
-    public T exception(@NotNull Throwable throwable) {
+    public T exception(Throwable throwable) {
         this.exception = throwable;
         return getImplementation();
     }
@@ -135,8 +128,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param contextValue 上下文值
      * @return 当前特定问题日志记录
      */
-    @NotNull
-    public T context(@NotNull String contextKey, @Nullable Object contextValue) {
+    public T context(String contextKey, @Nullable Object contextValue) {
         this.logContext.put(contextKey, contextValue);
         return getImplementation();
     }
@@ -147,8 +139,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param contextConsumer 对上下文信息进行读写的处理逻辑
      * @return 当前特定问题日志记录
      */
-    @NotNull
-    public T context(@NotNull Consumer<LogContext> contextConsumer) {
+    public T context(Consumer<LogContext> contextConsumer) {
         contextConsumer.accept(this.logContext);
         return getImplementation();
     }
@@ -167,7 +158,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      *
      * @return 线程信息
      */
-    @NotNull
     public String threadInfo() {
         return threadInfo;
     }
@@ -177,7 +167,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      *
      * @return 上下文信息
      */
-    @NotNull
     public LogContext context() {
         return logContext;
     }
@@ -197,7 +186,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      *
      * @return 日志严重性等级
      */
-    @NotNull
     public LogLevel level() {
         return level;
     }
@@ -228,7 +216,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param classification 分类
      * @return 当前特定问题日志记录
      */
-    @NotNull
     public T classification(@Nullable List<String> classification) {
         this.classification = classification;
         return getImplementation();
@@ -241,8 +228,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      * @param value 扩展记录的值
      * @return 当前特定问题日志记录
      */
-    @NotNull
-    protected T extra(@NotNull String key, @Nullable Object value) {
+    protected T extra(String key, @Nullable Object value) {
         this.extra.put(key, value);
         return getImplementation();
     }
@@ -252,7 +238,6 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      *
      * @return 扩展记录
      */
-    @NotNull
     public Map<String, Object> extra() {
         return extra;
     }

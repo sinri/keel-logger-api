@@ -35,7 +35,10 @@ repositories {
 
 dependencies {
     // API dependency (transitive)
-    api("org.jetbrains:annotations:26.0.2")
+    //api("org.jetbrains:annotations:26.0.2")
+    // https://mvnrepository.com/artifact/org.jspecify/jspecify
+    compileOnly("org.jspecify:jspecify:1.0.0")
+    testCompileOnly("org.jspecify:jspecify:1.0.0")
 
     // Test dependencies
     testImplementation("io.vertx:vertx-junit5:5.0.6")

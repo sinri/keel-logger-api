@@ -1,5 +1,7 @@
 package io.github.sinri.keel.logger.api.adapter;
 
+import org.jspecify.annotations.NullMarked;
+
 import java.io.Closeable;
 
 /**
@@ -8,5 +10,6 @@ import java.io.Closeable;
  * @see Closeable
  * @since 5.0.0
  */
+@NullMarked
 public interface PersistentLogWriterAdapter extends Closeable, LogWriterAdapter {
 }

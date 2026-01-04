@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.adapter;
 
 import io.github.sinri.keel.logger.api.log.SpecificLog;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  *
  * @since 5.0.0
  */
+@NullMarked
 public interface LogTextRender {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
 
@@ -24,8 +25,7 @@ public interface LogTextRender {
      * @param classification 日志的分类信息
      * @return 渲染后的分类信息字符串
      */
-    @NotNull
-    default String renderClassification(@NotNull List<String> classification) {
+    default String renderClassification(List<String> classification) {
         return String.join(",", classification);
     }
 
@@ -35,8 +35,7 @@ public interface LogTextRender {
      * @param throwable 日志对应的异常对象
      * @return 渲染后的异常信息字符串
      */
-    @NotNull
-    default String renderThrowable(@NotNull Throwable throwable) {
+    default String renderThrowable(Throwable throwable) {
         return ThrowableRender.renderThrowableChain(throwable);
     }
 
@@ -46,8 +45,7 @@ public interface LogTextRender {
      * @param context 日志的上下文信息
      * @return 渲染后的上下文信息字符串
      */
-    @NotNull
-    default String renderContext(@NotNull Map<String, Object> context) {
+    default String renderContext(Map<String, Object> context) {
         return context.entrySet().stream()
                       .map(entry -> "\t%s:\t%s".formatted(entry.getKey(), entry.getValue()))
                       .collect(Collectors.joining("\n"));
@@ -60,8 +58,7 @@ public interface LogTextRender {
      * @param log   日志
      * @return 日志经渲染后的字符串
      */
-    @NotNull
-    default String render(@NotNull String topic, @NotNull SpecificLog<?> log) {
+    default String render(String topic, SpecificLog<?> log) {
         StringBuilder sb = new StringBuilder();
         var zonedDateTime = Instant.ofEpochMilli(log.timestamp()).atZone(ZoneId.systemDefault());
         sb.append("* ")

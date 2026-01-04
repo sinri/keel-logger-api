@@ -4,7 +4,7 @@ import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.Log;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.function.Supplier;
 
@@ -14,12 +14,10 @@ import java.util.function.Supplier;
  *
  * @since 5.0.0
  */
+@NullMarked
 public class BaseLogger implements Logger {
-    @NotNull
     private final String topic;
-    @NotNull
     private final LogWriterAdapter logWriterAdapter;
-    @NotNull
     private LogLevel level;
 
     /**
@@ -28,7 +26,7 @@ public class BaseLogger implements Logger {
      * @param topic            主题
      * @param logWriterAdapter 主题化日志记录处理器
      */
-    public BaseLogger(@NotNull String topic, @NotNull LogWriterAdapter logWriterAdapter) {
+    public BaseLogger(String topic, LogWriterAdapter logWriterAdapter) {
         this.topic = topic;
         this.level = LogLevel.INFO;
         this.logWriterAdapter = logWriterAdapter;
@@ -39,7 +37,7 @@ public class BaseLogger implements Logger {
      *
      * @param topic 主题
      */
-    public BaseLogger(@NotNull String topic) {
+    public BaseLogger(String topic) {
         this(topic, BaseLogWriter.getInstance());
     }
 
@@ -48,7 +46,6 @@ public class BaseLogger implements Logger {
      *
      * @return 日志记录器的最低可见日志严重性等级
      */
-    @NotNull
     @Override
     public LogLevel visibleLevel() {
         return level;
@@ -60,9 +57,8 @@ public class BaseLogger implements Logger {
      * @param level 最低可见日志严重性等级
      * @return 当前日志记录器
      */
-    @NotNull
     @Override
-    public Logger visibleLevel(@NotNull LogLevel level) {
+    public Logger visibleLevel(LogLevel level) {
         this.level = level;
         return this;
     }
@@ -72,14 +68,13 @@ public class BaseLogger implements Logger {
      *
      * @return 日志记录器的主题
      */
-    @NotNull
     @Override
     public String topic() {
         return topic;
     }
 
     @Override
-    public final @NotNull Supplier<Log> specificLogSupplier() {
+    public final Supplier<Log> specificLogSupplier() {
         return Log::new;
     }
 
@@ -88,7 +83,6 @@ public class BaseLogger implements Logger {
      *
      * @return 日志记录器的主题化日志记录处理器
      */
-    @NotNull
     @Override
     public LogWriterAdapter adapter() {
         return logWriterAdapter;

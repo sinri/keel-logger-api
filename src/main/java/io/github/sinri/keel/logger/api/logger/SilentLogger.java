@@ -4,7 +4,7 @@ import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.adapter.SilentLogWriter;
 import io.github.sinri.keel.logger.api.log.Log;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.function.Supplier;
 
@@ -15,39 +15,38 @@ import java.util.function.Supplier;
  *
  * @since 5.0.0
  */
+@NullMarked
 public final class SilentLogger implements Logger {
-    @NotNull
     private final String topic;
-    @NotNull
     private final LogWriterAdapter adapter;
 
-    private SilentLogger(@NotNull String topic) {
+    private SilentLogger(String topic) {
         this.topic = topic;
         adapter = SilentLogWriter.getInstance();
     }
 
     @Override
-    public @NotNull Supplier<Log> specificLogSupplier() {
+    public Supplier<Log> specificLogSupplier() {
         return Log::new;
     }
 
     @Override
-    public @NotNull LogWriterAdapter adapter() {
+    public LogWriterAdapter adapter() {
         return adapter;
     }
 
     @Override
-    public @NotNull LogLevel visibleLevel() {
+    public LogLevel visibleLevel() {
         return LogLevel.SILENT;
     }
 
     @Override
-    public @NotNull SpecificLogger<Log> visibleLevel(@NotNull LogLevel level) {
+    public SpecificLogger<Log> visibleLevel(LogLevel level) {
         throw new RuntimeException("SilentLogger can not change visible level!");
     }
 
     @Override
-    public @NotNull String topic() {
+    public String topic() {
         return topic;
     }
 }

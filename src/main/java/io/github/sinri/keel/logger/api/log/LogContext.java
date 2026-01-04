@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.log;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -13,21 +13,20 @@ import java.util.function.Consumer;
  *
  * @since 5.0.0
  */
+@NullMarked
 public final class LogContext {
-    @NotNull
     private final Map<String, Object> contentMap;
 
     public LogContext() {
         this.contentMap = new java.util.TreeMap<>();
     }
 
-    public LogContext(@NotNull Consumer<LogContext> contextConsumer) {
+    public LogContext(Consumer<LogContext> contextConsumer) {
         this();
         contextConsumer.accept(this);
     }
 
-    @NotNull
-    public LogContext put(@NotNull String key, @Nullable Object value) {
+    public LogContext put(String key, @Nullable Object value) {
         this.contentMap.put(key, value);
         return this;
     }
@@ -37,7 +36,6 @@ public final class LogContext {
      *
      * @return 嵌入的 Map
      */
-    @NotNull
     public Map<String, Object> toMap() {
         return contentMap;
     }

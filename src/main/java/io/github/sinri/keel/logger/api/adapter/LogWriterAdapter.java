@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.adapter;
 
 import io.github.sinri.keel.logger.api.log.SpecificLog;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 
 /**
@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 5.0.0
  */
+@NullMarked
 public interface LogWriterAdapter {
     /**
      * 在指定主题下，对给定的一个日志进行处理。
@@ -18,5 +19,5 @@ public interface LogWriterAdapter {
      * @param topic 主题名称
      * @param log   事件日志记录
      */
-    void accept(@NotNull String topic, @NotNull SpecificLog<?> log);
+    void accept(String topic, SpecificLog<?> log);
 }

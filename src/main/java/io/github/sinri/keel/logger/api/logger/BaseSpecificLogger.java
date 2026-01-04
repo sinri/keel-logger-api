@@ -4,7 +4,8 @@ import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.SpecificLog;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
@@ -14,16 +15,12 @@ import java.util.function.Supplier;
  *
  * @param <T> 特定日志记录的类型
  */
+@NullMarked
 public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLogger<T> {
-    @NotNull
     private final String topic;
-    @NotNull
     private final Supplier<T> specificLogSupplier;
-    @NotNull
     private final LogWriterAdapter logWriterAdapter;
-    @NotNull
-    private final AtomicReference<Logger> normalizedLoggerRef = new AtomicReference<>(null);
-    @NotNull
+    private final AtomicReference<@Nullable Logger> normalizedLoggerRef = new AtomicReference<>(null);
     private LogLevel visibleLevel;
 
     /**
@@ -33,7 +30,7 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
      * @param specificLogSupplier 问题日志记录的构造器
      * @param logWriterAdapter    主题化日志记录处理器
      */
-    public BaseSpecificLogger(@NotNull String topic, @NotNull Supplier<T> specificLogSupplier, @NotNull LogWriterAdapter logWriterAdapter) {
+    public BaseSpecificLogger(String topic, Supplier<T> specificLogSupplier, LogWriterAdapter logWriterAdapter) {
         this.topic = topic;
         this.visibleLevel = LogLevel.INFO;
         this.logWriterAdapter = logWriterAdapter;
@@ -46,31 +43,27 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
      * @param topic               主题
      * @param specificLogSupplier 问题日志记录的构造器
      */
-    public BaseSpecificLogger(@NotNull String topic, @NotNull Supplier<T> specificLogSupplier) {
+    public BaseSpecificLogger(String topic, Supplier<T> specificLogSupplier) {
         this(topic, specificLogSupplier, BaseLogWriter.getInstance());
     }
 
-    @NotNull
     @Override
     public final Supplier<T> specificLogSupplier() {
         return specificLogSupplier;
     }
 
-    @NotNull
     @Override
     public final LogWriterAdapter adapter() {
         return logWriterAdapter;
     }
 
-    @NotNull
     @Override
     public LogLevel visibleLevel() {
         return visibleLevel;
     }
 
-    @NotNull
     @Override
-    public SpecificLogger<T> visibleLevel(@NotNull LogLevel level) {
+    public SpecificLogger<T> visibleLevel(LogLevel level) {
         this.visibleLevel = level;
 
         Logger plain = this.normalizedLoggerRef.getPlain();
@@ -81,13 +74,12 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
         return this;
     }
 
-    @NotNull
     @Override
     public final String topic() {
         return topic;
     }
 
-    protected @NotNull Logger normalize() {
+    protected Logger normalize() {
         Logger logger = normalizedLoggerRef.get();
         if (logger == null) {
             synchronized (normalizedLoggerRef) {
@@ -99,7 +91,7 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     }
 
     @Override
-    public @NotNull Logger normalizedLogger() {
+    public Logger normalizedLogger() {
         return normalize();
     }
 }

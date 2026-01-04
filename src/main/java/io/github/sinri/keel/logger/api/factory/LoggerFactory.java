@@ -4,7 +4,7 @@ import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.SpecificLog;
 import io.github.sinri.keel.logger.api.logger.Logger;
 import io.github.sinri.keel.logger.api.logger.SpecificLogger;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.function.Supplier;
 
@@ -15,13 +15,13 @@ import java.util.function.Supplier;
  *
  * @since 5.0.0
  */
+@NullMarked
 public interface LoggerFactory {
     /**
      * 本日志记录器工厂所创建的日志记录器所共用的日志处理器。
      *
      * @return 日志写入适配器
      */
-    @NotNull
     LogWriterAdapter sharedAdapter();
 
     /**
@@ -30,8 +30,7 @@ public interface LoggerFactory {
      * @param topic 主题
      * @return 日志记录器。
      */
-    @NotNull
-    Logger createLogger(@NotNull String topic);
+    Logger createLogger(String topic);
 
     /**
      * 创建某一主题下的特定日志记录器。
@@ -41,7 +40,6 @@ public interface LoggerFactory {
      * @param <L>                 特定日志记录的类型。
      * @return 特定日志记录器。
      */
-    @NotNull
-    <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier);
+    <L extends SpecificLog<L>> SpecificLogger<L> createLogger(String topic, Supplier<L> specificLogSupplier);
 
 }

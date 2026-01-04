@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api.adapter;
 
 import io.github.sinri.keel.logger.api.log.SpecificLog;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * 基本日志接入器。
@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 5.0.0
  */
+@NullMarked
 public class BaseLogWriter implements LogWriterAdapter, LogTextRender {
     private static final BaseLogWriter instance = new BaseLogWriter();
 
@@ -29,13 +30,12 @@ public class BaseLogWriter implements LogWriterAdapter, LogTextRender {
      *
      * @return 单例实例
      */
-    @NotNull
     public static BaseLogWriter getInstance() {
         return instance;
     }
 
     @Override
-    public void accept(@NotNull String topic, @NotNull SpecificLog<?> log) {
+    public void accept(String topic, SpecificLog<?> log) {
         write(render(topic, log));
     }
 
@@ -44,7 +44,7 @@ public class BaseLogWriter implements LogWriterAdapter, LogTextRender {
      *
      * @param renderedEntity 日志渲染结果
      */
-    protected void write(@NotNull String renderedEntity) {
+    protected void write(String renderedEntity) {
         System.out.println(renderedEntity);
     }
 }

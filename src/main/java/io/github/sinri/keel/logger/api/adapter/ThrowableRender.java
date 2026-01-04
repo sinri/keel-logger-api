@@ -1,8 +1,8 @@
 package io.github.sinri.keel.logger.api.adapter;
 
 import io.github.sinri.keel.logger.api.LoggingStackSpecification;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Set;
@@ -12,15 +12,14 @@ import java.util.Set;
  *
  * @since 5.0.0
  */
+@NullMarked
 class ThrowableRender {
 
-    @NotNull
     public static String renderThrowableChain(@Nullable Throwable throwable) {
         return renderThrowableChain(throwable, LoggingStackSpecification.IgnorableCallStackPackage);
     }
 
-    @NotNull
-    public static String renderThrowableChain(@Nullable Throwable throwable, @NotNull Set<String> ignorableStackPackageSet) {
+    public static String renderThrowableChain(@Nullable Throwable throwable, Set<String> ignorableStackPackageSet) {
         if (throwable == null) return "";
         Throwable cause = throwable.getCause();
         StringBuilder sb = new StringBuilder();
@@ -48,8 +47,7 @@ class ThrowableRender {
         return sb.toString();
     }
 
-    @NotNull
-    private static String buildStackChainText(@Nullable StackTraceElement[] stackTrace, @NotNull Set<String> ignorableStackPackageSet) {
+    private static String buildStackChainText(@Nullable StackTraceElement[] stackTrace, Set<String> ignorableStackPackageSet) {
         StringBuilder sb = new StringBuilder();
         if (stackTrace != null) {
             String ignoringClassPackage = null;

@@ -1,7 +1,7 @@
 package io.github.sinri.keel.logger.api;
 
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * 日志严重性等级。
@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 5.0.0
  */
+@NullMarked
 public enum LogLevel {
     TRACE, DEBUG, INFO, NOTICE, WARNING, ERROR, FATAL, SILENT;
 
@@ -20,7 +21,7 @@ public enum LogLevel {
      * @param standardLevel 参照日志严重性等级
      * @return 本日志严重性等级不低于给定的参照日志严重性等级时返回{@code true}，反之返回{@code false}。
      */
-    public boolean isEnoughSeriousAs(@NotNull LogLevel standardLevel) {
+    public boolean isEnoughSeriousAs(LogLevel standardLevel) {
         return this.ordinal() >= standardLevel.ordinal();
     }
 
@@ -30,7 +31,7 @@ public enum LogLevel {
      * @param standardLevel 参照日志严重性等级
      * @return 本日志严重性等级低于给定的参照日志严重性等级时返回{@code true}，反之返回{@code false}。
      */
-    public boolean isNegligibleThan(@NotNull LogLevel standardLevel) {
+    public boolean isNegligibleThan(LogLevel standardLevel) {
         return this.ordinal() < standardLevel.ordinal();
     }
 }

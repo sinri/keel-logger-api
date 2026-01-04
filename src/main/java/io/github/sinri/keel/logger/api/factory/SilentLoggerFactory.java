@@ -7,7 +7,7 @@ import io.github.sinri.keel.logger.api.logger.BaseLogger;
 import io.github.sinri.keel.logger.api.logger.BaseSpecificLogger;
 import io.github.sinri.keel.logger.api.logger.Logger;
 import io.github.sinri.keel.logger.api.logger.SpecificLogger;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.function.Supplier;
 
@@ -16,32 +16,29 @@ import java.util.function.Supplier;
  *
  * @since 5.0.0
  */
+@NullMarked
 public final class SilentLoggerFactory implements LoggerFactory {
     private static final SilentLoggerFactory instance = new SilentLoggerFactory();
 
     private SilentLoggerFactory() {
     }
 
-    @NotNull
     public static SilentLoggerFactory getInstance() {
         return instance;
     }
 
-    @NotNull
     @Override
     public LogWriterAdapter sharedAdapter() {
         return SilentLogWriter.getInstance();
     }
 
     @Override
-    @NotNull 
-    public Logger createLogger(@NotNull String topic) {
+    public Logger createLogger(String topic) {
         return new BaseLogger(topic, sharedAdapter());
     }
 
     @Override
-    @NotNull 
-    public <L extends SpecificLog<L>> SpecificLogger<L> createLogger(@NotNull String topic, @NotNull Supplier<L> specificLogSupplier) {
+    public <L extends SpecificLog<L>> SpecificLogger<L> createLogger(String topic, Supplier<L> specificLogSupplier) {
         return new BaseSpecificLogger<>(topic, specificLogSupplier, sharedAdapter());
     }
 }
