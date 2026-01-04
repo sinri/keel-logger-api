@@ -18,6 +18,8 @@ val developerName: String by project
 val developerEmail: String by project
 val developerOrganization: String by project
 val developerOrganizationUrl: String by project
+val jspecifyVersion: String by project
+val vertxVersion: String by project
 
 repositories {
     maven {
@@ -37,12 +39,12 @@ dependencies {
     // API dependency (transitive)
     //api("org.jetbrains:annotations:26.0.2")
     // https://mvnrepository.com/artifact/org.jspecify/jspecify
-    compileOnly("org.jspecify:jspecify:1.0.0")
-    testCompileOnly("org.jspecify:jspecify:1.0.0")
+    compileOnly("org.jspecify:jspecify:$jspecifyVersion")
+    testCompileOnly("org.jspecify:jspecify:$jspecifyVersion")
 
     // Test dependencies
-    testImplementation("io.vertx:vertx-junit5:5.0.6")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation("io.vertx:vertx-junit5:$vertxVersion")
+    // testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
@@ -125,25 +127,12 @@ publishing {
     }
 
     repositories {
-        // Internal Nexus repositories
         maven {
-            name = "Internal"
-            url = if (version.toString().endsWith("SNAPSHOT")) {
-                uri(findProperty("internalNexusSnapshotsUrl") as String)
-            } else {
-                uri(findProperty("internalNexusReleasesUrl") as String)
-            }
-            credentials {
-                username = findProperty("internalNexusUsername") as String
-                password = findProperty("internalNexusPassword") as String
-            }
-        }
-
-        // Maven Central (OSSRH)
-        maven {
-            name = "Release"
-
-            if (version.toString().endsWith("SNAPSHOT")) {
+            // name = "mixed"
+            if (
+                version.toString().endsWith("SNAPSHOT")
+                || version.toString().contains(Regex("-[A-Za-z]+"))
+            ) {
                 url = uri(findProperty("internalNexusSnapshotsUrl") as String)
                 credentials {
                     username = findProperty("internalNexusUsername") as String
@@ -156,8 +145,41 @@ publishing {
                     password = findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD")
                 }
             }
-
         }
+
+//        // Internal Nexus repositories
+//        maven {
+//            name = "Internal"
+//            url = if (version.toString().endsWith("SNAPSHOT")) {
+//                uri(findProperty("internalNexusSnapshotsUrl") as String)
+//            } else {
+//                uri(findProperty("internalNexusReleasesUrl") as String)
+//            }
+//            credentials {
+//                username = findProperty("internalNexusUsername") as String
+//                password = findProperty("internalNexusPassword") as String
+//            }
+//        }
+//
+//        // Maven Central (OSSRH)
+//        maven {
+//            name = "Release"
+//
+//            if (version.toString().endsWith("SNAPSHOT")) {
+//                url = uri(findProperty("internalNexusSnapshotsUrl") as String)
+//                credentials {
+//                    username = findProperty("internalNexusUsername") as String
+//                    password = findProperty("internalNexusPassword") as String
+//                }
+//            } else {
+//                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+//                credentials {
+//                    username = findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME")
+//                    password = findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD")
+//                }
+//            }
+//
+//        }
     }
 }
 
@@ -170,15 +192,15 @@ signing {
     sign(publishing.publications["mavenJava"])
 }
 
-// Custom tasks for publishing to specific repositories
-tasks.register("publishToInternal") {
-    group = "publishing"
-    description = "Publish to internal Nexus repository"
-    dependsOn("publishMavenJavaPublicationToInternalRepository")
-}
-
-tasks.register("publishToRelease") {
-    group = "publishing"
-    description = "Publish to Maven Central (OSSRH)"
-    dependsOn("publishMavenJavaPublicationToReleaseRepository")
-}
+//// Custom tasks for publishing to specific repositories
+//tasks.register("publishToInternal") {
+//    group = "publishing"
+//    description = "Publish to internal Nexus repository"
+//    dependsOn("publishMavenJavaPublicationToInternalRepository")
+//}
+//
+//tasks.register("publishToRelease") {
+//    group = "publishing"
+//    description = "Publish to Maven Central (OSSRH)"
+//    dependsOn("publishMavenJavaPublicationToReleaseRepository")
+//}
