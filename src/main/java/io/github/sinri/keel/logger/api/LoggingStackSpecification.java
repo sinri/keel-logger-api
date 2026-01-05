@@ -10,10 +10,13 @@ import java.util.Set;
  */
 @NullMarked
 public final class LoggingStackSpecification {
-    public static final Set<String> IgnorableCallStackPackage;
+    /**
+     * Modify the elements inside if needed.
+     */
+    public static final Set<String> IgnorableCallStackPackageSet;
 
     static {
-        IgnorableCallStackPackage = new HashSet<>(Set.of(
+        IgnorableCallStackPackageSet = new HashSet<>(Set.of(
                 "io.github.sinri.keel.facade.async.",
                 "io.github.sinri.keel.facade.tesuto.",
                 "io.vertx.core.",

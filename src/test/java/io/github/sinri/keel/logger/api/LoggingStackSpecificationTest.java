@@ -9,7 +9,7 @@ class LoggingStackSpecificationTest {
 
     @Test
     void testIgnorableCallStackPackageInitialized() {
-        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackage;
+        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackageSet;
 
         Assertions.assertNotNull(ignorablePackages);
         Assertions.assertFalse(ignorablePackages.isEmpty());
@@ -17,7 +17,7 @@ class LoggingStackSpecificationTest {
 
     @Test
     void testContainsExpectedPackages() {
-        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackage;
+        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackageSet;
 
         // Test some expected packages
         Assertions.assertTrue(ignorablePackages.contains("io.github.sinri.keel.facade.async."));
@@ -33,7 +33,7 @@ class LoggingStackSpecificationTest {
 
     @Test
     void testPackageNamesEndWithDot() {
-        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackage;
+        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackageSet;
 
         // Most package names should end with a dot, but some might not
         long packagesWithDot = ignorablePackages.stream()
@@ -46,7 +46,7 @@ class LoggingStackSpecificationTest {
 
     @Test
     void testPackageNamesAreNotEmpty() {
-        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackage;
+        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackageSet;
 
         ignorablePackages.forEach(pkg -> {
             Assertions.assertNotNull(pkg);
@@ -56,7 +56,7 @@ class LoggingStackSpecificationTest {
 
     @Test
     void testSetIsImmutable() {
-        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackage;
+        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackageSet;
 
         int originalSize = ignorablePackages.size();
 
@@ -72,7 +72,7 @@ class LoggingStackSpecificationTest {
 
     @Test
     void testAllExpectedPackagesPresent() {
-        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackage;
+        Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackageSet;
 
         // Verify all packages from the source code are present
         String[] expectedPackages = {

@@ -16,7 +16,7 @@ import java.util.Set;
 class ThrowableRender {
 
     public static String renderThrowableChain(@Nullable Throwable throwable) {
-        return renderThrowableChain(throwable, LoggingStackSpecification.IgnorableCallStackPackage);
+        return renderThrowableChain(throwable, LoggingStackSpecification.IgnorableCallStackPackageSet);
     }
 
     public static String renderThrowableChain(@Nullable Throwable throwable, Set<String> ignorableStackPackageSet) {
@@ -47,7 +47,7 @@ class ThrowableRender {
         return sb.toString();
     }
 
-    private static String buildStackChainText(@Nullable StackTraceElement[] stackTrace, Set<String> ignorableStackPackageSet) {
+    private static String buildStackChainText(@Nullable StackTraceElement @Nullable [] stackTrace, Set<String> ignorableStackPackageSet) {
         StringBuilder sb = new StringBuilder();
         if (stackTrace != null) {
             String ignoringClassPackage = null;

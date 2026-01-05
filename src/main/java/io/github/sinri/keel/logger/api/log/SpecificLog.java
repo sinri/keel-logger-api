@@ -37,7 +37,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
     /**
      * 特定问题日志记录在标准字段之外的扩展记录
      */
-    private final Map<String, Object> extra;
+    private final Map<String, @Nullable Object> extra;
     /**
      * 特定问题日志记录的消息内容（可选）
      */
@@ -238,7 +238,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
      *
      * @return 扩展记录
      */
-    public Map<String, Object> extra() {
+    public Map<String, @Nullable Object> extra() {
         return extra;
     }
 }

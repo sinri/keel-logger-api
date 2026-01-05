@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  */
 @NullMarked
 public final class LogContext {
-    private final Map<String, Object> contentMap;
+    private final Map<String, @Nullable Object> contentMap;
 
     public LogContext() {
         this.contentMap = new java.util.TreeMap<>();
@@ -36,7 +36,7 @@ public final class LogContext {
      *
      * @return 嵌入的 Map
      */
-    public Map<String, Object> toMap() {
+    public Map<String, @Nullable Object> toMap() {
         return contentMap;
     }
 }

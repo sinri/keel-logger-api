@@ -2,6 +2,7 @@ package io.github.sinri.keel.logger.api.adapter;
 
 import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -45,7 +46,7 @@ public interface LogTextRender {
      * @param context 日志的上下文信息
      * @return 渲染后的上下文信息字符串
      */
-    default String renderContext(Map<String, Object> context) {
+    default String renderContext(Map<String, @Nullable Object> context) {
         return context.entrySet().stream()
                       .map(entry -> "\t%s:\t%s".formatted(entry.getKey(), entry.getValue()))
                       .collect(Collectors.joining("\n"));
@@ -81,13 +82,13 @@ public interface LogTextRender {
             sb.append("\n")
               .append(renderThrowable(exception));
         }
-        Map<String, Object> map = log.context().toMap();
+        Map<String, @Nullable Object> map = log.context().toMap();
         if (!map.isEmpty()) {
             sb.append("\n")
               .append(renderContext(map));
         }
 
-        Map<String, Object> extra = log.extra();
+        Map<String, @Nullable Object> extra = log.extra();
         if (!extra.isEmpty()) {
             sb.append("\nExtra as following:\n")
               .append(renderContext(extra));
