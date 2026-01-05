@@ -154,6 +154,8 @@ publishing {
 
 // Signing configuration
 signing {
+    // Use GnuPG command for signing (configured in gradle.properties)
+    useGpgCmd()
     // Only sign if not a SNAPSHOT and signing credentials are available
     setRequired({
         !version.toString().endsWith("SNAPSHOT") && gradle.taskGraph.hasTask("publish")
