@@ -1,13 +1,12 @@
 package io.github.sinri.keel.logger.api.logger;
 
+import io.github.sinri.keel.logger.api.LateObject;
 import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.BaseLogWriter;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.log.SpecificLog;
 import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 /**
@@ -20,7 +19,8 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     private final String topic;
     private final Supplier<T> specificLogSupplier;
     private final LogWriterAdapter logWriterAdapter;
-    private final AtomicReference<@Nullable Logger> normalizedLoggerRef = new AtomicReference<>(null);
+    //private final AtomicReference<@Nullable Logger> normalizedLoggerRef = new AtomicReference<>(null);
+    private final LateObject<Logger> lateNormalizedLogger = new LateObject<>();
     private LogLevel visibleLevel;
 
     /**
@@ -66,10 +66,14 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     public SpecificLogger<T> visibleLevel(LogLevel level) {
         this.visibleLevel = level;
 
-        Logger plain = this.normalizedLoggerRef.getPlain();
-        if (plain != null) {
-            plain.visibleLevel(level);
+        if (lateNormalizedLogger.isInitialized()) {
+            lateNormalizedLogger.get().visibleLevel(level);
         }
+
+        //        Logger plain = this.normalizedLoggerRef.getPlain();
+        //        if (plain != null) {
+        //            plain.visibleLevel(level);
+        //        }
 
         return this;
     }
@@ -80,14 +84,18 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     }
 
     protected Logger normalize() {
-        Logger logger = normalizedLoggerRef.get();
-        if (logger == null) {
-            synchronized (normalizedLoggerRef) {
-                logger = new BaseLogger(topic, adapter()).visibleLevel(visibleLevel);
-                normalizedLoggerRef.set(logger);
-            }
-        }
-        return logger;
+        return lateNormalizedLogger.ensure(
+                () -> new BaseLogger(topic, adapter())
+                        .visibleLevel(visibleLevel));
+
+        //        Logger logger = normalizedLoggerRef.get();
+        //        if (logger == null) {
+        //            synchronized (normalizedLoggerRef) {
+        //                logger = new BaseLogger(topic, adapter()).visibleLevel(visibleLevel);
+        //                normalizedLoggerRef.set(logger);
+        //            }
+        //        }
+        //        return logger;
     }
 
     @Override
