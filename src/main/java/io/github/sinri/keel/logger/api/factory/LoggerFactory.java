@@ -17,6 +17,26 @@ import java.util.function.Supplier;
  */
 @NullMarked
 public interface LoggerFactory {
+
+    /**
+     * 将给定的日志记录器工厂设置为全局唯一共享实例，返回原先的共享实例。
+     *
+     * @param newFactory 新的日志记录器工厂实例
+     * @return 原先的共享实例
+     */
+    static LoggerFactory replaceShared(LoggerFactory newFactory) {
+        return SharedLoggerFactoryHolder.REFERENCE.getAndSet(newFactory);
+    }
+
+    /**
+     * 获取当前全局唯一共享实例
+     *
+     * @return 当前全局唯一共享实例
+     */
+    static LoggerFactory getShared() {
+        return SharedLoggerFactoryHolder.REFERENCE.get();
+    }
+
     /**
      * 本日志记录器工厂所创建的日志记录器所共用的日志处理器。
      *
