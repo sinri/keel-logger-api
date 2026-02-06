@@ -8,17 +8,34 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Inner Class for Render Throwable Chain
+ * 异常链渲染工具类。
+ * <p>
+ * 用于将异常对象及其 cause 链渲染为可读文本，同时支持对部分调用堆栈包前缀进行折叠。
  *
  * @since 5.0.0
  */
 @NullMarked
 class ThrowableRender {
 
+    /**
+     * 渲染异常链。
+     * <p>
+     * 默认使用 {@link LoggingStackSpecification#IgnorableCallStackPackageSet} 中的包前缀折叠调用堆栈。
+     *
+     * @param throwable 异常对象（可为空）
+     * @return 渲染后的异常链文本；若 throwable 为空则返回空字符串
+     */
     public static String renderThrowableChain(@Nullable Throwable throwable) {
         return renderThrowableChain(throwable, LoggingStackSpecification.IgnorableCallStackPackageSet);
     }
 
+    /**
+     * 渲染异常链，并允许指定可忽略的调用堆栈包前缀集合。
+     *
+     * @param throwable                异常对象（可为空）
+     * @param ignorableStackPackageSet 可忽略的调用堆栈包前缀集合
+     * @return 渲染后的异常链文本；若 throwable 为空则返回空字符串
+     */
     public static String renderThrowableChain(@Nullable Throwable throwable, Set<String> ignorableStackPackageSet) {
         if (throwable == null) return "";
         Throwable cause = throwable.getCause();

@@ -17,15 +17,30 @@ import java.util.function.Consumer;
 public final class LogContext {
     private final Map<String, @Nullable Object> contentMap;
 
+    /**
+     * 构造一个空的上下文对象。
+     */
     public LogContext() {
         this.contentMap = new java.util.TreeMap<>();
     }
 
+    /**
+     * 构造一个上下文对象，并在构造时允许写入初始数据。
+     *
+     * @param contextConsumer 用于初始化上下文的逻辑
+     */
     public LogContext(Consumer<LogContext> contextConsumer) {
         this();
         contextConsumer.accept(this);
     }
 
+    /**
+     * 写入一条上下文数据。
+     *
+     * @param key   键
+     * @param value 值
+     * @return 当前上下文对象
+     */
     public LogContext put(String key, @Nullable Object value) {
         this.contentMap.put(key, value);
         return this;

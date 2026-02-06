@@ -40,6 +40,13 @@ public final class SilentLogger implements Logger {
         return LogLevel.SILENT;
     }
 
+    /**
+     * 不支持修改最低可见日志级别。
+     *
+     * @param level 最低可见日志级别
+     * @return 永不返回
+     * @throws RuntimeException 总是抛出异常
+     */
     @Override
     public SpecificLogger<Log> visibleLevel(LogLevel level) {
         throw new RuntimeException("SilentLogger can not change visible level!");

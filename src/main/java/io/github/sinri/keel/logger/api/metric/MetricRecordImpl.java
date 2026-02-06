@@ -19,8 +19,9 @@ class MetricRecordImpl implements MetricRecord {
     private final long timestamp;
 
     /**
-     * 构建一条当前时间戳下的定量指标记录。
+     * 构建一条定量指标记录。
      *
+     * @param timestamp  定量指标对应的时间戳
      * @param metricName 定量指标记录的名称
      * @param value      定量指标的值
      * @param labels     定量指标的标签集合

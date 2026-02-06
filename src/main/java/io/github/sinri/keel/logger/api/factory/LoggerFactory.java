@@ -29,7 +29,7 @@ public interface LoggerFactory {
     }
 
     /**
-     * 获取当前全局唯一共享实例
+     * 获取当前全局唯一共享实例。
      *
      * @return 当前全局唯一共享实例
      */
@@ -52,6 +52,12 @@ public interface LoggerFactory {
      */
     Logger createLogger(String topic);
 
+    /**
+     * 使用给定类名作为主题，创建日志记录器。
+     *
+     * @param clazz 用于生成主题的类
+     * @return 日志记录器
+     */
     default Logger createLogger(Class<?> clazz) {
         return createLogger(clazz.getName());
     }
@@ -66,6 +72,14 @@ public interface LoggerFactory {
      */
     <L extends SpecificLog<L>> SpecificLogger<L> createLogger(String topic, Supplier<L> specificLogSupplier);
 
+    /**
+     * 使用给定类名作为主题，创建特定日志记录器。
+     *
+     * @param clazz               用于生成主题的类
+     * @param specificLogSupplier 特定日志记录的构造器
+     * @param <L>                 特定日志记录的类型
+     * @return 特定日志记录器
+     */
     default <L extends SpecificLog<L>> SpecificLogger<L> createLogger(Class<?> clazz, Supplier<L> specificLogSupplier) {
         return createLogger(clazz.getName(), specificLogSupplier);
     }

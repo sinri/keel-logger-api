@@ -3,7 +3,7 @@ package io.github.sinri.keel.logger.api.metric;
 import org.jspecify.annotations.NullMarked;
 
 /**
- * 定量指标记录器
+ * 定量指标记录器。
  *
  * @since 5.0.0
  */

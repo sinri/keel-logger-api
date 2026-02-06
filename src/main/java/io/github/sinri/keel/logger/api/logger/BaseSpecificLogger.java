@@ -26,7 +26,7 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
      * 特定日志记录器的基础实现的构造方法。
      *
      * @param topic               主题
-     * @param specificLogSupplier 问题日志记录的构造器
+     * @param specificLogSupplier 特定日志记录的构造器
      * @param logWriterAdapter    主题化日志记录处理器
      */
     public BaseSpecificLogger(String topic, Supplier<T> specificLogSupplier, LogWriterAdapter logWriterAdapter) {
@@ -40,7 +40,7 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
      * 特定日志记录器的基础实现的构造方法。
      *
      * @param topic               主题
-     * @param specificLogSupplier 问题日志记录的构造器
+     * @param specificLogSupplier 特定日志记录的构造器
      */
     public BaseSpecificLogger(String topic, Supplier<T> specificLogSupplier) {
         this(topic, specificLogSupplier, BaseLogWriter.getInstance());

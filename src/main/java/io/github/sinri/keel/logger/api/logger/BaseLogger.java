@@ -42,9 +42,9 @@ public class BaseLogger implements Logger {
     }
 
     /**
-     * 获取日志记录器的最低可见日志严重性等级。
+     * 获取日志记录器的最低可见日志级别。
      *
-     * @return 日志记录器的最低可见日志严重性等级
+     * @return 日志记录器的最低可见日志级别
      */
     @Override
     public LogLevel visibleLevel() {
@@ -52,9 +52,9 @@ public class BaseLogger implements Logger {
     }
 
     /**
-     * 设置日志记录器的最低可见日志严重性等级。
+     * 设置日志记录器的最低可见日志级别。
      *
-     * @param level 最低可见日志严重性等级
+     * @param level 最低可见日志级别
      * @return 当前日志记录器
      */
     @Override

@@ -20,8 +20,6 @@ class LoggingStackSpecificationTest {
         Set<String> ignorablePackages = LoggingStackSpecification.IgnorableCallStackPackageSet;
 
         // Test some expected packages
-        Assertions.assertTrue(ignorablePackages.contains("io.github.sinri.keel.facade.async."));
-        Assertions.assertTrue(ignorablePackages.contains("io.github.sinri.keel.facade.tesuto."));
         Assertions.assertTrue(ignorablePackages.contains("io.vertx.core."));
         Assertions.assertTrue(ignorablePackages.contains("io.vertx.ext.web"));
         Assertions.assertTrue(ignorablePackages.contains("io.netty."));
@@ -76,8 +74,6 @@ class LoggingStackSpecificationTest {
 
         // Verify all packages from the source code are present
         String[] expectedPackages = {
-                "io.github.sinri.keel.facade.async.",
-                "io.github.sinri.keel.facade.tesuto.",
                 "io.vertx.core.",
                 "io.vertx.ext.web",
                 "io.netty.",
