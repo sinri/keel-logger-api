@@ -330,7 +330,7 @@ auditLogger.
 项目根据版本号自动选择发布目标：
 
 - **SNAPSHOT 版本**或**带字母后缀的版本**（如 `5.0.0-rc.21`）将发布到内部 Nexus
-- **正式版本**（如 `5.0.0`）将发布到 Maven Central (OSSRH)
+- **正式版本**（如 `5.0.0`）将发布到 Maven Central（通过 Sonatype Central Portal 的兼容 Staging API）
 
 **发布命令**:
 
@@ -339,10 +339,22 @@ auditLogger.
 ```
 
 > **注意**:
-> - 发布需要在 `gradle.properties` 中配置相应的认证凭据
-> - 内部 Nexus 需要配置: `internalNexusUsername`, `internalNexusPassword`, `internalNexusSnapshotsUrl`
-> - Maven Central 需要配置: `ossrhUsername`, `ossrhPassword` 或环境变量 `OSSRH_USERNAME`, `OSSRH_PASSWORD`
+> - 发布需要配置相应的认证凭据
+> - 内部 Nexus 需要配置: `internalNexusUsername`, `internalNexusPassword`, `internalNexusSnapshotsUrl`, `internalNexusReleasesUrl`
+> - Maven Central（Sonatype Central Portal）需要在 `~/.gradle/gradle.properties` 中配置: `sonatypeUsername`, `sonatypePassword`
 > - 正式版本发布时会自动进行 GPG 签名
+
+如需显式执行“发布到 Central + 自动 close + release”，可以使用插件提供的任务组合：
+
+```bash
+./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
+```
+
+如遇到任务名差异（`...Repository` / `...Repositories`），可先查看 publishing 分组下的任务列表：
+
+```bash
+./gradlew tasks --group=publishing
+```
 
 ## 架构说明
 
