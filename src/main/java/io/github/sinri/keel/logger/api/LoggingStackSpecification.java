@@ -17,8 +17,6 @@ public final class LoggingStackSpecification {
 
     static {
         IgnorableCallStackPackageSet = new HashSet<>(Set.of(
-                "io.github.sinri.keel.facade.async.",
-                "io.github.sinri.keel.facade.tesuto.",
                 "io.vertx.core.",
                 "io.vertx.ext.web",
                 "io.netty.",

@@ -49,21 +49,21 @@ public interface MetricRecord {
     String metricName();
 
     /**
-     * 获取定量指标记录的名称。
+     * 获取定量指标记录的时间戳。
      *
      * @return 定量指标记录的时间戳
      */
     long timestamp();
 
     /**
-     * 获取定量指标记录的名称。
+     * 获取定量指标记录的值。
      *
      * @return 定量指标的值
      */
     double value();
 
     /**
-     * 获取定量指标记录的名称。
+     * 获取定量指标记录的标签集合。
      *
      * @return 定量指标的标签集合
      */

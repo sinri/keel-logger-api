@@ -52,6 +52,10 @@ public interface LoggerFactory {
      */
     Logger createLogger(String topic);
 
+    default Logger createLogger(Class<?> clazz) {
+        return createLogger(clazz.getName());
+    }
+
     /**
      * 创建某一主题下的特定日志记录器。
      *
@@ -62,4 +66,7 @@ public interface LoggerFactory {
      */
     <L extends SpecificLog<L>> SpecificLogger<L> createLogger(String topic, Supplier<L> specificLogSupplier);
 
+    default <L extends SpecificLog<L>> SpecificLogger<L> createLogger(Class<?> clazz, Supplier<L> specificLogSupplier) {
+        return createLogger(clazz.getName(), specificLogSupplier);
+    }
 }

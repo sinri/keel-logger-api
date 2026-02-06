@@ -19,7 +19,6 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     private final String topic;
     private final Supplier<T> specificLogSupplier;
     private final LogWriterAdapter logWriterAdapter;
-    //private final AtomicReference<@Nullable Logger> normalizedLoggerRef = new AtomicReference<>(null);
     private final LateObject<Logger> lateNormalizedLogger = new LateObject<>();
     private LogLevel visibleLevel;
 
@@ -70,11 +69,6 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
             lateNormalizedLogger.get().visibleLevel(level);
         }
 
-        //        Logger plain = this.normalizedLoggerRef.getPlain();
-        //        if (plain != null) {
-        //            plain.visibleLevel(level);
-        //        }
-
         return this;
     }
 
@@ -87,15 +81,6 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
         return lateNormalizedLogger.ensure(
                 () -> new BaseLogger(topic, adapter())
                         .visibleLevel(visibleLevel));
-
-        //        Logger logger = normalizedLoggerRef.get();
-        //        if (logger == null) {
-        //            synchronized (normalizedLoggerRef) {
-        //                logger = new BaseLogger(topic, adapter()).visibleLevel(visibleLevel);
-        //                normalizedLoggerRef.set(logger);
-        //            }
-        //        }
-        //        return logger;
     }
 
     @Override

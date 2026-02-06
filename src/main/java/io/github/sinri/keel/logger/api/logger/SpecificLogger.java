@@ -47,6 +47,11 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
         adapter().accept(topic(), specificLog);
     }
 
+    default void message(LogLevel level, String message, Object... args) {
+        if (visibleLevel() == LogLevel.SILENT || level.isNegligibleThan(visibleLevel())) return;
+        adapter().accept(topic(), specificLogSupplier().get().message(message.formatted(args)));
+    }
+
     default void trace(String message) {
         this.logIfEnabled(LogLevel.TRACE, log -> log.level(LogLevel.TRACE).message(message));
     }
