@@ -1,0 +1,9 @@
+theme: jekyll-theme-hacker
+title: Keel Logger API
+description: 官方文档：概述与设计、使用指南、扩展与集成及 AI 集成。
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
