@@ -21,7 +21,8 @@
 - **JPMS**：模块名 `io.github.sinri.keel.logger.api`（见仓库根目录 `module-info.java`）。
 - **空安全标注**：编译期可选依赖 `org.jspecify:jspecify`（`requires static`），便于静态分析，运行时不必引入。
 
-具体 Maven 坐标以发布仓库为准；构建与发布流程可参考仓库根目录 `README.md`。
+具体 Maven 坐标以发布仓库为准；依赖与示例见本目录 [使用者指南](./使用者指南.md)；构建与发布流程见仓库根目录
+`README.md` 中「开发要约」。
 
 ## 与 Keel 框架的关系
 

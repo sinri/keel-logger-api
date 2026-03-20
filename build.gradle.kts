@@ -18,8 +18,10 @@ val projectName: String by project
 val projectDescription: String by project
 val projectUrl: String by project
 val projectScmUrl: String by project
-val licenseName: String by project
-val licenseUrl: String by project
+val licenseGplName: String by project
+val licenseGplUrl: String by project
+val licenseLgplName: String by project
+val licenseLgplUrl: String by project
 val developerName: String by project
 val developerEmail: String by project
 val developerOrganization: String by project
@@ -114,8 +116,12 @@ publishing {
 
                 licenses {
                     license {
-                        name.set(licenseName)
-                        url.set(licenseUrl)
+                        name.set(licenseGplName)
+                        url.set(licenseGplUrl)
+                    }
+                    license {
+                        name.set(licenseLgplName)
+                        url.set(licenseLgplUrl)
                     }
                 }
 
