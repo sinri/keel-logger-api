@@ -1,5 +1,3 @@
-import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
-
 plugins {
     `java-library`
     `maven-publish`
@@ -28,6 +26,7 @@ val developerOrganization: String by project
 val developerOrganizationUrl: String by project
 val jspecifyVersion: String by project
 val vertxVersion: String by project
+val jacksonVersion: String by project
 
 repositories {
     maven {
@@ -50,6 +49,10 @@ dependencies {
     testCompileOnly("org.jspecify:jspecify:$jspecifyVersion")
 
     // Test dependencies
+
+    // Temp Fix for maven:com.fasterxml.jackson.core:jackson-core:2.18.2 vulnerable
+    testImplementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+
     testImplementation("io.vertx:vertx-junit5:$vertxVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * 延迟初始化容器。
+ * 延迟初始化容器。容器内可包含一个非空值，其在初始化后不可变更。
  * <p>
  * 用于表达“先声明，后赋值”的语义：在值尚未设置前读取会抛出异常；在值已设置后再次设置会抛出异常。
  * <p>

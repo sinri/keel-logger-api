@@ -14,7 +14,8 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 ## 核心特性
 
 - ✨ **结构化日志** - 支持消息、上下文、异常、分类等结构化信息
-- 📊 **多级别日志** - 8 个日志级别（TRACE、DEBUG、INFO、NOTICE、WARNING、ERROR、FATAL、SILENT）
+- 📊 **多级别日志** - 8 个日志级别（TRACE、DEBUG、INFO、NOTICE、WARNING、ERROR、FATAL、SILENT）；过滤与比较依据 `severity()`（`100`～
+  `700` 步长 `100`，`SILENT` 为 `Integer.MAX_VALUE`），详见 `docs/5.0.1/概述与设计.md` §3.1
 - 🔌 **适配器模式** - 通过 `LogWriterAdapter` 自定义日志输出方式
 - 🏭 **工厂模式** - 通过 `LoggerFactory` 统一创建和管理 Logger 实例
 - 🔧 **高度扩展** - 支持自定义 `SpecificLog` 和 `SpecificLogger`

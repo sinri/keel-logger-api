@@ -7,13 +7,13 @@ class LogLevelTest {
 
     @Test
     void testOrder() {
-        Assertions.assertTrue(LogLevel.TRACE.ordinal() < LogLevel.DEBUG.ordinal());
-        Assertions.assertTrue(LogLevel.DEBUG.ordinal() < LogLevel.INFO.ordinal());
-        Assertions.assertTrue(LogLevel.INFO.ordinal() < LogLevel.NOTICE.ordinal());
-        Assertions.assertTrue(LogLevel.NOTICE.ordinal() < LogLevel.WARNING.ordinal());
-        Assertions.assertTrue(LogLevel.WARNING.ordinal() < LogLevel.ERROR.ordinal());
-        Assertions.assertTrue(LogLevel.ERROR.ordinal() < LogLevel.FATAL.ordinal());
-        Assertions.assertTrue(LogLevel.FATAL.ordinal() < LogLevel.SILENT.ordinal());
+        Assertions.assertTrue(LogLevel.TRACE.severity() < LogLevel.DEBUG.severity());
+        Assertions.assertTrue(LogLevel.DEBUG.severity() < LogLevel.INFO.severity());
+        Assertions.assertTrue(LogLevel.INFO.severity() < LogLevel.NOTICE.severity());
+        Assertions.assertTrue(LogLevel.NOTICE.severity() < LogLevel.WARNING.severity());
+        Assertions.assertTrue(LogLevel.WARNING.severity() < LogLevel.ERROR.severity());
+        Assertions.assertTrue(LogLevel.ERROR.severity() < LogLevel.FATAL.severity());
+        Assertions.assertTrue(LogLevel.FATAL.severity() < LogLevel.SILENT.severity());
     }
 
     @Test
