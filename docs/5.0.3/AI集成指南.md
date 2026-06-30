@@ -141,7 +141,7 @@ public final class AuditLog extends SpecificLog<AuditLog> {
 |---------------------------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------|
 | 在子类中公开调用父类 `extra` 以外的随意 Map                                                          | `extra()` 返回内部 map；若需稳定序列化契约应明确字段                                      | 优先 `extra(k,v)` 或明确字段 + getter     |
 | 假设 `MetricRecord.labels()` 不可变                                                        | 返回内部可变 map                                                             | 集成实现若需快照则拷贝                        |
-| 多线程共享 `LateObject` 且无外部同步                                                             | `set/get` 非并发语义；`ensure` 的 supplier 可能多次调用                             | 按文档仅在单线程或外部同步下使用                   |
+| `ensure` 的 supplier 非幂等或依赖原始异常类型                                                            | `value` 为 `volatile`、`set` 为 `synchronized`、`ensure` 用 DCL（正常仅调用一次）；但 supplier 抛异常时 `value` 不赋值、后续 `ensure` 会重试，且异常被包装为 `RuntimeException`（含 `Error`） | 保证 supplier 幂等；不要依赖原始异常类型        |
 | 把 `new BaseLogger(topic, SilentLogWriter.getInstance())` 等同于「零分配」                     | 默认 `visibleLevel = INFO`，`INFO`+ 仍会构造日志对象并执行 `Consumer` 后再交给空适配器       | 零分配用 `SilentLogger` 或 `visibleLevel(SILENT)` |
 
 ---

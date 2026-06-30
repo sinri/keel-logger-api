@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 public class BaseLogger implements Logger {
     private final String topic;
     private final LogWriterAdapter logWriterAdapter;
-    private LogLevel level;
+    private volatile LogLevel visibleLevel;
 
     /**
      * 日志记录器的基础实现的构造方法。
@@ -28,7 +28,7 @@ public class BaseLogger implements Logger {
      */
     public BaseLogger(String topic, LogWriterAdapter logWriterAdapter) {
         this.topic = topic;
-        this.level = LogLevel.INFO;
+        this.visibleLevel = LogLevel.INFO;
         this.logWriterAdapter = logWriterAdapter;
     }
 
@@ -48,7 +48,7 @@ public class BaseLogger implements Logger {
      */
     @Override
     public LogLevel visibleLevel() {
-        return level;
+        return visibleLevel;
     }
 
     /**
@@ -59,7 +59,7 @@ public class BaseLogger implements Logger {
      */
     @Override
     public Logger visibleLevel(LogLevel level) {
-        this.level = level;
+        this.visibleLevel = level;
         return this;
     }
 
