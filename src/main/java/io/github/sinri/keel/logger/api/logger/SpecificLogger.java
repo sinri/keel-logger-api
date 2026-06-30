@@ -97,7 +97,7 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
      */
     default void message(LogLevel level, String message, Object... args) {
         if (visibleLevel() == LogLevel.SILENT || level.isNegligibleThan(visibleLevel())) return;
-        adapter().accept(topic(), specificLogSupplier().get().message(message.formatted(args)));
+        adapter().accept(topic(), specificLogSupplier().get().level(level).message(message.formatted(args)));
     }
 
     /**

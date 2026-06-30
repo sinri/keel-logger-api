@@ -393,6 +393,30 @@ class BaseLoggerTest {
     }
 
     @Test
+    void testMessageWithLevel() {
+        MockLogWriterAdapter adapter = new MockLogWriterAdapter();
+        BaseLogger logger = new BaseLogger("test-topic", adapter);
+        logger.visibleLevel(LogLevel.TRACE);
+
+        logger.message(LogLevel.ERROR, "formatted %s with %d", "msg", 2);
+
+        Assertions.assertEquals(1, adapter.capturedLogs.size());
+        Assertions.assertEquals(LogLevel.ERROR, adapter.capturedLogs.get(0).level());
+        Assertions.assertEquals("formatted msg with 2", adapter.capturedLogs.get(0).message());
+    }
+
+    @Test
+    void testMessageWithLevelFiltered() {
+        MockLogWriterAdapter adapter = new MockLogWriterAdapter();
+        BaseLogger logger = new BaseLogger("test-topic", adapter);
+        logger.visibleLevel(LogLevel.ERROR);
+
+        logger.message(LogLevel.DEBUG, "should be filtered");
+
+        Assertions.assertEquals(0, adapter.capturedLogs.size(), "DEBUG should be filtered when visibleLevel is ERROR");
+    }
+
+    @Test
     void testLogMethod() {
         MockLogWriterAdapter adapter = new MockLogWriterAdapter();
         BaseLogger logger = new BaseLogger("test-topic", adapter);
