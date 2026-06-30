@@ -1,9 +1,11 @@
 package io.github.sinri.keel.logger.api.factory;
 
+import io.github.sinri.keel.logger.api.LogLevel;
 import io.github.sinri.keel.logger.api.adapter.LogWriterAdapter;
 import io.github.sinri.keel.logger.api.adapter.SilentLogWriter;
 import io.github.sinri.keel.logger.api.log.Log;
 import io.github.sinri.keel.logger.api.logger.Logger;
+import io.github.sinri.keel.logger.api.logger.SilentLogger;
 import io.github.sinri.keel.logger.api.logger.SpecificLogger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,10 @@ class SilentLoggerFactoryTest {
         Assertions.assertEquals("test-topic", logger.topic());
         Assertions.assertSame(factory.sharedAdapter(), logger.adapter());
         Assertions.assertNotNull(logger.specificLogSupplier());
+        // A silent factory must produce a genuinely silent logger:
+        // visibleLevel == SILENT short-circuits before any log allocation.
+        Assertions.assertEquals(LogLevel.SILENT, logger.visibleLevel());
+        Assertions.assertInstanceOf(SilentLogger.class, logger);
     }
 
     @Test
@@ -51,6 +57,8 @@ class SilentLoggerFactoryTest {
         Assertions.assertEquals("test-topic", logger.topic());
         Assertions.assertSame(factory.sharedAdapter(), logger.adapter());
         Assertions.assertSame(logSupplier, logger.specificLogSupplier());
+        // The generic overload must also be silent by construction.
+        Assertions.assertEquals(LogLevel.SILENT, logger.visibleLevel());
     }
 
     @Test

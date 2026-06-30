@@ -25,6 +25,16 @@ public final class SilentLogger implements Logger {
         adapter = SilentLogWriter.getInstance();
     }
 
+    /**
+     * 创建一个保持沉默的日志记录器实例。
+     *
+     * @param topic 主题
+     * @return 沉默日志记录器实例
+     */
+    public static SilentLogger create(String topic) {
+        return new SilentLogger(topic);
+    }
+
     @Override
     public Supplier<Log> specificLogSupplier() {
         return Log::new;

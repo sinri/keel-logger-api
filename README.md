@@ -15,7 +15,7 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 
 - ✨ **结构化日志** - 支持消息、上下文、异常、分类等结构化信息
 - 📊 **多级别日志** - 8 个日志级别（TRACE、DEBUG、INFO、NOTICE、WARNING、ERROR、FATAL、SILENT）；过滤与比较依据 `severity()`（`100`～
-  `700` 步长 `100`，`SILENT` 为 `Integer.MAX_VALUE`），详见 `docs/5.0.1/概述与设计.md` §3.1
+  `700` 步长 `100`，`SILENT` 为 `Integer.MAX_VALUE`），详见 `docs/5.0.3/概述与设计.md` §3.1
 - 🔌 **适配器模式** - 通过 `LogWriterAdapter` 自定义日志输出方式
 - 🏭 **工厂模式** - 通过 `LoggerFactory` 统一创建和管理 Logger 实例
 - 🔧 **高度扩展** - 支持自定义 `SpecificLog` 和 `SpecificLogger`
@@ -26,11 +26,11 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 
 用法、依赖坐标与代码示例不在本文件中重复，请直接阅读版本化文档：
 
-- **文档索引**：[docs/5.0.1/README.md](docs/5.0.1/README.md)
-- **入门与日常 API**：[docs/5.0.1/使用者指南.md](docs/5.0.1/使用者指南.md)
-- **适配器、渲染、自定义日志类型与全局工厂**：[docs/5.0.1/扩展与集成.md](docs/5.0.1/扩展与集成.md)
-- **模块边界与设计细节**：[docs/5.0.1/概述与设计.md](docs/5.0.1/概述与设计.md)
-- **面向 AI / 自动化工具的集成约束**：[docs/5.0.1/AI集成指南.md](docs/5.0.1/AI集成指南.md)
+- **文档索引**：[docs/5.0.3/README.md](docs/5.0.3/README.md)
+- **入门与日常 API**：[docs/5.0.3/使用者指南.md](docs/5.0.3/使用者指南.md)
+- **适配器、渲染、自定义日志类型与全局工厂**：[docs/5.0.3/扩展与集成.md](docs/5.0.3/扩展与集成.md)
+- **模块边界与设计细节**：[docs/5.0.3/概述与设计.md](docs/5.0.3/概述与设计.md)
+- **面向 AI / 自动化工具的集成约束**：[docs/5.0.3/AI集成指南.md](docs/5.0.3/AI集成指南.md)
 
 ## 开发要约
 
