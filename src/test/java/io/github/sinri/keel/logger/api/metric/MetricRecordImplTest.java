@@ -72,18 +72,23 @@ class MetricRecordImplTest {
     }
 
     @Test
-    void testLabelsAreMutable() {
+    void testLabelsAreReadOnlyView() {
         Map<String, String> labels = new HashMap<>();
         labels.put("initial", "value");
 
         MetricRecord record = MetricRecord.create(5000L, "test.metric", 1.0, labels);
 
-        // Labels returned should be mutable
+        // Labels returned should be a read-only view: writes must be rejected
         Map<String, String> recordLabels = record.labels();
-        recordLabels.put("added", "newValue");
+        Assertions.assertEquals(1, recordLabels.size());
+        Assertions.assertEquals("value", recordLabels.get("initial"));
 
-        Assertions.assertEquals(2, recordLabels.size());
-        Assertions.assertEquals("newValue", recordLabels.get("added"));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> recordLabels.put("added", "newValue"));
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> recordLabels.remove("initial"));
+
+        // Internal state must be unchanged after rejected writes
+        Assertions.assertEquals(1, record.labels().size());
+        Assertions.assertEquals("value", record.labels().get("initial"));
     }
 
     @Test
