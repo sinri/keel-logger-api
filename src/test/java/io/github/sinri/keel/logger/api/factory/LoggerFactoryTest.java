@@ -97,4 +97,15 @@ class LoggerFactoryTest {
 
         Assertions.assertSame(factory1, factory2, "Factory should be a singleton");
     }
+
+    @Test
+    void testGetInstanceIsTheSharedFactory() {
+        // SharedLoggerFactoryHolder 复用 BaseLoggerFactory.getInstance()，
+        // 故二者必须为同一实例，避免"双重单例"误导。
+        Assertions.assertSame(
+                BaseLoggerFactory.getInstance(),
+                LoggerFactory.getShared(),
+                "BaseLoggerFactory.getInstance() should be the globally shared factory"
+        );
+    }
 }
