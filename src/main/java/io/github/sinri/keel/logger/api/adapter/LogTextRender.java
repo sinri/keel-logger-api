@@ -53,6 +53,19 @@ public interface LogTextRender {
     }
 
     /**
+     * 获取日志渲染时使用的时区ID。
+     * <p>
+     * 默认返回 {@link ZoneId#systemDefault()}，即按 JVM 默认时区渲染时间戳与偏移。
+     * 可通过重写此方法实现固定时区、可配置时区或缓存等机制。
+     *
+     * @return 日志渲染时使用的时区ID
+     * @since 5.0.3
+     */
+    default ZoneId zoneId() {
+        return ZoneId.systemDefault();
+    }
+
+    /**
      * 渲染日志为字符串。
      *
      * @param topic 主题
@@ -61,7 +74,7 @@ public interface LogTextRender {
      */
     default String render(String topic, SpecificLog<?> log) {
         StringBuilder sb = new StringBuilder();
-        var zonedDateTime = Instant.ofEpochMilli(log.timestamp()).atZone(ZoneId.systemDefault());
+        var zonedDateTime = Instant.ofEpochMilli(log.timestamp()).atZone(zoneId());
         sb.append("* ")
           .append(zonedDateTime.format(formatter)).append(" ")
           .append("[").append(log.level().name()).append("] ")
