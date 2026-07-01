@@ -6,21 +6,20 @@ import io.github.sinri.keel.logger.api.log.Log;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Constructor;
 import java.util.function.Supplier;
 
 class SilentLoggerTest {
 
     @Test
-    void testVisibleLevel() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testVisibleLevel() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         Assertions.assertEquals(LogLevel.SILENT, logger.visibleLevel());
     }
 
     @Test
-    void testVisibleLevelSetterThrowsException() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testVisibleLevelSetterThrowsException() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         Assertions.assertThrows(RuntimeException.class, () -> {
             logger.visibleLevel(LogLevel.INFO);
@@ -28,15 +27,15 @@ class SilentLoggerTest {
     }
 
     @Test
-    void testTopic() throws Exception {
-        SilentLogger logger = createSilentLogger("my-topic");
+    void testTopic() {
+        SilentLogger logger = SilentLogger.create("my-topic");
 
         Assertions.assertEquals("my-topic", logger.topic());
     }
 
     @Test
-    void testSpecificLogSupplier() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testSpecificLogSupplier() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         Supplier<Log> supplier = logger.specificLogSupplier();
         Assertions.assertNotNull(supplier);
@@ -47,16 +46,16 @@ class SilentLoggerTest {
     }
 
     @Test
-    void testAdapter() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testAdapter() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         LogWriterAdapter adapter = logger.adapter();
         Assertions.assertNotNull(adapter);
     }
 
     @Test
-    void testAllLogMethodsDoNothing() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testAllLogMethodsDoNothing() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         // All log methods should not throw exceptions and do nothing
         Assertions.assertDoesNotThrow(() -> {
@@ -71,8 +70,8 @@ class SilentLoggerTest {
     }
 
     @Test
-    void testLogMethodsWithContext() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testLogMethodsWithContext() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         Assertions.assertDoesNotThrow(() -> {
             logger.trace("trace", c -> c.put("key", "value"));
@@ -86,8 +85,8 @@ class SilentLoggerTest {
     }
 
     @Test
-    void testLogMethodsWithConsumer() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testLogMethodsWithConsumer() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         Assertions.assertDoesNotThrow(() -> {
             logger.trace(log -> log.message("trace"));
@@ -101,8 +100,8 @@ class SilentLoggerTest {
     }
 
     @Test
-    void testLogMethod() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testLogMethod() {
+        SilentLogger logger = SilentLogger.create("test-topic");
 
         Log log = new Log();
         log.level(LogLevel.ERROR).message("test");
@@ -114,8 +113,8 @@ class SilentLoggerTest {
     }
 
     @Test
-    void testExceptionMethods() throws Exception {
-        SilentLogger logger = createSilentLogger("test-topic");
+    void testExceptionMethods() {
+        SilentLogger logger = SilentLogger.create("test-topic");
         RuntimeException exception = new RuntimeException("test");
 
         Assertions.assertDoesNotThrow(() -> {
@@ -127,15 +126,6 @@ class SilentLoggerTest {
                 log.message("custom");
             });
         });
-    }
-
-    /**
-     * Create a SilentLogger instance using reflection since the constructor is private.
-     */
-    private SilentLogger createSilentLogger(String topic) throws Exception {
-        Constructor<SilentLogger> constructor = SilentLogger.class.getDeclaredConstructor(String.class);
-        constructor.setAccessible(true);
-        return constructor.newInstance(topic);
     }
 }
 

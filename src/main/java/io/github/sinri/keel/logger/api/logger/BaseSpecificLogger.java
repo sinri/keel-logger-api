@@ -20,7 +20,7 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     private final Supplier<T> specificLogSupplier;
     private final LogWriterAdapter logWriterAdapter;
     private final LateObject<Logger> lateNormalizedLogger = new LateObject<>();
-    private LogLevel visibleLevel;
+    private volatile LogLevel visibleLevel;
 
     /**
      * 特定日志记录器的基础实现的构造方法。

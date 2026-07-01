@@ -8,5 +8,5 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 5.0.0
  */
 final class SharedLoggerFactoryHolder {
-    static final AtomicReference<LoggerFactory> REFERENCE = new AtomicReference<>(new BaseLoggerFactory());
+    static final AtomicReference<LoggerFactory> REFERENCE = new AtomicReference<>(BaseLoggerFactory.getInstance());
 }
