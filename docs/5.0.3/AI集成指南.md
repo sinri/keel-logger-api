@@ -10,7 +10,7 @@
 ## 1. 执行任务前的固定事实（勿臆造）
 
 - **语言**：Java **17+**。
-- **Maven 坐标**：`io.github.sinri:keel-logger-api`（版本以项目/仓库为准，文档目录名为 `5.0.3` 表示系列）。
+- **Maven 坐标**：`io.github.sinri:keel-logger-api:5.0.3`。
 - **JPMS 模块名**：`io.github.sinri.keel.logger.api`；`module-info.java` 中 `requires io.github.sinri.keel.logger.api;`。
 - **本库角色**：仅定义 **日志记录模型** 与 **输出契约**（`LogWriterAdapter`）；**不**内置 SLF4J/Log4j、**不**强制 JSON。**默认
   **输出为 `BaseLogWriter` → 标准输出文本。
@@ -75,37 +75,25 @@
 
 ```java
 Logger logger = LoggerFactory.getShared().createLogger(MyClass.class);
-logger.
-
-visibleLevel(LogLevel.DEBUG);
-logger.
-
-info("started");
+logger.visibleLevel(LogLevel.DEBUG);
+logger.info("started");
 ```
 
 ### 4.2 带上下文
 
 ```java
-logger.warning("slow query",ctx ->ctx.
-
-put("ms",elapsed).
-
-put("sql",sqlHash));
+logger.warning("slow query", ctx -> ctx
+        .put("ms", elapsed)
+        .put("sql", sqlHash));
 ```
 
 ### 4.3 异常 + context
 
 ```java
-logger.error(log ->log
-        .
-
-message("handler failed")
-    .
-
-exception(e)
-    .
-
-context("requestId",requestId));
+logger.error(log -> log
+        .message("handler failed")
+        .exception(e)
+        .context("requestId", requestId));
 ```
 
 ### 4.4 自定义适配器（骨架）

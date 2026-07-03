@@ -9,7 +9,7 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 - **构建工具**: Gradle
 - **许可证**: **GPL-3.0-only** 与 **LGPL-3.0-only** 并行（任选其一），见仓库根目录 [`LICENSE`](LICENSE)
 - **仓库地址**: [https://github.com/sinri/keel-logger-api](https://github.com/sinri/keel-logger-api)
-- **Maven 坐标**: `io.github.sinri:keel-logger-api:5.0.0`
+- **Maven 坐标**: `io.github.sinri:keel-logger-api:5.0.3`
 
 ## 核心特性
 
@@ -58,8 +58,8 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 
 项目根据版本号自动选择发布目标：
 
-- **SNAPSHOT 版本**或**带字母后缀的版本**（如 `5.0.0-rc.21`）将发布到内部 Nexus
-- **正式版本**（如 `5.0.0`）将发布到 Maven Central（通过 Sonatype Central Portal 的兼容 Staging API）
+- **SNAPSHOT 版本**或**带字母后缀的版本**（如 `5.0.3-SNAPSHOT` 或 `5.0.3-rc.1`）将发布到内部 Nexus
+- **正式版本**（如 `5.0.3`）将发布到 Maven Central（通过 Sonatype Central Portal 的兼容 Staging API）
 
 **发布命令**:
 
