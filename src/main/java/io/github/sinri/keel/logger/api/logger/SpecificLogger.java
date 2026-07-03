@@ -82,7 +82,7 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
      * @param specificLog 特定日志记录
      */
     default void log(T specificLog) {
-        if (visibleLevel() == LogLevel.SILENT || specificLog.level().isNegligibleThan(visibleLevel())) return;
+        if (!isLogEnabled(specificLog.level())) return;
         adapter().accept(topic(), specificLog);
     }
 
@@ -96,7 +96,7 @@ public interface SpecificLogger<T extends SpecificLog<T>> {
      * @param args    模板参数（将用于 {@link String#formatted(Object...)}）
      */
     default void message(LogLevel level, String message, Object... args) {
-        if (visibleLevel() == LogLevel.SILENT || level.isNegligibleThan(visibleLevel())) return;
+        if (!isLogEnabled(level)) return;
         adapter().accept(topic(), specificLogSupplier().get().level(level).message(message.formatted(args)));
     }
 

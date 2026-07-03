@@ -3,6 +3,7 @@ package io.github.sinri.keel.logger.api.metric;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +53,6 @@ class MetricRecordImpl implements MetricRecord {
 
     @Override
     public Map<String, String> labels() {
-        return labelMap;
+        return Collections.unmodifiableMap(labelMap);
     }
 }

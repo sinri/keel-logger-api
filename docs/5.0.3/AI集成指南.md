@@ -10,7 +10,7 @@
 ## 1. 执行任务前的固定事实（勿臆造）
 
 - **语言**：Java **17+**。
-- **Maven 坐标**：`io.github.sinri:keel-logger-api`（版本以项目/仓库为准，文档目录名为 `5.0.3` 表示系列）。
+- **Maven 坐标**：`io.github.sinri:keel-logger-api:5.0.3`。
 - **JPMS 模块名**：`io.github.sinri.keel.logger.api`；`module-info.java` 中 `requires io.github.sinri.keel.logger.api;`。
 - **本库角色**：仅定义 **日志记录模型** 与 **输出契约**（`LogWriterAdapter`）；**不**内置 SLF4J/Log4j、**不**强制 JSON。**默认
   **输出为 `BaseLogWriter` → 标准输出文本。
@@ -75,37 +75,25 @@
 
 ```java
 Logger logger = LoggerFactory.getShared().createLogger(MyClass.class);
-logger.
-
-visibleLevel(LogLevel.DEBUG);
-logger.
-
-info("started");
+logger.visibleLevel(LogLevel.DEBUG);
+logger.info("started");
 ```
 
 ### 4.2 带上下文
 
 ```java
-logger.warning("slow query",ctx ->ctx.
-
-put("ms",elapsed).
-
-put("sql",sqlHash));
+logger.warning("slow query", ctx -> ctx
+        .put("ms", elapsed)
+        .put("sql", sqlHash));
 ```
 
 ### 4.3 异常 + context
 
 ```java
-logger.error(log ->log
-        .
-
-message("handler failed")
-    .
-
-exception(e)
-    .
-
-context("requestId",requestId));
+logger.error(log -> log
+        .message("handler failed")
+        .exception(e)
+        .context("requestId", requestId));
 ```
 
 ### 4.4 自定义适配器（骨架）
@@ -140,7 +128,7 @@ public final class AuditLog extends SpecificLog<AuditLog> {
 | 错误做法                                                                                  | 原因                                                                     | 正确做法                               |
 |---------------------------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------|
 | 在子类中公开调用父类 `extra` 以外的随意 Map                                                          | `extra()` 返回内部 map；若需稳定序列化契约应明确字段                                      | 优先 `extra(k,v)` 或明确字段 + getter     |
-| 假设 `MetricRecord.labels()` 不可变                                                        | 返回内部可变 map                                                             | 集成实现若需快照则拷贝                        |
+| 对 `MetricRecord.labels()` 返回值执行写操作                                                        | 返回只读视图，写入会抛 `UnsupportedOperationException`                              | 视为只读；如需可写副本自行拷贝            |
 | `ensure` 的 supplier 非幂等或依赖原始异常类型                                                            | `value` 为 `volatile`、`set` 为 `synchronized`、`ensure` 用 DCL（正常仅调用一次）；但 supplier 抛异常时 `value` 不赋值、后续 `ensure` 会重试，且异常被包装为 `RuntimeException`（含 `Error`） | 保证 supplier 幂等；不要依赖原始异常类型        |
 | 把 `new BaseLogger(topic, SilentLogWriter.getInstance())` 等同于「零分配」                     | 默认 `visibleLevel = INFO`，`INFO`+ 仍会构造日志对象并执行 `Consumer` 后再交给空适配器       | 零分配用 `SilentLogger` 或 `visibleLevel(SILENT)` |
 

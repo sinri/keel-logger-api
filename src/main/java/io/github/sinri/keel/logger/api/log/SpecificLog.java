@@ -69,6 +69,16 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
         this.extra = new TreeMap<>();
     }
 
+    /**
+     * 拷贝构造器。
+     * <p>
+     * 注意：{@code logContext} 与 {@code extra} 为可变 Map，本构造器采用 <b>共享而非快照</b> 的策略——
+     * 副本与源对象引用同一批 Map。对副本调用 {@link #context(String, Object)}、
+     * {@link #context(Consumer)} 或 {@link #extra(String, Object)} 写入的内容，
+     * 会同步反映到源对象，反之亦然。如需互不可见的副本，调用方应在拷贝后自行维护独立的上下文。
+     *
+     * @param specificLog 作为来源的日志记录
+     */
     protected SpecificLog(SpecificLog<?> specificLog) {
         super();
         this.timestamp = specificLog.timestamp;
@@ -77,6 +87,7 @@ public abstract class SpecificLog<T extends SpecificLog<T>> {
         this.message = specificLog.message;
         this.exception = specificLog.exception;
         this.classification = specificLog.classification;
+        // 共享而非快照：logContext 与 extra 均为可变 Map，副本与源对象引用同一批 Map，修改互相可见。
         this.logContext = specificLog.logContext;
         this.extra = specificLog.extra;
     }

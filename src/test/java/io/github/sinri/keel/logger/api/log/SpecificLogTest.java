@@ -48,6 +48,30 @@ class SpecificLogTest {
     }
 
     @Test
+    void testCopyConstructorSharesMutableMaps() {
+        // 拷贝构造器对 logContext / extra 采用共享而非快照策略（issue #3）：
+        // 副本与源对象引用同一批可变 Map，修改互相可见。
+        TestSpecificLog original = new TestSpecificLog();
+        original.context("k", "v");
+        original.extra("ek", "ev");
+
+        TestSpecificLog copy = new TestSpecificLog(original);
+
+        Assertions.assertSame(original.context().toMap(), copy.context().toMap());
+        Assertions.assertSame(original.extra(), copy.extra());
+
+        // 修改副本 -> 源对象可见
+        copy.context("fromCopy", "1");
+        copy.extra("fromCopyExtra", "1");
+        Assertions.assertTrue(original.context().toMap().containsKey("fromCopy"));
+        Assertions.assertTrue(original.extra().containsKey("fromCopyExtra"));
+
+        // 修改源对象 -> 副本可见
+        original.context("fromOriginal", "2");
+        Assertions.assertTrue(copy.context().toMap().containsKey("fromOriginal"));
+    }
+
+    @Test
     void testGetters() {
         TestSpecificLog log = new TestSpecificLog();
 

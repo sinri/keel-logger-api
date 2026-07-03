@@ -64,8 +64,10 @@ public interface MetricRecord {
 
     /**
      * 获取定量指标记录的标签集合。
+     * <p>
+     * 返回的是只读视图，调用方不应（也无法）对其进行写操作；如需可写的副本，请自行拷贝。
      *
-     * @return 定量指标的标签集合
+     * @return 定量指标的标签集合的只读视图
      */
     Map<String, String> labels();
 }
