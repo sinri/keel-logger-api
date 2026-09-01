@@ -20,6 +20,7 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     private final Supplier<T> specificLogSupplier;
     private final LogWriterAdapter logWriterAdapter;
     private final LateObject<Logger> lateNormalizedLogger = new LateObject<>();
+    private final Object normalizedLoggerLock = new Object();
     private volatile LogLevel visibleLevel;
 
     /**
@@ -63,10 +64,11 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
 
     @Override
     public SpecificLogger<T> visibleLevel(LogLevel level) {
-        this.visibleLevel = level;
-
-        if (lateNormalizedLogger.isInitialized()) {
-            lateNormalizedLogger.get().visibleLevel(level);
+        synchronized (normalizedLoggerLock) {
+            this.visibleLevel = level;
+            if (lateNormalizedLogger.isInitialized()) {
+                lateNormalizedLogger.get().visibleLevel(level);
+            }
         }
 
         return this;
@@ -78,9 +80,14 @@ public class BaseSpecificLogger<T extends SpecificLog<T>> implements SpecificLog
     }
 
     protected Logger normalize() {
-        return lateNormalizedLogger.ensure(
-                () -> new BaseLogger(topic, adapter())
-                        .visibleLevel(visibleLevel));
+        if (lateNormalizedLogger.isInitialized()) {
+            return lateNormalizedLogger.get();
+        }
+        synchronized (normalizedLoggerLock) {
+            return lateNormalizedLogger.ensure(
+                    () -> new BaseLogger(topic, adapter())
+                            .visibleLevel(visibleLevel));
+        }
     }
 
     @Override

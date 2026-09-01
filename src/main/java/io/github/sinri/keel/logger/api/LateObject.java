@@ -11,8 +11,9 @@ import java.util.function.Supplier;
  * <p>
  * 用于表达“先声明，后赋值”的语义：在值尚未设置前读取会抛出异常；在值已设置后再次设置会抛出异常。
  * <p>
- * 并发语义：`value` 为 `volatile`，保证跨线程可见性；`set` 为 `synchronized`，保证“仅赋值一次”；
- * `ensure` 采用双重检查锁定（DCL），正常情况下 supplier 仅调用一次（supplier 抛异常未赋值时会重试）。
+ * 并发语义：{@code value} 为 {@code volatile}，保证跨线程可见性；{@link #set(Object)} 与初始化过程互斥，
+ * 保证“仅赋值一次”；{@link #ensure(Supplier)} 采用双重检查锁定（DCL），正常情况下 supplier 仅调用一次。
+ * supplier 抛异常时不会完成初始化，后续调用可以重试。
  * <p>
  * @see <a href="https://dart.dev/language/variables#late-variables">Dart Late variables</a>
  * @since 5.0.0
@@ -20,6 +21,7 @@ import java.util.function.Supplier;
 @NullMarked
 public final class LateObject<T> {
     private volatile @Nullable T value;
+    private boolean syncInitializing;
 
     /**
      * 构造一个未初始化的延迟对象。
@@ -34,14 +36,17 @@ public final class LateObject<T> {
      * 该操作只允许执行一次；若已设置过值，将抛出异常。
      *
      * @param value 要设置的值
+     * @throws NullPointerException  当 value 为 {@code null} 时抛出
      * @throws IllegalStateException 当本对象已设置过值时抛出
      */
     public synchronized void set(T value) {
         if (this.value != null) {
             throw new IllegalStateException("LateObject variable was already assigned");
-        } else {
-            this.value = value;
         }
+        if (syncInitializing) {
+            throw new IllegalStateException("LateObject variable is being initialized");
+        }
+        this.value = Objects.requireNonNull(value, "value");
     }
 
     /**
@@ -51,37 +56,46 @@ public final class LateObject<T> {
      * @throws IllegalStateException 当本对象尚未设置值时抛出
      */
     public T get() {
-        if (this.value == null) {
+        T current = this.value;
+        if (current == null) {
             throw new IllegalStateException("LateObject variable was read before being assigned");
         }
-        return Objects.requireNonNull(value);
+        return current;
     }
 
     /**
      * 确保本对象已初始化：若尚未初始化，则使用 supplier 计算并设置值。
      * <p>
-     * 采用双重检查锁定（DCL）：`value` 为 `volatile`，正常情况下 supplier 仅被调用一次。
+     * 采用双重检查锁定（DCL）：{@code value} 为 {@code volatile}，正常情况下 supplier 仅被调用一次。
      * 若 supplier 抛出异常导致未赋值，后续调用会重试（即 supplier 可能被多次调用）。
+     * supplier 返回 {@code null}，或者 supplier 重入初始化当前对象，都会抛出异常且不完成初始化。
      *
      * @param supplier 用于生成值的逻辑
      * @return 已初始化的值
-     * @throws RuntimeException 当 supplier 抛出异常时，将被包装后抛出
+     * @throws NullPointerException  当 supplier 或其返回值为 {@code null} 时抛出
+     * @throws IllegalStateException 当 supplier 重入初始化当前对象时抛出
      */
-    public T ensure(Supplier<T> supplier) {
-        if (this.value == null) {
+    public T ensure(Supplier<? extends T> supplier) {
+        Objects.requireNonNull(supplier, "supplier");
+        T current = this.value;
+        if (current == null) {
             synchronized (this) {
-                if (this.value == null) {
-                    T t;
-                    try {
-                        t = supplier.get();
-                    } catch (Throwable throwable) {
-                        throw new RuntimeException(throwable);
+                current = this.value;
+                if (current == null) {
+                    if (syncInitializing) {
+                        throw new IllegalStateException("LateObject variable is already being initialized");
                     }
-                    this.value = t;
+                    syncInitializing = true;
+                    try {
+                        current = Objects.requireNonNull(supplier.get(), "supplier returned null");
+                        this.value = current;
+                    } finally {
+                        syncInitializing = false;
+                    }
                 }
             }
         }
-        return this.value;
+        return current;
     }
 
     /**
