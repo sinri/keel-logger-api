@@ -9,13 +9,13 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 - **构建工具**: Gradle
 - **许可证**: **GPL-3.0-only** 与 **LGPL-3.0-only** 并行（任选其一），见仓库根目录 [`LICENSE`](LICENSE)
 - **仓库地址**: [https://github.com/sinri/keel-logger-api](https://github.com/sinri/keel-logger-api)
-- **Maven 坐标**: `io.github.sinri:keel-logger-api:5.0.3`
+- **Maven 坐标**: `io.github.sinri:keel-logger-api:5.0.4`
 
 ## 核心特性
 
 - ✨ **结构化日志** - 支持消息、上下文、异常、分类等结构化信息
 - 📊 **多级别日志** - 8 个日志级别（TRACE、DEBUG、INFO、NOTICE、WARNING、ERROR、FATAL、SILENT）；过滤与比较依据 `severity()`（`100`～
-  `700` 步长 `100`，`SILENT` 为 `Integer.MAX_VALUE`），详见 `docs/5.0.3/概述与设计.md` §3.1
+  `700` 步长 `100`，`SILENT` 为 `Integer.MAX_VALUE`），详见 `docs/5.0.4/概述与设计.md` §3.1
 - 🔌 **适配器模式** - 通过 `LogWriterAdapter` 自定义日志输出方式
 - 🏭 **工厂模式** - 通过 `LoggerFactory` 统一创建和管理 Logger 实例
 - 🔧 **高度扩展** - 支持自定义 `SpecificLog` 和 `SpecificLogger`
@@ -26,11 +26,11 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 
 用法、依赖坐标与代码示例不在本文件中重复，请直接阅读版本化文档：
 
-- **文档索引**：[docs/5.0.3/README.md](docs/5.0.3/README.md)
-- **入门与日常 API**：[docs/5.0.3/使用者指南.md](docs/5.0.3/使用者指南.md)
-- **适配器、渲染、自定义日志类型与全局工厂**：[docs/5.0.3/扩展与集成.md](docs/5.0.3/扩展与集成.md)
-- **模块边界与设计细节**：[docs/5.0.3/概述与设计.md](docs/5.0.3/概述与设计.md)
-- **面向 AI / 自动化工具的集成约束**：[docs/5.0.3/AI集成指南.md](docs/5.0.3/AI集成指南.md)
+- **文档索引**：[docs/5.0.4/README.md](docs/5.0.4/README.md)
+- **入门与日常 API**：[docs/5.0.4/使用者指南.md](docs/5.0.4/使用者指南.md)
+- **适配器、渲染、自定义日志类型与全局工厂**：[docs/5.0.4/扩展与集成.md](docs/5.0.4/扩展与集成.md)
+- **模块边界与设计细节**：[docs/5.0.4/概述与设计.md](docs/5.0.4/概述与设计.md)
+- **面向 AI / 自动化工具的集成约束**：[docs/5.0.4/AI集成指南.md](docs/5.0.4/AI集成指南.md)
 
 ## 开发要约
 
@@ -58,8 +58,8 @@ Keel Logger API 是一个灵活且可扩展的 Java 日志 SDK，旨在提供结
 
 项目根据版本号自动选择发布目标：
 
-- **SNAPSHOT 版本**或**带字母后缀的版本**（如 `5.0.3-SNAPSHOT` 或 `5.0.3-rc.1`）将发布到内部 Nexus
-- **正式版本**（如 `5.0.3`）将发布到 Maven Central（通过 Sonatype Central Portal 的兼容 Staging API）
+- **SNAPSHOT 版本**或 **带字母后缀的版本**（如 `5.0.4-SNAPSHOT` 或 `5.0.4-rc.1`）将发布到内部 Nexus
+- **正式版本**（如 `5.0.4`）将发布到 Maven Central（通过 Sonatype Central Portal 的兼容 Staging API）
 
 **发布命令**:
 
