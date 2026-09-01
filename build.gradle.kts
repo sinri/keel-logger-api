@@ -27,7 +27,7 @@ val developerEmail: String by project
 val developerOrganization: String by project
 val developerOrganizationUrl: String by project
 val jspecifyVersion: String by project
-val vertxVersion: String by project
+val junitVersion: String by project
 
 repositories {
     maven {
@@ -50,7 +50,7 @@ dependencies {
     testCompileOnly("org.jspecify:jspecify:$jspecifyVersion")
 
     // Test dependencies
-    testImplementation("io.vertx:vertx-junit5:$vertxVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
